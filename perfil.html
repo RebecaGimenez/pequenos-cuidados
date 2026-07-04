@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pequeños Cuidados - Perfil</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="body-perfil">
+
+    <!-- Tarjeta principal estilo arcoíris -->
+    <div class="contenedor-formulario">
+        <!-- 🌟 CORREGIDO: Frase exacta que coincide con el diccionario para activar el traductor -->
+        <h3 class="titulo-tarjeta">¡Bienvenido! 👶🌈</h3>
+        <p class="subtitulo-perfil">Carga los datos para personalizar los cuidados de tu peque.</p>
+
+        <form id="form-perfil">
+            <div class="grupo-campo">
+                <label for="nombre-peque">¿Cómo se llama? 🧸</label>
+                <input type="text" id="nombre-peque" class="input-arcoiris" placeholder="Ej: Benja, Cati, Sofi" required>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="edad-peque">¿Qué edad tiene? 🗓️</label>
+                <input type="text" id="edad-peque" class="input-arcoiris" placeholder="Ej: 8 meses, 2 años" required>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="peso-peque">¿Cuánto pesa actualmente? (en kg) ⚖️</label>
+                <input type="number" id="peso-peque" class="input-arcoiris" step="0.1" min="1" max="50" placeholder="Ej: 12.5" required>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="altura-peque">¿Cuánto mide? (en cm) 📏</label>
+                <input type="number" id="altura-peque" class="input-arcoiris" min="30" max="150" placeholder="Ej: 85" required>
+            </div>
+
+            <!-- Botón óvalo lila perfecto -->
+            <button type="submit" class="btn-guardar-todo">
+                ✨ Crear Perfil Arcoíris 🌈
+            </button>
+        </form>
+    </div>
+
+    <!-- Botón para regresar -->
+    <button class="btn-volver" onclick="irA('index.html')">⬅️ Volver al Menú</button>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

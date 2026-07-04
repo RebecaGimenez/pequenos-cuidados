@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pequeños Cuidados - Menú</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="body-menu">
+
+    <!-- BARRA SUPERIOR SIMPLIFICADA Y DIRECTA -->
+    <div class="barra-flotante-superior">
+        
+        <!-- IZQUIERDA: Botón de Cuidador Libre (¡Clic para escribir!) -->
+        <div class="nido-flotante-cuidadores" id="contenedor-cuidador">
+            <button class="mini-sol-cuidador" id="boton-rol-activo" onclick="activarEdicionRol()">🖐Mamá</button>
+            <input type="text" id="input-rol-oculto" class="input-cuidador-escondido" placeholder="¿Quién sos?" onblur="guardarRolDesdeInput(this.value)" onkeydown="if(event.key === 'Enter') guardarRolDesdeInput(this.value)">
+            <span class="cartelito-invitacion-rol">¿Con quién hablo hoy? 👀</span>
+        </div>
+
+        <!-- DERECHA: Cruz limpia para ir a Perfiles -->
+        <div class="nido-flotante-peques">
+            <span class="cartelito-invitacion">Agregá a tu peque 🧸</span>
+            <button class="mini-nube-agregar" onclick="irA('perfil.html')">➕</button>
+        </div>
+
+    </div> <!-- 🌟 Aquí cierra la barra superior flotante de forma perfecta -->
+    
+    <!-- 🌈 NIDO MÁGICO DE SOLAPAS: Aquí es donde van a nacer las burbujas de colores con los nombres de tus hijos -->
+    <div id="contenedor-solapas-peques" class="lista-solapas-peques" style="text-align: center; margin: 20px auto 10px auto; justify-content: center;"></div>
+
+    <p id="frase-aliento" class="mensaje-aliento">✨ ¡Hola! ¿Qué hacemos hoy? 😊</p>
+
+    <!-- Contenedor de tus 3 nubes en cascada diagonal -->
+    <div class="contenedor-nubes">
+        <button class="nube" id="nube-medicacion" onclick="irA('medicaciones.html')">Medicación 💊</button>
+        <button class="nube" id="nube-turnos" onclick="irA('misturnos.html')">Turnos 📅</button>
+        <button class="nube" id="nube-vacunas" onclick="irA('vacunas.html')">Vacunas 💉</button>
+    </div>
+
+    <div class="bloque-privacidad-menu">
+        <a href="privacidad.html" class="enlace-privacidad-menu">
+            🔒 Política de Privacidad
+        </a>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

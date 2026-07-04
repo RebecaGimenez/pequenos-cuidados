@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pequeños Cuidados - Medicación</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body class="body-medicacion">
+
+    <div class="contenedor-formulario">
+        
+        <h3 class="titulo-tarjeta">Tu tratamiento o medicación 💉</h3>
+
+        <!-- AQUÍ SE VAN A IR SUMANDO LOS REMEDIOS DINÁMICAMENTE -->
+        <div id="lista-bloques-remedios"></div>
+
+        <div class="mis-botones-arcoiris">
+            <button type="button" onclick="agregarBloqueRemedioHtml()">➕ Agregar Medicación</button>
+            <button type="button" onclick="guardarTodasLasMedicaciones()">🌟 Guardar Medicación</button>
+        </div>
+
+    </div>
+
+    <!-- 🌟 TABLA ORDENADA PARA MOSTRAR LOS REMEDIOS GUARDADOS -->
+    <div id="contenedor-lista-medicaciones" class="contenedor-lista" style="display: none;">
+        <h2>Medicamentos activos 📋</h2>
+        <div class="tabla-responsiva">
+            <table class="tabla-cuidados">
+                <thead>
+                    <tr>
+                        <th>Medicamento</th>
+                        <th>Dosis</th>
+                        <th>Frecuencia</th>
+                        <th>Próxima Toma</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <!-- El JavaScript busca este ID exacto para meter las filas -->
+                <tbody id="tabla-cuerpo-remedios"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Botón para regresar al menú de nubes -->
+    <button class="btn-volver" onclick="irA('index.html')">⬅️ Volver al Menú</button>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
