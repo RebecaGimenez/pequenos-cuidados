@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 // 2. NAVEGACIÓN, LÓGICA DEL CUIDADOR Y SALUDOS
 // ==========================================
-function irA(pantallaHtml) { 
-    window.location.href = pantallaHtml; 
+function irA(pagina) { 
+    window.location.href = pagina; 
 }
 
 function activarEdicionRol() {
