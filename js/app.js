@@ -1,6 +1,11 @@
+
+function obtenerIdioma() {
+    return localStorage.getItem("lang") || "es";
+}
+
 let rolActivo = localStorage.getItem("rolActivo") || "Mamá";
 let pequeActivo = localStorage.getItem("pequeActivo") || "";
-let idiomaApp = localStorage.getItem("idiomaApp") || "es";
+let idiomaApp = obtenerIdioma();
 
 // ==========================================
 // 1. INICIALIZADOR GENERAL DE PANTALLAS (CON MEMORIA SEPARADA POR HIJO)
@@ -231,56 +236,47 @@ const diccionarioTraducciones = {
 // ==========================================
 
 function traducirTodaLaAplicacion() {
-    if (idiomaApp === "es") return; // Si es español, dejamos el HTML nativo
+    const idiomaApp = obtenerIdioma();
+
+    if (idiomaApp === "es") return;
+
     const lang = diccionarioTraducciones[idiomaApp];
     if (!lang) return;
 
-    // 1. Traducir elementos fijos del Menú por su ID directo
-    const nubeMed = document.getElementById("nube-medicacion"); if (nubeMed) nubeMed.innerText = lang["nube-med"];
-    const nubeTur = document.getElementById("nube-turnos"); if (nubeTur) nubeTur.innerText = lang["nube-tur"];
-    const nubeVac = document.getElementById("nube-vacunas"); if (nubeVac) nubeVac.innerText = lang["nube-vac"];
+    const nubeMed = document.getElementById("nube-medicacion");
+    if (nubeMed) nubeMed.innerText = lang["nube-med"];
+
+    const nubeTur = document.getElementById("nube-turnos");
+    if (nubeTur) nubeTur.innerText = lang["nube-tur"];
+
+    const nubeVac = document.getElementById("nube-vacunas");
+    if (nubeVac) nubeVac.innerText = lang["nube-vac"];
 
     const cartelRol = document.querySelector(".cartelito-invitacion-rol");
     if (cartelRol) cartelRol.innerText = lang["invitacion-rol"];
+
     const cartelPeque = document.querySelector(".cartelito-invitacion");
     if (cartelPeque) cartelPeque.innerText = lang["invitacion-peque"];
-    
-    // Traducción del placeholder del Sol
+
     const inputSol = document.getElementById("input-rol-oculto");
     if (inputSol) {
         if (idiomaApp === "en") inputSol.placeholder = "Who are you?";
         else if (idiomaApp === "pt") inputSol.placeholder = "Quem é você?";
     }
-    
+
     const btnVolver = document.querySelector(".btn-volver");
     if (btnVolver) btnVolver.innerText = lang["btn-volver"];
-    
+
     const enlacePrivacidad = document.querySelector(".enlace-privacidad-menu");
-    if (enlacePrivacidad) enlacePrivacidad.innerText = idiomaApp === "en" ? "🔒 Privacy Policy" : "🔒 Política de Privacidade";
-    
-    if (document.body.classList.contains("body-privacidad")) {
-        const titPriv = document.querySelector(".contenedor-privacidad .titulo-tarjeta");
-        if (titPriv) titPriv.innerText = idiomaApp === "en" ? "🔒 Privacy Policy" : "🔒 Política de Privacidade";
-        
-        const textoPriv = document.querySelector(".bloque-privacidad-texto");
-        if (textoPriv) {
-            if (idiomaApp === "en") {
-                textoPriv.innerHTML = `
-                    <p><strong>At Pequeños Cuidados, your family's safety comes first. 🧸</strong></p>
-                    <p>We want you to feel completely secure: this application <strong>does not collect, share, or send</strong> any data about your children, their medications, appointments, or vaccines to any external server.</p>
-                    <p>Every piece of data you enter is stored 100% locally and exclusively within your own phone or computer's memory (using LocalStorage). No one but you has access to this information.</p>
-                    <p>By using this app, you agree to this safe and private environment designed with love to protect the ones you love most. ❤️</p>
-                `;
-            } else if (idiomaApp === "pt") {
-                textoPriv.innerHTML = `
-                    <p><strong>Em Pequeños Cuidados, a segurança da sua família vem em primeiro lugar. 🧸</strong></p>
-                    <p>Queremos que você se sinta totalmente seguro: este aplicativo <strong>não coleta, não compartilha nem envia</strong> nenhum dado sobre seus filhos, medicamentos, consultas ou vacinas para nenhum servidor externo.</p>
-                    <p>Cada dado inserido é armazenado 100% localmente e exclusivamente na memória do seu próprio telefone ou computador (usando LocalStorage). Ninguém além de você tem acesso a essas informações.</p>
-                    <p>Ao usar este aplicativo, você concorda with este ambiente seguro e privado feito com muito amor para proteger quem você mais ama. ❤️</p>
-                `;
-            }
-        }
+    if (enlacePrivacidad) {
+        enlacePrivacidad.innerText =
+            idiomaApp === "en"
+                ? "🔒 Privacy Policy"
+                : idiomaApp === "pt"
+                ? "🔒 Política de Privacidade"
+                : "🔒 Política de Privacidad";
     }
+}
 
     // 2. Traducción Modular (Medicación)
     if (document.getElementById("lista-bloques-remedios")) {
@@ -335,7 +331,7 @@ function traducirTodaLaAplicacion() {
         const btn = document.querySelector("#form-perfil .btn-guardar-todo"); if (btn) btn.innerText = lang["btn-per-save"];
         const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = lang["historial-per"];
     }
-}
+
 
 // ==========================================
 // 5. SOLAPAS DE PEQUES Y LOGICA DE MEDICACIONES
@@ -964,3 +960,17 @@ function eliminarTurnoGuardado(id) {
     localStorage.setItem(claveHistorial, JSON.stringify(lista));
     actualizarListaTurnosVisual();
 }
+
+//----idioma----
+        function seleccionarIdioma(lang) {
+
+            localStorage.setItem('lang', lang);
+            
+            window.location.href = 'home.html';
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+    traducirTodaLaAplicacion();
+});
