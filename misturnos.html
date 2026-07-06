@@ -6,30 +6,54 @@
     <title>Pequeños Cuidados - Turnos</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
+
 <body class="body-turnos">
 
-    <!-- Tarjeta principal para agendar visitas médicas -->
     <div class="contenedor-formulario">
-        <!-- 🌟 ID clave para el título -->
-        <h3 class="titulo-tarjeta" id="titulo-turnos-card">¿Qué turnos o consultas agendamos? 📅</h3>
-        
+
+        <h3 class="titulo-tarjeta" id="titulo-turnos-card">
+            ¿Qué turnos o consultas agendamos? 📅
+        </h3>
+
         <form id="form-turno">
-            <!--Tiene que llamarse exactamente "lista-bloques-turnos" -->
+
             <div id="lista-bloques-turnos"></div>
 
-            <!-- Botones envueltos en la clase arcoíris -->
             <div class="mis-botones-arcoiris">
-               <button type="button" onclick="agregarBloqueTurnoHtml()">➕ Agregar Turno</button>
-               <button type="button" onclick="guardarTodosLosTurnos()">🌟 Guardar Turnos</button>
-             </div>
+
+                <button
+                    type="button"
+                    class="btn-agregar-arcoiris"
+                    onclick="agregarBloqueTurnoHtml()">
+                    ➕ Agregar Turno
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-guardar-todo"
+                    onclick="guardarTodosLosTurnos()">
+                    🌟 Guardar Turnos
+                </button>
+
+            </div>
+
         </form>
+
     </div>
 
-    <!-- Contenedor para la lista ordenada de turnos -->
-    <div id="contenedor-lista-turnos" class="contenedor-lista" style="display: none;">
-        <h2>Turnos programados 📋</h2>
+    <div
+        id="contenedor-lista-turnos"
+        class="contenedor-lista"
+        style="display:none;">
+
+        <h2>
+            Turnos programados 📋
+        </h2>
+
         <div class="tabla-responsiva">
+
             <table class="tabla-cuidados">
+
                 <thead>
                     <tr>
                         <th>Médico / Especialista</th>
@@ -39,14 +63,22 @@
                         <th>Acción</th>
                     </tr>
                 </thead>
+
                 <tbody id="tabla-cuerpo-turnos"></tbody>
+
             </table>
+
         </div>
+
     </div>
 
-    <!-- Botón para regresar -->
-    <button data-i18n="btn-volver" onclick="irA('home.html')">⬅️ Volver al Menú</button>
+    <button
+        class="btn-volver"
+        onclick="irA('home.html')">
+        ⬅️ Volver al menú
+    </button>
 
     <script src="js/app.js"></script>
+
 </body>
 </html>

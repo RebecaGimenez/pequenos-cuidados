@@ -6,59 +6,108 @@
     <title>Pequeños Cuidados - Menú</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
+
 <body class="body-menu">
 
-    <!-- BARRA SUPERIOR SIMPLIFICADA Y DIRECTA -->
+    <!-- ========================= -->
+    <!-- BARRA SUPERIOR -->
+    <!-- ========================= -->
     <div class="barra-flotante-superior">
-        
-        <!-- IZQUIERDA: Botón de Cuidador Libre (¡Clic para escribir!) -->
-        <div class="nido-flotante-cuidadores" id="contenedor-cuidador">
-            <button class="mini-sol-cuidador" id="boton-rol-activo" onclick="activarEdicionRol()">🖐Mamá</button>
-            <input type="text" id="input-rol-oculto" class="input-cuidador-escondido" placeholder="¿Quién sos?" onblur="guardarRolDesdeInput(this.value)" onkeydown="if(event.key === 'Enter') guardarRolDesdeInput(this.value)">
-            <span class="cartelito-invitacion-rol">¿Con quién hablo hoy? 👀</span>
+
+        <!-- Cuidador -->
+       <div class="nido-flotante-cuidadores" id="contenedor-cuidador">
+            <button
+                class="mini-sol-cuidador"
+                id="boton-rol-activo"
+                onclick="activarEdicionRol()">
+                👋Mamá
+            </button>
+
+            <input
+                type="text"
+                id="input-rol-oculto"
+                class="input-cuidador-escondido"
+                placeholder="¿Quién sos?"
+                onblur="guardarRolDesdeInput(this.value)"
+                onkeydown="if(event.key==='Enter') guardarRolDesdeInput(this.value)">
+
+            <span class="cartelito-invitacion-rol">
+                ¿Con quién hablo hoy? 👀
+            </span>
         </div>
 
+        <!-- Agregar peque -->
         <div class="nido-flotante-peques">
-    <span class="cartelito-invitacion" data-i18n="cartelito-invitacion">
-        Agregá a tu peque 🧸
-    </span>
 
-    <button class="mini-nube-agregar" onclick="irA('perfil.html')">
-        ➕
-    </button>
+            <span class="cartelito-invitacion">
+                Agregá a tu peque 🧸
+            </span>
 
-    </div> <!-- 🌟 Aquí cierra la barra superior flotante de forma perfecta -->
-    
-    <!-- 🌈 NIDO MÁGICO DE SOLAPAS: Aquí es donde van a nacer las burbujas de colores con los nombres de tus hijos -->
-    <div id="contenedor-solapas-peques" class="lista-solapas-peques" style="text-align: center; margin: 20px auto 10px auto; justify-content: center;"></div>
+            <button
+                class="mini-nube-agregar"
+                onclick="irA('perfil.html')">
+                ➕
+            </button>
 
-    <p id="frase-aliento" class="mensaje-aliento">✨ ¡Hola! ¿Qué hacemos hoy? 😊</p>
+        </div>
 
-    <!-- Contenedor de tus 3 nubes en cascada diagonal -->
-    <div class="contenedor-nubes">
-        <button class="nube" 
-        data-i18n="nube-medicacion" 
-        onclick="irA('medicaciones.html')">Medicación 💊
-    </button>
+    </div>
+    <!-- FIN BARRA SUPERIOR -->
 
-        <button class="nube" 
-        data-i18n="nube-turnos"
-        onclick="irA('misturnos.html')">Turnos 📅
-    </button>
 
-        <button class="nube" 
-        data-i18n="nube-vacunas" 
-        onclick="irA('vacunas.html')">Vacunas 💉
-    </button>
-    
+    <!-- Solapas -->
+    <div
+        id="contenedor-solapas-peques"
+        class="lista-solapas-peques">
     </div>
 
+
+    <!-- Saludo -->
+    <p id="frase-aliento" class="mensaje-aliento">
+        ✨ ¡Hola! ¿Qué hacemos hoy? 😊
+    </p>
+
+
+    <!-- ========================= -->
+    <!-- NUBES -->
+    <!-- ========================= -->
+
+    <div class="contenedor-nubes">
+
+        <button
+            id="nube-medicacion"
+            class="nube"
+            onclick="irA('medicaciones.html')">
+            Medicación 💊
+        </button>
+
+        <button
+            id="nube-turnos"
+            class="nube"
+            onclick="irA('misturnos.html')">
+            Turnos 📅
+        </button>
+
+        <button
+            id="nube-vacunas"
+            class="nube"
+            onclick="irA('vacunas.html')">
+            Vacunas 💉
+        </button>
+
+    </div>
+
+
+    <!-- Política -->
     <div class="bloque-privacidad-menu">
-        <a href="privacidad.html" class="enlace-privacidad-menu">
+        <a
+            href="privacidad.html"
+            class="enlace-privacidad-menu">
             🔒 Política de Privacidad
         </a>
     </div>
 
     <script src="js/app.js"></script>
+
 </body>
 </html>

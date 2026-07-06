@@ -6,46 +6,97 @@
     <title>Pequeños Cuidados - Perfil</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
+
 <body class="body-perfil">
 
-    <!-- Tarjeta principal estilo arcoíris -->
     <div class="contenedor-formulario">
-        <!-- 🌟 CORREGIDO: Frase exacta que coincide con el diccionario para activar el traductor -->
-        <h3 class="titulo-tarjeta" data-i18n="titulo-perfil">¡Bienvenido! 👶🌈</h3>
-        <p class="subtitulo-perfil" data-i18n="subtitulo-perfil">Carga los datos para personalizar los cuidados de tu peque.</p>
+
+        <h3 class="titulo-tarjeta">¡Te damos la bienvenida! 👶🌈</h3>
+
+        <p class="subtitulo-perfil">
+            Ingresa los datos para personalizar el cuidado de tu peque.
+        </p>
 
         <form id="form-perfil">
+
             <div class="grupo-campo">
-               <label for="nombre-peque" data-i18n="lbl-nombre-peque">
-                  ¿Cómo se llama? 🧸
+
+                <label for="nombre-peque">
+                    ¿Cómo se llama? 🧸
                 </label>
-                <input type="text" id="nombre-peque" class="input-arcoiris" placeholder="Ej: Benja, Cati, Sofi" required>
+
+                <input
+                    type="text"
+                    id="nombre-peque"
+                    class="input-arcoiris"
+                    placeholder="P. ej., Benja, Cati, Sofi"
+                    required>
+
             </div>
 
             <div class="grupo-campo">
-                <label for="edad-peque" data-i18n="lbl-edad-peque">¿Qué edad tiene? 🗓️</label>
-                <input type="text" id="edad-peque" class="input-arcoiris" placeholder="Ej: 8 meses, 2 años" required>
+
+                <label for="edad-peque">
+                    ¿Qué edad tiene? 🗓️
+                </label>
+
+                <input
+                    type="text"
+                    id="edad-peque"
+                    class="input-arcoiris"
+                    placeholder="P. ej., 8 meses, 2 años"
+                    required>
+
             </div>
 
             <div class="grupo-campo">
-                <label for="peso-peque" data-i18n="lbl-peso-peque">¿Cuánto pesa actualmente? (en kg) ⚖️</label>
-                <input type="number" id="peso-peque" class="input-arcoiris" step="0.1" min="1" max="50" placeholder="Ej: 12.5" required>
+
+                <label for="peso-peque">
+                    ¿Peso actual? (en kg) ⚖️
+                </label>
+
+                <input
+                    type="number"
+                    id="peso-peque"
+                    class="input-arcoiris"
+                    step="0.1"
+                    min="1"
+                    max="50"
+                    placeholder="P. ej., 12.5"
+                    required>
+
             </div>
 
             <div class="grupo-campo">
-                <label for="altura-peque" data-i18n="lbl-altura-peque">¿Cuánto mide? (en cm) 📏</label>
-                <input type="number" id="altura-peque" class="input-arcoiris" min="30" max="150" placeholder="Ej: 85" required>
+
+                <label for="altura-peque">
+                    ¿Altura actual? (en cm) 📏
+                </label>
+
+                <input
+                    type="number"
+                    id="altura-peque"
+                    class="input-arcoiris"
+                    min="30"
+                    max="150"
+                    placeholder="P. ej., 85"
+                    required>
+
             </div>
 
-            <button type="submit" class="btn-guardar-todo" data-i18n="btn-crear-perfil">
-               ✨ Crear Perfil Arcoíris 🌈
-                </button>
+            <button type="submit" class="btn-guardar-todo">
+                ✨ Crear Perfil Arcoíris 🌈
+            </button>
+
         </form>
+
     </div>
 
-    <!-- Botón para regresar -->
-    <button data-i18n="btn-volver" onclick="irA('home.html')">⬅️ Volver al Menú</button>
+    <button class="btn-volver" onclick="irA('home.html')">
+        ⬅️ Volver al menú
+    </button>
 
     <script src="js/app.js"></script>
+
 </body>
 </html>

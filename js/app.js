@@ -1,6 +1,8 @@
 
 function obtenerIdioma() {
-    return localStorage.getItem("idioma") || "es";
+
+return localStorage.getItem("idiomaApp") || "es";
+
 }
 
 let rolActivo = localStorage.getItem("rolActivo") || "Mamá";
@@ -87,45 +89,49 @@ document.addEventListener("DOMContentLoaded", () => {
     traducirTodaLaAplicacion();
     actualizarMensajeBienvenida();
 });
-
 // ==========================================
 // 2. NAVEGACIÓN, LÓGICA DEL CUIDADOR Y SALUDOS
 // ==========================================
-function irA(pagina) { 
-    window.location.href = pagina; 
+function irA(pagina) {
+    window.location.href = pagina;
 }
 
 function activarEdicionRol() {
     const contenedor = document.getElementById("contenedor-cuidador");
     const inputOculto = document.getElementById("input-rol-oculto");
+
     if (contenedor && inputOculto) {
         contenedor.classList.add("editando");
-        inputOculto.value = rolActivo; 
-        inputOculto.focus(); 
-        inputOculto.select(); 
+        inputOculto.value = rolActivo;
+        inputOculto.focus();
+        inputOculto.select();
     }
 }
 
 function guardarRolDesdeInput(valor) {
     const contenedor = document.getElementById("contenedor-cuidador");
     if (!contenedor) return;
+
     if (valor.trim() === "") {
         contenedor.classList.remove("editando");
         return;
     }
+
     rolActivo = valor.trim();
     localStorage.setItem("rolActivo", rolActivo);
-    
+
+    const idioma = obtenerIdioma();
     let rolTraducido = rolActivo;
     const rolMinus = rolActivo.toLowerCase();
-    if (idiomaApp === "en") {
+
+    if (idioma === "en") {
         if (rolMinus === "mamá" || rolMinus === "mami") rolTraducido = "Mommy";
         else if (rolMinus === "papá" || rolMinus === "papi") rolTraducido = "Daddy";
-    } else if (idiomaApp === "pt") {
+    } else if (idioma === "pt") {
         if (rolMinus === "mamá" || rolMinus === "mami") rolTraducido = "Mamãe";
         else if (rolMinus === "papá" || rolMinus === "papi") rolTraducido = "Papai";
     }
-    
+
     document.getElementById("boton-rol-activo").innerText = `🖐 ${rolTraducido}`;
     contenedor.classList.remove("editando");
     actualizarMensajeBienvenida();
@@ -134,27 +140,43 @@ function guardarRolDesdeInput(valor) {
 function actualizarMensajeBienvenida() {
     const titulo = document.getElementById("frase-aliento");
     if (!titulo) return;
+
+    const idioma = obtenerIdioma();
+
     let saludoBase = "";
     const rolMinuscula = rolActivo.toLowerCase();
 
-    if (idiomaApp === "en") {
-        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = `✨ Hi mommy!`;
-        else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = `⚡ Hi daddy!`;
+    if (idioma === "en") {
+        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "✨ Hi mommy!";
+        else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = "⚡ Hi daddy!";
         else saludoBase = `👋 Hi ${rolActivo}!`;
-        if (pequeActivo) titulo.innerText = `${saludoBase} What are we doing today with ${pequeActivo}? 😊`;
-        else titulo.innerText = `${saludoBase} What are we doing today? 😊`;
-    } else if (idiomaApp === "pt") {
-        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = `✨ Olá mamãe!`;
-        else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = `⚡ Olá papai!`;
+
+        if (pequeActivo)
+            titulo.innerText = `${saludoBase} What are we doing today with ${pequeActivo}? 😊`;
+        else
+            titulo.innerText = `${saludoBase} What are we doing today? 😊`;
+
+    } else if (idioma === "pt") {
+
+        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "✨ Olá mamãe!";
+        else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = "⚡ Olá papai!";
         else saludoBase = `👋 Olá ${rolActivo}!`;
-        if (pequeActivo) titulo.innerText = `${saludoBase} O que vamos fazer hoje com ${pequeActivo}? 😊`;
-        else titulo.innerText = `${saludoBase} O que vamos fazer hoje? 😊`;
+
+        if (pequeActivo)
+            titulo.innerText = `${saludoBase} O que vamos fazer hoje com ${pequeActivo}? 😊`;
+        else
+            titulo.innerText = `${saludoBase} O que vamos fazer hoje? 😊`;
+
     } else {
-        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = `✨ ¡Hola mami!`;
-        else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = `⚡ ¡Hola papá!`;
+
+        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "✨ ¡Hola mami!";
+        else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = "⚡ ¡Hola papá!";
         else saludoBase = `👋 ¡Hola ${rolActivo}!`;
-        if (pequeActivo) titulo.innerText = `${saludoBase} ¿Qué hacemos hoy con ${pequeActivo}? 😊`;
-        else titulo.innerText = `${saludoBase} ¿Qué hacemos hoy? 😊`;
+
+        if (pequeActivo)
+            titulo.innerText = `${saludoBase} ¿Qué hacemos hoy con ${pequeActivo}? 😊`;
+        else
+            titulo.innerText = `${saludoBase} ¿Qué hacemos hoy? 😊`;
     }
 }
 
@@ -162,6 +184,82 @@ function actualizarMensajeBienvenida() {
 // 3. DICCIONARIO TRILINGÜE DE LA APLICACIÓN
 // ==========================================
 const diccionarioTraducciones = {
+
+   es: {
+    "nube-med": "Medicación 💊",
+    "nube-tur": "Turnos 📅",
+    "nube-vac": "Vacunas 💉",
+
+    "invitacion-rol": "¿Con quién estoy hablando hoy? 👀",
+    "invitacion-peque": "¡Agregá a tu peque! 🧸",
+
+    "btn-volver": "⬅️ Volver al menú",
+
+    "titulo-med": "Agregá los medicamentos de tu peque 💉",
+    "label-med-nom": "Nombre del medicamento 💊",
+    "place-med-nom": "P. ej., Paracetamol",
+    "label-med-dos": "Dosis 💉",
+    "place-med-dos": "P. ej., 10 gotas",
+    "label-med-fre": "¿Cada cuántas horas? ⏳",
+    "place-med-fre": "P. ej., 8",
+    "label-med-dia": "¿Durante cuántos días? 📅",
+    "place-med-dia": "P. ej., 7",
+    "label-med-ini": "Hora de inicio ⏰",
+    "btn-med-add": "➕ Agregar medicamento",
+    "btn-med-save": "🌟 Guardar medicamento",
+    "th-med-nom": "Nombre del medicamento",
+    "th-med-dos": "Dosis",
+    "th-med-fre": "Frecuencia",
+    "th-med-pro": "Próxima dosis",
+    "th-med-acc": "Acción",
+    "historial-med": "Registro de medicamentos 📋",
+
+    "titulo-tur": "Los próximos turnos de tu peque 📅",
+    "label-tur-med": "¿Médico o especialista? 👩‍⚕️",
+    "place-tur-med": "P. ej., Pediatra, Dentista",
+    "label-tur-fec": "¿Qué día es? 🗓️",
+    "label-tur-hor": "¿A qué hora? ⏰",
+    "label-tur-lug": "¿Dónde es el turno? 🏥",
+    "place-tur-lug": "P. ej., Clínica Sol",
+    "btn-tur-add": "➕ Agregar turno",
+    "btn-tur-save": "🌟 Guardar turnos",
+    "th-tur-med": "Médico / Especialista",
+    "th-tur-fec": "Fecha",
+    "th-tur-hor": "Hora",
+    "th-tur-lug": "Lugar",
+    "th-tur-acc": "Acción",
+    "historial-tur": "Turnos programados 📋",
+
+    "titulo-vac": "Las vacunas de tu peque 💉",
+    "label-vac-nom": "Nombre de la vacuna 💉",
+    "place-vac-nom": "P. ej., Gripe, Sarampión",
+    "label-vac-fec": "Fecha de aplicación 🗓️",
+    "label-vac-pro": "Fecha de la próxima dosis 🕒",
+    "btn-vac-add": "➕ Agregar vacuna",
+    "btn-vac-save": "🌟 Guardar vacunas",
+    "th-vac-nom": "Nombre de la vacuna",
+    "th-vac-fec": "Fecha de aplicación",
+    "th-vac-pro": "Próxima dosis",
+    "th-vac-acc": "Acción",
+    "historial-vac": "Registro de vacunas 📋",
+
+    "titulo-per": "¡Te damos la bienvenida! 👶🌈",
+    "sub-per": "Ingresá los datos para personalizar el cuidado de tu peque.",
+    "label-per-nom": "¿Cómo se llama? 🧸",
+    "place-per-nom": "P. ej., Benja, Cati, Sofi",
+    "label-per-eda": "¿Qué edad tiene? 🗓️",
+    "place-per-eda": "P. ej., 8 meses, 2 años",
+    "label-per-pes": "¿Peso actual? (en kg) ⚖️",
+    "place-per-pes": "P. ej., 12.5",
+    "label-per-alt": "¿Altura actual? (en cm) 📏",
+    "place-per-alt": "P. ej., 85",
+    "btn-per-save": "✨ Crear Perfil Arcoíris 🌈",
+    "historial-per": "Peques registrados 📋",
+    "th-per-nom": "Nombre",
+    "th-per-dat": "Edad / Peso / Altura",
+    "th-per-acc": "Acción"
+},
+
     en: {
         "nube-med": "Medication 💊", "nube-tur": "Appointments 📅", "nube-vac": "Vaccines 💉",
         "invitacion-rol": "Who am I talking to today? 👀", "invitacion-peque": "Add your child! 🧸",
@@ -231,6 +329,7 @@ const diccionarioTraducciones = {
         "historial-per": "Bebês registrados 📋", "th-per-nom": "Nome", "th-per-dat": "Idade / Peso / Altura", "th-per-acc": "Ação"
     }
 };
+
 // ==========================================
 // 4. MOTOR DE TRADUCCIÓN INTEGRAL EN VIVO
 // ==========================================
@@ -276,7 +375,6 @@ function traducirTodaLaAplicacion() {
                 ? "🔒 Política de Privacidade"
                 : "🔒 Política de Privacidad";
     }
-}
 
     // 2. Traducción Modular (Medicación)
     if (document.getElementById("lista-bloques-remedios")) {
@@ -312,7 +410,7 @@ function traducirTodaLaAplicacion() {
             btns[1].innerText = idioma["btn-vac-save"];
         }
     }
-
+}
     // 5. Traducción Modular (Perfil)
     if (document.getElementById("form-perfil")) {
         const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = idioma["titulo-per"];
@@ -835,27 +933,29 @@ function eliminarPeque(index) {
 }
 
 
-
 function seleccionarIdioma(codigoIdioma) {
     localStorage.setItem("idiomaApp", codigoIdioma);
-    window.location.href="home.html";
-    
-    // 🌟 TRUCO CLAVE: Si el cuidador es uno genérico de fábrica, lo limpiamos para que se traduzca perfecto al vuelo
+
     let rolActual = localStorage.getItem("rolActivo") || "Mamá";
     let rMinus = rolActual.toLowerCase();
-    
-    if (rMinus === "mamá" || rMinus === "mami" || rMinus === "mommy" || rMinus === "mamãe" || 
-        rMinus === "papá" || rMinus === "papi" || rMinus === "daddy" || rMinus === "papai") {
-        localStorage.removeItem("rolActivo"); 
+
+    if (
+        rMinus === "mamá" || rMinus === "mami" || rMinus === "mommy" || rMinus === "mamãe" ||
+        rMinus === "papá" || rMinus === "papi" || rMinus === "daddy" || rMinus === "papai"
+    ) {
+        localStorage.removeItem("rolActivo");
     }
 
-    if (codigoIdioma === 'es') alert("✨ ¡Bienvenido! Configurando aplicación... 🥰");
-    else if (codigoIdioma === 'en') alert("✨ Welcome! Setting up your app... 🥰");
-    else if (codigoIdioma === 'pt') alert("✨ Bem-vindo! Configurando aplicativo... 🥰");
-    
-    irA('index.html');
-}
+    if (codigoIdioma === "es") {
+        alert("✨ ¡Bienvenido! Configurando aplicación... 🥰");
+    } else if (codigoIdioma === "en") {
+        alert("✨ Welcome! Setting up your app... 🥰");
+    } else {
+        alert("✨ Bem-vindo! Configurando aplicativo... 🥰");
+    }
 
+    window.location.href = "home.html";
+}
 
 // ==========================================
 // 12. UNIVERSO TURNOS (COMPLETO, RECUPERADO Y CON CASILLEROS DE CARGA) 📅
