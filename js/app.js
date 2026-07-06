@@ -257,7 +257,14 @@ const diccionarioTraducciones = {
     "historial-per": "Peques registrados 📋",
     "th-per-nom": "Nombre",
     "th-per-dat": "Edad / Peso / Altura",
-    "th-per-acc": "Acción"
+    "th-per-acc": "Acción",
+
+"titulo-privacidad": "🔒 Política de Privacidad",
+"privacidad-1": "En Pequeños Cuidados, la seguridad de tu familia es lo primero. 🧸",
+"privacidad-2": "Queremos que te quedes totalmente tranquila/o: esta aplicación no recolecta ni envía datos.",
+"privacidad-3": "Todos los datos se guardan en tu dispositivo usando LocalStorage.",
+"privacidad-4": "Al usar esta app aceptás este entorno seguro creado con cariño. ❤️",
+
 },
 
     en: {
@@ -292,7 +299,14 @@ const diccionarioTraducciones = {
         "label-per-pes": "Current weight? (in kg) ⚖️", "place-per-pes": "E.g., 12.5",
         "label-per-alt": "Current height? (in cm) 📏", "place-per-alt": "E.g., 85",
         "btn-per-save": "✨ Create Rainbow Profile 🌈",
-        "historial-per": "Registered children 📋", "th-per-nom": "Name", "th-per-dat": "Age / Weight / Height", "th-per-acc": "Action"
+        "historial-per": "Registered children 📋", "th-per-nom": "Name", "th-per-dat": "Age / Weight / Height", "th-per-acc": "Action",
+
+       "titulo-privacidad": "🔒 Privacy Policy",
+"privacidad-1": "In Pequeños Cuidados, your family's safety comes first. 🧸",
+"privacidad-2": "We do not collect or send any personal data.",
+"privacidad-3": "All data is stored locally on your device using LocalStorage.",
+"privacidad-4": "By using this app you accept this safe environment. ❤️",
+        
     },
     pt: {
         "nube-med": "Medicação 💊", "nube-tur": "Consultas 📅", "nube-vac": "Vacinas 💉",
@@ -326,7 +340,15 @@ const diccionarioTraducciones = {
         "label-per-pes": "Peso atual? (em kg) ⚖️", "place-per-pes": "Ex: 12.5",
         "label-per-alt": "Altura atual? (em cm) 📏", "place-per-alt": "Ex: 85",
         "btn-per-save": "✨ Criar Perfil Arco-Íris 🌈",
-        "historial-per": "Bebês registrados 📋", "th-per-nom": "Nome", "th-per-dat": "Idade / Peso / Altura", "th-per-acc": "Ação"
+        "historial-per": "Bebês registrados 📋", "th-per-nom": "Nome", "th-per-dat": "Idade / Peso / Altura", "th-per-acc": "Ação",
+
+         "titulo-privacidad": "🔒 Política de Privacidade",
+"privacidad-1": "No Pequeños Cuidados, a segurança da sua família é prioridade. 🧸",
+"privacidad-2": "Não coletamos nem enviamos dados pessoais.",
+"privacidad-3": "Todos os dados ficam salvos localmente no seu dispositivo.",
+"privacidad-4": "Ao usar este app você aceita este ambiente seguro. ❤️",
+
+
     }
 };
 
@@ -336,10 +358,8 @@ const diccionarioTraducciones = {
 
 function traducirTodaLaAplicacion() {
     const idiomaApp = obtenerIdioma();
-
-    if (idiomaApp === "es") return;
-
     const idioma = diccionarioTraducciones[idiomaApp];
+
     if (!idioma) return;
 
     const nubeMed = document.getElementById("nube-medicacion");
@@ -428,6 +448,27 @@ function traducirTodaLaAplicacion() {
         
         const btn = document.querySelector("#form-perfil .btn-guardar-todo"); if (btn) btn.innerText = idioma["btn-per-save"];
         const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-per"];
+    
+     // 🌐 Traducción PRIVACIDAD
+if (document.getElementById("titulo-privacidad")) {
+    const tit = document.getElementById("titulo-privacidad");
+    const p1 = document.getElementById("privacidad-1");
+    const p2 = document.getElementById("privacidad-2");
+    const p3 = document.getElementById("privacidad-3");
+    const p4 = document.getElementById("privacidad-4");
+
+    if (tit) tit.innerText = idiomaApp === "en"
+        ? "Privacy Policy"
+        : idiomaApp === "pt"
+        ? "Política de Privacidade"
+        : "Política de Privacidad";
+
+    if (p1) p1.innerText = idioma["privacidad-1"] || p1.innerText;
+    if (p2) p2.innerText = idioma["privacidad-2"] || p2.innerText;
+    if (p3) p3.innerText = idioma["privacidad-3"] || p3.innerText;
+    if (p4) p4.innerText = idioma["privacidad-4"] || p4.innerText;
+}
+    
     }
 
 
@@ -1064,4 +1105,29 @@ function eliminarTurnoGuardado(id) {
 
         document.addEventListener('DOMContentLoaded', () => {
     traducirTodaLaAplicacion();
+});
+
+// 🔒 PRIVACIDAD
+const tituloPriv = document.getElementById("titulo-privacidad");
+if (tituloPriv) tituloPriv.innerText = idioma["titulo-privacidad"];
+
+const priv1 = document.getElementById("privacidad-1");
+if (priv1) priv1.innerText = idioma["privacidad-1"];
+
+const priv2 = document.getElementById("privacidad-2");
+if (priv2) priv2.innerText = idioma["privacidad-2"];
+
+const priv3 = document.getElementById("privacidad-3");
+if (priv3) priv3.innerText = idioma["privacidad-3"];
+
+const priv4 = document.getElementById("privacidad-4");
+if (priv4) priv4.innerText = idioma["privacidad-4"];
+
+
+// 🌈 Traducción automática por data-i18n (MUY IMPORTANTE)
+document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (idioma[key]) {
+        el.innerText = idioma[key];
+    }
 });
