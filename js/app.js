@@ -358,10 +358,15 @@ const diccionarioTraducciones = {
 
 function traducirTodaLaAplicacion() {
     const idiomaApp = obtenerIdioma();
-    const idioma = diccionarioTraducciones[idiomaApp];
 
+    if (idiomaApp === "es") return;
+
+    const idioma = diccionarioTraducciones[idiomaApp];
     if (!idioma) return;
 
+    // =========================
+    // BARRA SUPERIOR
+    // =========================
     const nubeMed = document.getElementById("nube-medicacion");
     if (nubeMed) nubeMed.innerText = idioma["nube-med"];
 
@@ -379,8 +384,10 @@ function traducirTodaLaAplicacion() {
 
     const inputSol = document.getElementById("input-rol-oculto");
     if (inputSol) {
-        if (idiomaApp === "en") inputSol.placeholder = "Who are you?";
-        else if (idiomaApp === "pt") inputSol.placeholder = "Quem é você?";
+        inputSol.placeholder =
+            idiomaApp === "en" ? "Who are you?"
+            : idiomaApp === "pt" ? "Quem é você?"
+            : "¿Quién sos?";
     }
 
     const btnVolver = document.querySelector(".btn-volver");
@@ -396,10 +403,16 @@ function traducirTodaLaAplicacion() {
                 : "🔒 Política de Privacidad";
     }
 
-    // 2. Traducción Modular (Medicación)
+    // =========================
+    // MEDICACIÓN
+    // =========================
     if (document.getElementById("lista-bloques-remedios")) {
-        const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = idioma["titulo-med"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-med"];
+        const tit = document.querySelector(".titulo-tarjeta");
+        if (tit) tit.innerText = idioma["titulo-med"];
+
+        const h2 = document.querySelector(".contenedor-lista h2");
+        if (h2) h2.innerText = idioma["historial-med"];
+
         const btns = document.querySelectorAll(".mis-botones-arcoiris button");
         if (btns.length >= 2) {
             btns[0].innerText = idioma["btn-med-add"];
@@ -407,11 +420,16 @@ function traducirTodaLaAplicacion() {
         }
     }
 
-    // 3. Traducción Modular (Turnos) - 🌟 CORREGIDO CON ÍNDICES DIRECTOS
+    // =========================
+    // TURNOS
+    // =========================
     if (document.getElementById("lista-bloques-turnos")) {
-        const tit = document.getElementById("titulo-turnos-card") || document.querySelector(".titulo-tarjeta"); 
+        const tit = document.getElementById("titulo-turnos-card");
         if (tit) tit.innerText = idioma["titulo-tur"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-tur"];
+
+        const h2 = document.querySelector(".contenedor-lista h2");
+        if (h2) h2.innerText = idioma["historial-tur"];
+
         const btns = document.querySelectorAll(".mis-botones-arcoiris button");
         if (btns.length >= 2) {
             btns[0].innerText = idioma["btn-tur-add"];
@@ -419,58 +437,105 @@ function traducirTodaLaAplicacion() {
         }
     }
 
-    // 4. Traducción Modular (Vacunas) - 🌟 CORREGIDO CON ÍNDICES DIRECTOS
+    // =========================
+    // VACUNAS
+    // =========================
     if (document.getElementById("lista-bloques-vacunas")) {
-        const tit = document.getElementById("titulo-vacunas-card") || document.querySelector(".titulo-tarjeta"); 
+        const tit = document.getElementById("titulo-vacunas-card");
         if (tit) tit.innerText = idioma["titulo-vac"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-vac"];
+
+        const h2 = document.querySelector(".contenedor-lista h2");
+        if (h2) h2.innerText = idioma["historial-vac"];
+
         const btns = document.querySelectorAll(".mis-botones-arcoiris button");
         if (btns.length >= 2) {
             btns[0].innerText = idioma["btn-vac-add"];
             btns[1].innerText = idioma["btn-vac-save"];
         }
     }
-}
-    // 5. Traducción Modular (Perfil)
-    if (document.getElementById("form-perfil")) {
-        const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = idioma["titulo-per"];
-        const sub = document.querySelector(".subtitulo-perfil"); if (sub) sub.innerText = idioma["sub-per"];
-        
-        const labelNom = document.querySelector("label[for='nombre-peque']"); if (labelNom) labelNom.innerText = idioma["label-per-nom"];
-        const labelEda = document.querySelector("label[for='edad-peque']"); if (labelEda) labelEda.innerText = idioma["label-per-eda"];
-        const labelPes = document.querySelector("label[for='peso-peque']"); if (labelPes) labelPes.innerText = idioma["label-per-pes"];
-        const labelAlt = document.querySelector("label[for='altura-peque']"); if (labelAlt) labelAlt.innerText = idioma["label-per-alt"];
 
-        const inpNom = document.getElementById("nombre-peque"); if (inpNom) inpNom.placeholder = idioma["place-per-nom"];
-        const inpEda = document.getElementById("edad-peque"); if (inpEda) inpEda.placeholder = idioma["place-per-eda"];
-        const inpPes = document.getElementById("peso-peque"); if (inpPes) inpPes.placeholder = idioma["place-per-pes"];
-        const inpAlt = document.getElementById("altura-peque"); if (inpAlt) inpAlt.placeholder = idioma["place-per-alt"];
-        
-        const btn = document.querySelector("#form-perfil .btn-guardar-todo"); if (btn) btn.innerText = idioma["btn-per-save"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-per"];
-    
-     // 🌐 Traducción PRIVACIDAD
-if (document.getElementById("titulo-privacidad")) {
+    // =========================
+    // 👶 FORMULARIO PEQUE
+    // =========================
+    if (document.getElementById("form-perfil")) {
+        const tit = document.querySelector(".titulo-tarjeta");
+        if (tit) tit.innerText = idioma["titulo-per"];
+
+        const sub = document.querySelector(".subtitulo-perfil");
+        if (sub) sub.innerText = idioma["sub-per"];
+
+        const labels = {
+            "nombre-peque": "label-per-nom",
+            "edad-peque": "label-per-eda",
+            "peso-peque": "label-per-pes",
+            "altura-peque": "label-per-alt"
+        };
+
+        Object.keys(labels).forEach(id => {
+            const el = document.querySelector(`label[for='${id}']`);
+            if (el) el.innerText = idioma[labels[id]];
+        });
+
+        const inputs = {
+            "nombre-peque": "place-per-nom",
+            "edad-peque": "place-per-eda",
+            "peso-peque": "place-per-pes",
+            "altura-peque": "place-per-alt"
+        };
+
+        Object.keys(inputs).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.placeholder = idioma[inputs[id]];
+        });
+
+        const btn = document.querySelector("#form-perfil .btn-guardar-todo");
+        if (btn) btn.innerText = idioma["btn-per-save"];
+    }
+
+// =========================
+// 🔒 PRIVACIDAD
+// =========================
+if (document.querySelector(".contenedor-privacidad")) {
     const tit = document.getElementById("titulo-privacidad");
+    if (tit) tit.innerText =
+        idiomaApp === "en" ? "Privacy Policy 🔒"
+        : idiomaApp === "pt" ? "Política de Privacidade 🔒"
+        : "Política de Privacidad 🔒";
+
     const p1 = document.getElementById("privacidad-1");
     const p2 = document.getElementById("privacidad-2");
     const p3 = document.getElementById("privacidad-3");
     const p4 = document.getElementById("privacidad-4");
 
-    if (tit) tit.innerText = idiomaApp === "en"
-        ? "Privacy Policy"
-        : idiomaApp === "pt"
-        ? "Política de Privacidade"
-        : "Política de Privacidad";
+    if (p1) p1.innerHTML =
+        idiomaApp === "en"
+            ? "<strong>At Pequeños Cuidados, your family’s safety comes first. 🧸❤️</strong>"
+            : idiomaApp === "pt"
+            ? "<strong>No Pequeños Cuidados, a segurança da sua família vem primeiro. 🧸❤️</strong>"
+            : p1.innerHTML;
 
-    if (p1) p1.innerText = idioma["privacidad-1"] || p1.innerText;
-    if (p2) p2.innerText = idioma["privacidad-2"] || p2.innerText;
-    if (p3) p3.innerText = idioma["privacidad-3"] || p3.innerText;
-    if (p4) p4.innerText = idioma["privacidad-4"] || p4.innerText;
-}
-    
+    if (p2) p2.innerHTML =
+        idiomaApp === "en"
+            ? "We do not collect, share or send any data about your kids, medications, appointments or vaccines. 💙"
+            : idiomaApp === "pt"
+            ? "Não coletamos, compartilhamos ou enviamos dados sobre seus filhos, medicamentos, consultas ou vacinas. 💙"
+            : p2.innerHTML;
+
+    if (p3) p3.innerHTML =
+        idiomaApp === "en"
+            ? "All data is stored only on your device using LocalStorage. 🔐"
+            : idiomaApp === "pt"
+            ? "Todos os dados ficam armazenados apenas no seu dispositivo usando LocalStorage. 🔐"
+            : p3.innerHTML;
+
+    if (p4) p4.innerHTML =
+        idiomaApp === "en"
+            ? "A safe space created with love to take care of what matters most. ❤️"
+            : idiomaApp === "pt"
+            ? "Um espaço seguro criado com amor para cuidar de quem você ama. ❤️"
+            : p4.innerHTML;
     }
-
+}
 
 // ==========================================
 // 5. SOLAPAS DE PEQUES Y LOGICA DE MEDICACIONES
