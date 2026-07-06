@@ -1,6 +1,6 @@
 
 function obtenerIdioma() {
-    return localStorage.getItem("lang") || "es";
+    return localStorage.getItem("idioma") || "es";
 }
 
 let rolActivo = localStorage.getItem("rolActivo") || "Mamá";
@@ -240,23 +240,23 @@ function traducirTodaLaAplicacion() {
 
     if (idiomaApp === "es") return;
 
-    const lang = diccionarioTraducciones[idiomaApp];
-    if (!lang) return;
+    const idioma = diccionarioTraducciones[idiomaApp];
+    if (!idioma) return;
 
     const nubeMed = document.getElementById("nube-medicacion");
-    if (nubeMed) nubeMed.innerText = lang["nube-med"];
+    if (nubeMed) nubeMed.innerText = idioma["nube-med"];
 
     const nubeTur = document.getElementById("nube-turnos");
-    if (nubeTur) nubeTur.innerText = lang["nube-tur"];
+    if (nubeTur) nubeTur.innerText = idioma["nube-tur"];
 
     const nubeVac = document.getElementById("nube-vacunas");
-    if (nubeVac) nubeVac.innerText = lang["nube-vac"];
+    if (nubeVac) nubeVac.innerText = idioma["nube-vac"];
 
     const cartelRol = document.querySelector(".cartelito-invitacion-rol");
-    if (cartelRol) cartelRol.innerText = lang["invitacion-rol"];
+    if (cartelRol) cartelRol.innerText = idioma["invitacion-rol"];
 
     const cartelPeque = document.querySelector(".cartelito-invitacion");
-    if (cartelPeque) cartelPeque.innerText = lang["invitacion-peque"];
+    if (cartelPeque) cartelPeque.innerText = idioma["invitacion-peque"];
 
     const inputSol = document.getElementById("input-rol-oculto");
     if (inputSol) {
@@ -265,7 +265,7 @@ function traducirTodaLaAplicacion() {
     }
 
     const btnVolver = document.querySelector(".btn-volver");
-    if (btnVolver) btnVolver.innerText = lang["btn-volver"];
+    if (btnVolver) btnVolver.innerText = idioma["btn-volver"];
 
     const enlacePrivacidad = document.querySelector(".enlace-privacidad-menu");
     if (enlacePrivacidad) {
@@ -280,56 +280,56 @@ function traducirTodaLaAplicacion() {
 
     // 2. Traducción Modular (Medicación)
     if (document.getElementById("lista-bloques-remedios")) {
-        const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = lang["titulo-med"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = lang["historial-med"];
+        const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = idioma["titulo-med"];
+        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-med"];
         const btns = document.querySelectorAll(".mis-botones-arcoiris button");
         if (btns.length >= 2) {
-            btns[0].innerText = lang["btn-med-add"];
-            btns[1].innerText = lang["btn-med-save"];
+            btns[0].innerText = idioma["btn-med-add"];
+            btns[1].innerText = idioma["btn-med-save"];
         }
     }
 
     // 3. Traducción Modular (Turnos) - 🌟 CORREGIDO CON ÍNDICES DIRECTOS
     if (document.getElementById("lista-bloques-turnos")) {
         const tit = document.getElementById("titulo-turnos-card") || document.querySelector(".titulo-tarjeta"); 
-        if (tit) tit.innerText = lang["titulo-tur"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = lang["historial-tur"];
+        if (tit) tit.innerText = idioma["titulo-tur"];
+        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-tur"];
         const btns = document.querySelectorAll(".mis-botones-arcoiris button");
         if (btns.length >= 2) {
-            btns[0].innerText = lang["btn-tur-add"];
-            btns[1].innerText = lang["btn-tur-save"];
+            btns[0].innerText = idioma["btn-tur-add"];
+            btns[1].innerText = idioma["btn-tur-save"];
         }
     }
 
     // 4. Traducción Modular (Vacunas) - 🌟 CORREGIDO CON ÍNDICES DIRECTOS
     if (document.getElementById("lista-bloques-vacunas")) {
         const tit = document.getElementById("titulo-vacunas-card") || document.querySelector(".titulo-tarjeta"); 
-        if (tit) tit.innerText = lang["titulo-vac"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = lang["historial-vac"];
+        if (tit) tit.innerText = idioma["titulo-vac"];
+        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-vac"];
         const btns = document.querySelectorAll(".mis-botones-arcoiris button");
         if (btns.length >= 2) {
-            btns[0].innerText = lang["btn-vac-add"];
-            btns[1].innerText = lang["btn-vac-save"];
+            btns[0].innerText = idioma["btn-vac-add"];
+            btns[1].innerText = idioma["btn-vac-save"];
         }
     }
 
     // 5. Traducción Modular (Perfil)
     if (document.getElementById("form-perfil")) {
-        const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = lang["titulo-per"];
-        const sub = document.querySelector(".subtitulo-perfil"); if (sub) sub.innerText = lang["sub-per"];
+        const tit = document.querySelector(".titulo-tarjeta"); if (tit) tit.innerText = idioma["titulo-per"];
+        const sub = document.querySelector(".subtitulo-perfil"); if (sub) sub.innerText = idioma["sub-per"];
         
-        const labelNom = document.querySelector("label[for='nombre-peque']"); if (labelNom) labelNom.innerText = lang["label-per-nom"];
-        const labelEda = document.querySelector("label[for='edad-peque']"); if (labelEda) labelEda.innerText = lang["label-per-eda"];
-        const labelPes = document.querySelector("label[for='peso-peque']"); if (labelPes) labelPes.innerText = lang["label-per-pes"];
-        const labelAlt = document.querySelector("label[for='altura-peque']"); if (labelAlt) labelAlt.innerText = lang["label-per-alt"];
+        const labelNom = document.querySelector("label[for='nombre-peque']"); if (labelNom) labelNom.innerText = idioma["label-per-nom"];
+        const labelEda = document.querySelector("label[for='edad-peque']"); if (labelEda) labelEda.innerText = idioma["label-per-eda"];
+        const labelPes = document.querySelector("label[for='peso-peque']"); if (labelPes) labelPes.innerText = idioma["label-per-pes"];
+        const labelAlt = document.querySelector("label[for='altura-peque']"); if (labelAlt) labelAlt.innerText = idioma["label-per-alt"];
 
-        const inpNom = document.getElementById("nombre-peque"); if (inpNom) inpNom.placeholder = lang["place-per-nom"];
-        const inpEda = document.getElementById("edad-peque"); if (inpEda) inpEda.placeholder = lang["place-per-eda"];
-        const inpPes = document.getElementById("peso-peque"); if (inpPes) inpPes.placeholder = lang["place-per-pes"];
-        const inpAlt = document.getElementById("altura-peque"); if (inpAlt) inpAlt.placeholder = lang["place-per-alt"];
+        const inpNom = document.getElementById("nombre-peque"); if (inpNom) inpNom.placeholder = idioma["place-per-nom"];
+        const inpEda = document.getElementById("edad-peque"); if (inpEda) inpEda.placeholder = idioma["place-per-eda"];
+        const inpPes = document.getElementById("peso-peque"); if (inpPes) inpPes.placeholder = idioma["place-per-pes"];
+        const inpAlt = document.getElementById("altura-peque"); if (inpAlt) inpAlt.placeholder = idioma["place-per-alt"];
         
-        const btn = document.querySelector("#form-perfil .btn-guardar-todo"); if (btn) btn.innerText = lang["btn-per-save"];
-        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = lang["historial-per"];
+        const btn = document.querySelector("#form-perfil .btn-guardar-todo"); if (btn) btn.innerText = idioma["btn-per-save"];
+        const h2 = document.querySelector(".contenedor-lista h2"); if (h2) h2.innerText = idioma["historial-per"];
     }
 
 
@@ -380,13 +380,13 @@ function agregarBloqueRemedioHtml() {
     let nom = "Nombre del medicamento 💊", dos = "Dosis 💉", fre = "¿Cada cuántas horas? ⏳", dia = "¿Por cuántos días? 📅", ini = "Hora de inicio ⏰";
     let pNom = "Ej: Paracetamol", pDos = "Ej: 10 gotas", pFre = "Ej: 8", pDia = "Ej: 7";
     if (idiomaApp === "en") {
-        const lang = diccionarioTraducciones.en;
-        nom = lang["label-med-nom"]; dos = lang["label-med-dos"]; fre = lang["label-med-fre"]; dia = lang["label-med-dia"]; ini = lang["label-med-ini"];
-        pNom = lang["place-med-nom"]; pDos = lang["place-med-dos"]; pFre = lang["place-med-fre"]; pDia = lang["place-med-dia"];
+        const idioma = diccionarioTraducciones.en;
+        nom = idioma["label-med-nom"]; dos = idioma["label-med-dos"]; fre = idioma["label-med-fre"]; dia = idioma["label-med-dia"]; ini = idioma["label-med-ini"];
+        pNom = idioma["place-med-nom"]; pDos = idioma["place-med-dos"]; pFre = idioma["place-med-fre"]; pDia = idioma["place-med-dia"];
     } else if (idiomaApp === "pt") {
-        const lang = diccionarioTraducciones.pt;
-        nom = lang["label-med-nom"]; dos = lang["label-med-dos"]; fre = lang["label-med-fre"]; dia = lang["label-med-dia"]; ini = lang["label-med-ini"];
-        pNom = lang["place-med-nom"]; pDos = lang["place-med-dos"]; pFre = lang["place-med-fre"]; pDia = lang["place-med-dia"];
+        const idioma = diccionarioTraducciones.pt;
+        nom = idioma["label-med-nom"]; dos = idioma["label-med-dos"]; fre = idioma["label-med-fre"]; dia = idioma["label-med-dia"]; ini = idioma["label-med-ini"];
+        pNom = idioma["place-med-nom"]; pDos = idioma["place-med-dos"]; pFre = idioma["place-med-fre"]; pDia = idioma["place-med-dia"];
     }
     divBloque.innerHTML = `
         ${cantidadBloques > 0 ? `<button type="button" class="btn-eliminar-bloque" onclick="eliminarBloqueRemedio(${idUnico})">🗑️</button>` : ''}
@@ -607,11 +607,11 @@ function agregarBloqueVacunaHtml() {
     let nom = "Nombre de la vacuna 💉", fec = "Fecha de colocación 🗓️", pro = "Próxima colocación 🕒";
     let pNom = "Ej: Quíntuple, Gripe";
     if (idiomaApp === "en") {
-        const lang = diccionarioTraducciones.en;
-        nom = lang["label-vac-nom"]; fec = lang["label-vac-fec"]; pro = lang["label-vac-pro"]; pNom = lang["place-vac-nom"];
+        const idioma = diccionarioTraducciones.en;
+        nom = idioma["label-vac-nom"]; fec = idioma["label-vac-fec"]; pro = idioma["label-vac-pro"]; pNom = idioma["place-vac-nom"];
     } else if (idiomaApp === "pt") {
-        const lang = diccionarioTraducciones.pt;
-        nom = lang["label-vac-nom"]; fec = lang["label-vac-fec"]; pro = lang["label-vac-pro"]; pNom = lang["place-vac-nom"];
+        const idioma = diccionarioTraducciones.pt;
+        nom = idioma["label-vac-nom"]; fec = idioma["label-vac-fec"]; pro = idioma["label-vac-pro"]; pNom = idioma["place-vac-nom"];
     }
     divBloque.innerHTML = `
         ${cantidadBloques > 0 ? `<button type="button" class="btn-eliminar-bloque" onclick="eliminarBloqueVacuna(${idUnico})">🗑️</button>` : ''}
@@ -838,6 +838,7 @@ function eliminarPeque(index) {
 
 function seleccionarIdioma(codigoIdioma) {
     localStorage.setItem("idiomaApp", codigoIdioma);
+    window.location.href="home.html";
     
     // 🌟 TRUCO CLAVE: Si el cuidador es uno genérico de fábrica, lo limpiamos para que se traduzca perfecto al vuelo
     let rolActual = localStorage.getItem("rolActivo") || "Mamá";
@@ -871,11 +872,11 @@ function agregarBloqueTurnoHtml() {
     let med = "¿Médico o especialista? 👩‍⚕️", fec = "¿Qué día es? 🗓️", hor = "¿A qué hora? ⏰", lug = "¿Dónde es la consulta? 🏥";
     let pMed = "Ej: Pediatra, Dentista", pLug = "Ej: Clínica Sol";
     if (idiomaApp === "en") {
-        const lang = diccionarioTraducciones.en;
-        med = lang["label-tur-med"]; fec = lang["label-tur-fec"]; hor = lang["label-tur-hor"]; lug = lang["label-tur-lug"]; pMed = lang["place-tur-med"]; pLug = lang["place-tur-lug"];
+        const idioma = diccionarioTraducciones.en;
+        med = idioma["label-tur-med"]; fec = idioma["label-tur-fec"]; hor = idioma["label-tur-hor"]; lug = idioma["label-tur-lug"]; pMed = idioma["place-tur-med"]; pLug = idioma["place-tur-lug"];
     } else if (idiomaApp === "pt") {
-        const lang = diccionarioTraducciones.pt;
-        med = lang["label-tur-med"]; fec = lang["label-tur-fec"]; hor = lang["label-tur-hor"]; lug = lang["label-tur-lug"]; pMed = lang["place-tur-med"]; pLug = lang["place-tur-lug"];
+        const idioma = diccionarioTraducciones.pt;
+        med = idioma["label-tur-med"]; fec = idioma["label-tur-fec"]; hor = idioma["label-tur-hor"]; lug = idioma["label-tur-lug"]; pMed = idioma["place-tur-med"]; pLug = idioma["place-tur-lug"];
     }
     
     divBloque.innerHTML = `
@@ -960,16 +961,6 @@ function eliminarTurnoGuardado(id) {
     localStorage.setItem(claveHistorial, JSON.stringify(lista));
     actualizarListaTurnosVisual();
 }
-
-//----idioma----
-        function seleccionarIdioma(lang) {
-
-            localStorage.setItem('lang', lang);
-            
-            window.location.href = 'home.html';
-        }
-
-
 
         document.addEventListener('DOMContentLoaded', () => {
     traducirTodaLaAplicacion();

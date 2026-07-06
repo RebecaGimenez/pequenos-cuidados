@@ -18,11 +18,14 @@
             <span class="cartelito-invitacion-rol">¿Con quién hablo hoy? 👀</span>
         </div>
 
-        <!-- DERECHA: Cruz limpia para ir a Perfiles -->
-        <div class="nido-flotante-peques" data-i18n="cartelito-invitacion">Agregá a tu peque 🧸</div>
-            <span class="cartelito-invitacion" data-i18n="cartelito-invitacion">Agregá a tu peque 🧸</span>
-            <button class="mini-nube-agregar" onclick="irA('perfil.html')">➕</button>
-        </div>
+        <div class="nido-flotante-peques">
+    <span class="cartelito-invitacion" data-i18n="cartelito-invitacion">
+        Agregá a tu peque 🧸
+    </span>
+
+    <button class="mini-nube-agregar" onclick="irA('perfil.html')">
+        ➕
+    </button>
 
     </div> <!-- 🌟 Aquí cierra la barra superior flotante de forma perfecta -->
     
@@ -33,9 +36,21 @@
 
     <!-- Contenedor de tus 3 nubes en cascada diagonal -->
     <div class="contenedor-nubes">
-        <button class="nube" id="nube-medicacion" onclick="irA('medicaciones.html')">Medicación 💊</button>
-        <button class="nube" id="nube-turnos" onclick="irA('misturnos.html')">Turnos 📅</button>
-        <button class="nube" id="nube-vacunas" onclick="irA('vacunas.html')">Vacunas 💉</button>
+        <button class="nube" 
+        data-i18n="nube-medicacion" 
+        onclick="irA('medicaciones.html')">Medicación 💊
+    </button>
+
+        <button class="nube" 
+        data-i18n="nube-turnos"
+        onclick="irA('misturnos.html')">Turnos 📅
+    </button>
+
+        <button class="nube" 
+        data-i18n="nube-vacunas" 
+        onclick="irA('vacunas.html')">Vacunas 💉
+    </button>
+    
     </div>
 
     <div class="bloque-privacidad-menu">
