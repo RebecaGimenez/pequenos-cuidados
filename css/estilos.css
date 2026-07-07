@@ -55,20 +55,51 @@ body {
 }
 
 .nube::before {
-    content: ''; position: absolute; background: #ffffff;
-    width: 90px; height: 90px; top: -40px; left: 25px; border-radius: 50%; z-index: -1;
+    content: ''; 
+    position: absolute; 
+    background: #ffffff;
+    width: 90px; 
+    height: 90px; 
+    top: -40px; 
+    left: 25px; 
+    border-radius: 50%; 
+    z-index: -1;
 }
 
 .nube::after {
-    content: ''; position: absolute; background: #ffffff;
-    width: 110px; height: 110px; top: -55px; right: 20px; border-radius: 50%; z-index: -1;
+    content: '';
+    position: absolute; 
+    background: #ffffff;
+    width: 110px; 
+    height: 110px; 
+    top: -55px; 
+    right: 20px; 
+    border-radius: 50%; 
+    z-index: -1;
 }
 
-.nube:hover { transform: scale(1.05); }
+.nube:hover { 
+    transform: scale(1.05); 
+}
 
-.contenedor-nubes button:nth-child(1) { color: #ff70a6; margin-left: 5%; margin-right: auto; } 
-.contenedor-nubes button:nth-child(2) { color: #ff9770; margin-left: auto; margin-right: auto; } 
-.contenedor-nubes button:nth-child(3) { color: #4bb543; margin-right: 5%; margin-left: auto; margin-bottom: 40px; } 
+.contenedor-nubes button:nth-child(1) { 
+      color: #ff70a6; 
+      margin-left: 5%;
+       margin-right: auto;
+     } 
+
+.contenedor-nubes button:nth-child(2) { 
+    color: #ff9770; 
+    margin-left: auto; 
+    margin-right: auto; 
+} 
+
+.contenedor-nubes button:nth-child(3) { 
+    color: #4bb543; 
+    margin-right: 5%; 
+    margin-left: auto; 
+    margin-bottom: 40px;
+ } 
 
 /* ==========================================================================
    3. ESTRUCTURA DE LAS TARJETAS DE PANTALLAS
@@ -129,9 +160,20 @@ body {
 }
 
 .btn-eliminar-bloque {
-    position: absolute; top: 10px; right: 10px; background: #ef4444; color: white;
-    border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
+     position: absolute; 
+     top: 10px;
+     right: 10px;
+     background: #ef4444;
+     color: white;
+    border: none; 
+    border-radius: 50%; 
+    width: 28px; 
+    height: 28px; 
+    font-weight: bold;
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
 }
 
 #form-turno, #form-vacuna, #form-medicacion, #form-perfil {
@@ -142,16 +184,28 @@ body {
 }
 
 .btn-volver {
-    background: #94a3b8; color: white; border: none; padding: 10px 20px;
-    border-radius: 50px; font-size: 14px; font-weight: bold; cursor: pointer;
-    margin-top: 10px; margin-bottom: 40px;
+    background: #94a3b8; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px;
+    border-radius: 50px; 
+    font-size: 14px; 
+    font-weight: bold; 
+    cursor: pointer;
+    margin-top: 10px; 
+    margin-bottom: 40px;
 }
 .btn-volver:hover { background: #64748b; }
 
 .contenedor-lista {
-    width: 90%; max-width: 500px; background: white; padding: 20px;
-    border-radius: 20px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box; margin-bottom: 30px;
+    width: 90%; 
+    max-width: 500px; 
+    background: white; 
+    padding: 20px;
+    border-radius: 20px; 
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box; 
+    margin-bottom: 30px;
 }
 
 /* ==========================================================================
@@ -239,7 +293,8 @@ body {
     align-items: center !important;
     justify-content: center !important;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    margin-top: -5px !important; /* Ajuste fino para que quede centrada verticalmente */ 
 }
 
 .mini-nube-agregar:hover {
@@ -265,10 +320,37 @@ body {
     vertical-align: middle; 
 }
 
-.cartelito-invitacion-rol { border: 2px solid #fef08a; margin-left: 8px; transform: translateX(-10px); }
-.cartelito-invitacion { border: 2px solid #fed7aa; margin-right: 8px; transform: translateX(10px); }
-.nido-flotante-cuidadores:hover .cartelito-invitacion-rol { opacity: 1; transform: translateX(0); }
-.nido-flotante-peques:hover .cartelito-invitacion { opacity: 1; transform: translateX(0); }
+.cartelito-invitacion-rol {
+     border: 2px solid #fef08a; 
+     margin-left: 8px;
+      transform: translateX(-10px);
+     }
+
+.cartelito-invitacion {
+     border: 2px solid #fed7aa; 
+     margin-right: 8px;
+      transform: translateX(10px);
+     }
+
+.nido-flotante-cuidadores:hover .cartelito-invitacion-rol {
+     opacity: 1; 
+     transform: translateX(0);
+    }
+
+.nido-flotante-peques:hover .cartelito-invitacion {
+     opacity: 1; 
+     transform: translateX(0); 
+    }
+
+    .cartelito-invitacion-rol.mostrar {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.cartelito-invitacion.mostrar {
+    opacity: 1;
+    transform: translateX(0);
+}
 
 /* Barra superior flexible original */
 .barra-flotante-superior { 
@@ -282,13 +364,57 @@ body {
     position: relative !important; 
 }
 
-.mini-sol-cuidador { background-color: #fef9c3 !important; color: #475569 !important; border: 2px solid #fef08a !important; padding: 10px 16px !important; border-radius: 30px !important; font-family: 'Comic Sans MS', sans-serif !important; font-size: 15px !important; font-weight: bold !important; cursor: pointer !important; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05) !important; transition: transform 0.2s !important; }
-.input-cuidador-escondido { display: none; background-color: #fef9c3 !important; color: #475569 !important; border: 2px solid #fef08a !important; padding: 10px 20px !important; border-radius: 30px !important; font-family: 'Comic Sans MS', sans-serif !important; font-size: 15px !important; font-weight: bold !important; outline: none !important; width: 180px !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important; box-sizing: border-box !important; text-align: center !important; }
-.nido-flotante-cuidadores.editando .mini-sol-cuidador { display: none !important; }
-.nido-flotante-cuidadores.editando .input-cuidador-escondido { display: inline-block !important; }
-.nido-flotante-cuidadores.editando .cartelito-invitacion-rol { display: none !important; }
-.menu-desplegable-roles { border: 2px solid #fef08a !important; background-color: #ffffff !important; }
-.menu-desplegable-roles button:hover { background-color: #fef9c3 !important; }
+.mini-sol-cuidador { 
+    background-color: #fef9c3 !important; 
+    color: #475569 !important; 
+    border: 2px solid #fef08a !important; 
+    padding: 10px 16px !important; 
+    border-radius: 30px !important; 
+    font-family: 'Comic Sans MS', sans-serif !important; 
+    font-size: 15px !important; 
+    font-weight: bold !important; 
+    cursor: pointer !important; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05) !important; 
+    transition: transform 0.2s !important; 
+}
+
+.input-cuidador-escondido {
+     display: none; 
+     background-color: #fef9c3 !important; 
+     color: #475569 !important; 
+     border: 2px solid #fef08a !important; 
+     padding: 10px 20px !important; 
+     border-radius: 30px !important; 
+     font-family: 'Comic Sans MS', sans-serif !important; 
+     font-size: 15px !important; 
+     font-weight: bold !important; 
+     outline: none !important; 
+     width: 180px !important; 
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important; 
+     box-sizing: border-box !important; 
+     text-align: center !important;
+     }
+
+.nido-flotante-cuidadores.editando .mini-sol-cuidador {
+     display: none !important;
+     }
+
+.nido-flotante-cuidadores.editando .input-cuidador-escondido { 
+    display: inline-block !important;
+ }
+
+.nido-flotante-cuidadores.editando .cartelito-invitacion-rol { 
+    display: none !important;
+ }
+
+.menu-desplegable-roles { 
+    border: 2px solid #fef08a !important; 
+    background-color: #ffffff !important;
+ }
+
+.menu-desplegable-roles button:hover {
+     background-color: #fef9c3 !important;
+     }
 
 
 /* ==========================================================================
@@ -296,25 +422,83 @@ body {
    ========================================================================== */
 
 /* --- 🟠 PANTALLA MEDICACIÓN: Borde Naranja, Centro Crema y Óvalos Verdes --- */
-.body-medicacion .contenedor-formulario { border: 3px dashed #ea580c !important; background: #fffbeb !important; }
-.body-medicacion .bloque-remedio-dinamico { background-color: #ffedd5 !important; border: 2px solid #fed7aa !important; }
-.body-medicacion .input-arcoiris { background-color: #f0fdf4 !important; border: 2px solid #4ade80 !important; border-radius: 50px !important; }
-.body-medicacion .input-arcoiris:focus { border-color: #22c55e !important; box-shadow: 0 0 8px rgba(34, 197, 94, 0.4) !important; }
-.body-medicacion .grupo-campo label { color: #475569 !important; }
+.body-medicacion .contenedor-formulario { 
+    border: 3px dashed #ea580c !important; 
+    background: #fffbeb !important;
+ }
+
+.body-medicacion .bloque-remedio-dinamico { 
+    background-color: #ffedd5 !important; 
+    border: 2px solid #fed7aa !important;
+ }
+
+.body-medicacion .input-arcoiris {
+     background-color: #f0fdf4 !important; 
+     border: 2px solid #4ade80 !important; 
+     border-radius: 50px !important;
+     }
+
+.body-medicacion .input-arcoiris:focus { 
+    border-color: #22c55e !important; 
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4) !important;
+ }
+
+.body-medicacion .grupo-campo label { 
+    color: #475569 !important; 
+ }
+
 
 /* --- 🟡 PANTALLA TURNOS: Borde Amarillo, Centro Crema y Óvalos Turquesas (UNISEX) --- */
-.body-turnos .contenedor-formulario { border: 3px dashed #eab308 !important; background: #fffdf5 !important; }
-.body-turnos .bloque-remedio-dinamico { background-color: #fef9c3 !important; border: 2px solid #fef08a !important; }
-.body-turnos .input-arcoiris { background-color: #ecfeff !important; border: 2px solid #22d3ee !important; border-radius: 50px !important; }
-.body-turnos .input-arcoiris:focus { border-color: #06b6d4 !important; box-shadow: 0 0 8px rgba(6, 182, 212, 0.4) !important; }
-.body-turnos .grupo-campo label { color: #713f12 !important; }
+.body-turnos .contenedor-formulario { 
+    border: 3px dashed #eab308 !important; 
+    background: #fffdf5 !important;
+  }
+
+.body-turnos .bloque-remedio-dinamico {
+     background-color: #fef9c3 !important; 
+     border: 2px solid #fef08a !important;
+     }
+
+.body-turnos .input-arcoiris { 
+    background-color: #ecfeff !important; 
+    border: 2px solid #22d3ee !important; 
+    border-radius: 50px !important;
+ }
+
+.body-turnos .input-arcoiris:focus {
+     border-color: #06b6d4 !important; 
+     box-shadow: 0 0 8px rgba(6, 182, 212, 0.4) !important;
+     }
+
+.body-turnos .grupo-campo label {
+     color: #713f12 !important;
+     }
 
 /* --- 🟢 PANTALLA VACUNAS: Borde Verde, Centro Verde Agua y Óvalos Lilas --- */
-.body-vacunas .contenedor-formulario { border: 3px dashed #16a34a !important; background: #f0fdf4 !important; }
-.body-vacunas .bloque-remedio-dinamico { background-color: #bbf7d0 !important; border: 2px solid #86efac !important; }
-.body-vacunas .input-arcoiris { background-color: #faf5ff !important; border: 2px solid #c084fc !important; border-radius: 50px !important; }
-.body-vacunas .input-arcoiris:focus { border-color: #a855f7 !important; box-shadow: 0 0 8px rgba(168, 85, 247, 0.4) !important; }
-.body-vacunas .grupo-campo label { color: #14532d !important; }
+.body-vacunas .contenedor-formulario { 
+    border: 3px dashed #16a34a !important; 
+    background: #f0fdf4 !important;
+ }
+
+.body-vacunas .bloque-remedio-dinamico { 
+    background-color: #bbf7d0 !important; 
+    border: 2px solid #86efac !important;
+ }
+
+.body-vacunas .input-arcoiris {
+     background-color: #faf5ff !important; 
+     border: 2px solid #c084fc !important; 
+     border-radius: 50px !important;
+     }
+
+.body-vacunas .input-arcoiris:focus {
+     border-color: #a855f7 !important; 
+     box-shadow: 0 0 8px rgba(168, 85, 247, 0.4) !important;
+     }
+
+.body-vacunas .grupo-campo label {
+     color: #14532d !important;
+     }
 
 /* --- 🍏 PANTALLA PERFIL: Borde Verde Manzana, Centro Crema y Óvalos Turquesas (UNISEX) --- */
 .body-perfil .contenedor-formulario { 
@@ -402,40 +586,128 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 /* ==========================================================================
    8. REGRESO DE LAS TABLAS DE RESULTADOS UNIFICADAS
    ========================================================================== */
-.tabla-responsiva { overflow-x: auto; margin-top: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); }
-.tabla-cuidados { width: 100%; border-collapse: collapse; background-color: #ffffff; }
-.tabla-cuidados th { background-color: #00b4d8; color: white; padding: 12px 10px; text-align: left; font-size: 0.95rem; }
-.tabla-cuidados td { padding: 12px 10px; border-bottom: 1px solid #e2e8f0; color: #334155; font-size: 0.9rem; }
-.tabla-cuidados tr:hover { background-color: #f8fafc; }
-.btn-borrar-tabla { background: transparent; border: none; cursor: pointer; font-size: 1.1rem; transition: transform 0.1s ease; }
-.btn-borrar-tabla:hover { transform: scale(1.2); }
-.celda-centrada { text-align: center; }
-.texto-proxima-dosis { color: #0284c7; font-weight: bold; }
-.tabla-medicaciones th { background-color: #f3e8ff; color: #6b21a8; padding: 12px 10px; font-weight: bold; border-bottom: 2px solid #e9d5ff; text-align: left; }
-.tabla-medicaciones td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; color: #334155; }
-.tabla-medicaciones td:nth-child(4), .tabla-medicaciones td:nth-child(2) { font-weight: bold; color: #9b5de5; }
-.btn-borrar-tratamiento { background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; font-weight: bold; }
+.tabla-responsiva {
+     overflow-x: auto; 
+     margin-top: 15px; 
+     border-radius: 8px; 
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+     }
+
+.tabla-cuidados {
+     width: 100%; 
+     border-collapse: collapse; 
+     background-color: #ffffff;
+     }
+
+.tabla-cuidados th {
+     background-color: #00b4d8; 
+     color: white; 
+     padding: 12px 10px; 
+     text-align: left; 
+     font-size: 0.95rem;
+     }
+
+.tabla-cuidados td {
+     padding: 12px 10px; 
+     border-bottom: 1px solid #e2e8f0; 
+     color: #334155; 
+     font-size: 0.9rem;
+     }
+
+.tabla-cuidados tr:hover {
+     background-color: #f8fafc;
+     }
+
+.btn-borrar-tabla {
+     background: transparent;
+     border: none;
+     cursor: pointer;
+     font-size: 1.1rem;
+     transition: transform 0.1s ease;
+         }
+
+.btn-borrar-tabla:hover {
+     transform: scale(1.2);
+     }
+
+.celda-centrada {
+     text-align: center;
+     }
+
+.texto-proxima-dosis {
+     color: #0284c7; 
+     font-weight: bold;
+     }
+
+.tabla-medicaciones th {
+     background-color: #f3e8ff; 
+     color: #6b21a8; 
+     padding: 12px 10px; 
+     font-weight: bold; 
+     border-bottom: 2px solid #e9d5ff; 
+     text-align: left;
+     font-size: 0.95rem;
+     }
+
+.tabla-medicaciones td {
+     padding: 12px 10px; 
+     border-bottom: 1px solid #f1f5f9; 
+     color: #334155;
+     font-size: 0.9rem;
+     }
+.tabla-medicaciones td:nth-child(4), .tabla-medicaciones td:nth-child(2) { 
+    font-weight: bold; 
+    color: #9b5de5;
+ }
+
+.btn-borrar-tratamiento {
+     background: none; 
+     border: none; 
+     color: #ef4444; 
+     font-size: 16px; 
+     cursor: pointer; 
+     font-weight: bold;
+     }
 
 /* ==========================================================================
    9. SECCIÓN DEFINITIVA DE BOTONES EN FILA SIMÉTRICA (ÓVALOS)
    ========================================================================== */
 .mis-botones-arcoiris {
-    display: flex !important; flex-direction: row !important; gap: 15px !important;
-    justify-content: center !important; align-items: center !important;
-    width: 100% !important; max-width: 480px !important; margin: 30px auto 0 auto !important;
+    display: flex !important; 
+    flex-direction: row !important; 
+    gap: 15px !important;
+    justify-content: center !important; 
+    align-items: center !important;
+    width: 100% !important; 
+    max-width: 480px !important; 
+    margin: 30px auto 0 auto !important;
 }
 
 .mis-botones-arcoiris button {
-    flex: 1 !important; width: 50% !important; padding: 12px 15px !important;
-    border-radius: 50px !important; font-family: inherit !important;
-    font-weight: bold !important; text-transform: uppercase !important;
-    font-size: 0.8rem !important; white-space: nowrap !important; cursor: pointer !important;
-    display: flex !important; align-items: center !important; justify-content: center !important;
-    gap: 6px !important; box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
+    flex: 1 !important; 
+    width: 50% !important; 
+    padding: 12px 15px !important;
+    border-radius: 50px !important; 
+    font-family: inherit !important;
+    font-weight: bold !important; 
+    text-transform: uppercase !important;
+    font-size: 0.8rem !important; 
+    white-space: nowrap !important; 
+    cursor: pointer !important;
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important;
+    gap: 6px !important; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
     transition: all 0.2s ease !important;
 }
 
-.mis-botones-arcoiris button:hover { filter: brightness(1.03) !important; transform: scale(1.02) !important; }
+.mis-botones-arcoiris button:hover {
+     filter: brightness(1.03) !important; 
+     transform: scale(1.02) !important;
+     box-shadow: 0 6px 15px rgba(0,0,0,0.08) !important;
+     }
 
 /* Botón individual de alta de perfil (Óvalo Lila a Celeste) */
 #form-perfil .btn-guardar-todo {
@@ -538,7 +810,9 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
     border: 4px solid #fd943e !important; 
     color: #16a34a !important;
 }
-.bloque-botones-idioma .btn-idioma.borde-es strong { color: #f97316 !important; }
+.bloque-botones-idioma .btn-idioma.borde-es strong {
+     color: #f97316 !important;
+     }
 
 /* 🇺🇸 2. INGLÉS: Relleno Amarillo ultra suave, borde amarillo y letras celestes */
 .bloque-botones-idioma .btn-idioma.borde-us {
@@ -547,7 +821,9 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
     border: 4px solid #fcdf3c !important; 
     color: #06b6d4 !important;
 }
-.bloque-botones-idioma .btn-idioma.borde-us strong { color: #eab308 !important; }
+.bloque-botones-idioma .btn-idioma.borde-us strong {
+     color: #eab308 !important;
+     }
 
 /* 🇧🇷 3. PORTUGUÉS: Relleno Rosa ultra suave, borde verde y letras FUCSIA OSCURO */
 .bloque-botones-idioma .btn-idioma.borde-br {
@@ -556,7 +832,9 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
     border: 4px solid #48ee39 !important; 
     color: #be185d !important; 
 }
-.bloque-botones-idioma .btn-idioma.borde-br strong { color: #16a34a !important; }
+.bloque-botones-idioma .btn-idioma.borde-br strong {
+     color: #16a34a !important;
+     }
 
 /* Animación sutil al pasar el mouse */
 .bloque-botones-idioma .btn-idioma:hover { 

@@ -99,13 +99,24 @@ function irA(pagina) {
 function activarEdicionRol() {
     const contenedor = document.getElementById("contenedor-cuidador");
     const inputOculto = document.getElementById("input-rol-oculto");
+    const cartel = contenedor?.querySelector(".cartelito-invitacion-rol");
 
-    if (contenedor && inputOculto) {
+    if (!contenedor || !inputOculto) return;
+
+    // Mostrar el cartelito
+    if (cartel) {
+        cartel.classList.add("mostrar");
+    }
+
+    // Esperar 2 segundos antes de abrir el input
+    setTimeout(() => {
+        if (cartel) cartel.classList.remove("mostrar");
+
         contenedor.classList.add("editando");
         inputOculto.value = rolActivo;
         inputOculto.focus();
         inputOculto.select();
-    }
+    }, 2000);
 }
 
 function guardarRolDesdeInput(valor) {
