@@ -110,13 +110,14 @@ function activarEdicionRol() {
 
     // Esperar 2 segundos antes de abrir el input
     setTimeout(() => {
+
         if (cartel) cartel.classList.remove("mostrar");
 
         contenedor.classList.add("editando");
         inputOculto.value = rolActivo;
         inputOculto.focus();
         inputOculto.select();
-    }, 2000);
+    }, 3000);
 }
 
 function guardarRolDesdeInput(valor) {
@@ -965,7 +966,7 @@ function dibujarSolapasPeques() {
                 if (confirm(pregunta)) {
                     eliminarPeque(index); // Ejecuta tu función nativa de borrar
                 }
-            }, 1200); // 1.2 segundos manteniendo apretado activa el borrado
+            }, 3000); // 3 segundos manteniendo apretado activa el borrado
         };
 
         // Si suelta antes de tiempo, se cancela el borrado y cuenta como clic normal
