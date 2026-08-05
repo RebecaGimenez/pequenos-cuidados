@@ -79,15 +79,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (document.getElementById("form-perfil")) {
-        actualizarListaPequesVisual();
-        document.getElementById("form-perfil").addEventListener("submit", (e) => {
+
+       document.getElementById("form-perfil").addEventListener("submit", (e) => {
             e.preventDefault();
             guardarPerfilPeque();
         });
+        
+        cargarPequeParaEditar();
     }
+
 
     traducirTodaLaAplicacion();
     actualizarMensajeBienvenida();
+    mostrarListaPeques();
 });
 // ==========================================
 // 2. NAVEGACIÓN, LÓGICA DEL CUIDADOR Y SALUDOS
@@ -117,7 +121,7 @@ function activarEdicionRol() {
         inputOculto.value = rolActivo;
         inputOculto.focus();
         inputOculto.select();
-    }, 3000);
+    }, 2000);
 }
 
 function guardarRolDesdeInput(valor) {
@@ -159,7 +163,7 @@ function actualizarMensajeBienvenida() {
     const rolMinuscula = rolActivo.toLowerCase();
 
     if (idioma === "en") {
-        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "✨ Hi mommy!";
+        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "⭐ Hi mommy!";
         else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = "⚡ Hi daddy!";
         else saludoBase = `👋 Hi ${rolActivo}!`;
 
@@ -170,7 +174,7 @@ function actualizarMensajeBienvenida() {
 
     } else if (idioma === "pt") {
 
-        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "✨ Olá mamãe!";
+        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "⭐ Olá mamãe!";
         else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = "⚡ Olá papai!";
         else saludoBase = `👋 Olá ${rolActivo}!`;
 
@@ -181,7 +185,7 @@ function actualizarMensajeBienvenida() {
 
     } else {
 
-        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "✨ ¡Hola mami!";
+        if (rolMinuscula === "mamá" || rolMinuscula === "mami") saludoBase = "⭐ ¡Hola mami!";
         else if (rolMinuscula === "papá" || rolMinuscula === "papi") saludoBase = "⚡ ¡Hola papá!";
         else saludoBase = `👋 ¡Hola ${rolActivo}!`;
 
@@ -584,180 +588,865 @@ function dibujarSolapasPeques() {
         contenedor.appendChild(boton);
     });
 }
-
 function agregarBloqueRemedioHtml() {
     const contenedor = document.getElementById("lista-bloques-remedios");
     if (!contenedor) return;
+
     const idUnico = Date.now();
     const cantidadBloques = contenedor.children.length;
+
     const divBloque = document.createElement("div");
+
     divBloque.className = "bloque-remedio-dinamico";
     divBloque.id = `bloque-${idUnico}`;
-    let nom = "Nombre del medicamento 💊", dos = "Dosis 💉", fre = "¿Cada cuántas horas? ⏳", dia = "¿Por cuántos días? 📅", ini = "Hora de inicio ⏰";
-    let pNom = "Ej: Paracetamol", pDos = "Ej: 10 gotas", pFre = "Ej: 8", pDia = "Ej: 7";
+
+    let nom = "Nombre del medicamento 💊";
+    let dos = "Dosis 💉";
+    let tipo = "Tipo de tratamiento 🔄";
+    let simple = "💊 Tratamiento simple";
+    let progresivo = "🔄 Tratamiento progresivo";
+    let continuo = "♾️ Tratamiento continuo";
+    let fre = "¿Cada cuántas horas? ⏳";
+    let dia = "¿Por cuántos días? 📅";
+    let ini = "Hora de inicio ⏰";
+
+    let pNom = "Ej: Paracetamol";
+    let pDos = "Ej: 10 gotas";
+    let pFre = "Ej: 8";
+    let pDia = "Ej: 7";
+
     if (idiomaApp === "en") {
+
         const idioma = diccionarioTraducciones.en;
-        nom = idioma["label-med-nom"]; dos = idioma["label-med-dos"]; fre = idioma["label-med-fre"]; dia = idioma["label-med-dia"]; ini = idioma["label-med-ini"];
-        pNom = idioma["place-med-nom"]; pDos = idioma["place-med-dos"]; pFre = idioma["place-med-fre"]; pDia = idioma["place-med-dia"];
+
+        nom = idioma["label-med-nom"];
+        dos = idioma["label-med-dos"];
+        fre = idioma["label-med-fre"];
+        dia = idioma["label-med-dia"];
+        ini = idioma["label-med-ini"];
+
+        pNom = idioma["place-med-nom"];
+        pDos = idioma["place-med-dos"];
+        pFre = idioma["place-med-fre"];
+        pDia = idioma["place-med-dia"];
+
     } else if (idiomaApp === "pt") {
+
         const idioma = diccionarioTraducciones.pt;
-        nom = idioma["label-med-nom"]; dos = idioma["label-med-dos"]; fre = idioma["label-med-fre"]; dia = idioma["label-med-dia"]; ini = idioma["label-med-ini"];
-        pNom = idioma["place-med-nom"]; pDos = idioma["place-med-dos"]; pFre = idioma["place-med-fre"]; pDia = idioma["place-med-dia"];
+
+        nom = idioma["label-med-nom"];
+        dos = idioma["label-med-dos"];
+        fre = idioma["label-med-fre"];
+        dia = idioma["label-med-dia"];
+        ini = idioma["label-med-ini"];
+
+        pNom = idioma["place-med-nom"];
+        pDos = idioma["place-med-dos"];
+        pFre = idioma["place-med-fre"];
+        pDia = idioma["place-med-dia"];
     }
+
     divBloque.innerHTML = `
-        ${cantidadBloques > 0 ? `<button type="button" class="btn-eliminar-bloque" onclick="eliminarBloqueRemedio(${idUnico})">🗑️</button>` : ''}
-        <div class="grupo-campo"><label>${nom}</label><input type="text" class="input-arcoiris input-remedio" placeholder="${pNom}" required></div>
-        <div class="grupo-campo"><label>${dos}</label><input type="text" class="input-arcoiris input-dosis" placeholder="${pDos}" required></div>
-        <div class="grupo-campo"><label>${fre}</label><input type="number" class="input-arcoiris input-frecuencia" min="1" max="24" placeholder="${pFre}" required></div>
-        <div class="grupo-campo"><label>${dia}</label><input type="number" class="input-arcoiris input-dias" min="1" max="30" placeholder="${pDia}" required></div>
-        <div class="grupo-campo"><label>${ini}</label><input type="time" class="input-arcoiris input-hora" required></div>
+
+        ${cantidadBloques > 0 
+            ? `<button 
+                type="button" 
+                class="btn-eliminar-bloque" 
+                onclick="eliminarBloqueRemedio(${idUnico})">
+                🗑️
+            </button>` 
+            : ''
+        }
+
+        <div class="grupo-campo">
+            <label>${nom}</label>
+            <input 
+                type="text" 
+                class="input-arcoiris input-remedio" 
+                placeholder="${pNom}" 
+                required>
+        </div>
+
+        <div class="grupo-campo">
+            <label>${dos}</label>
+            <input 
+                type="text" 
+                class="input-arcoiris input-dosis" 
+                placeholder="${pDos}" 
+                required>
+        </div>
+
+        <div class="grupo-campo">
+            <label>${tipo}</label>
+
+            <select 
+                class="input-arcoiris input-tipo-tratamiento"
+                onchange="cambiarTipoTratamiento(this, ${idUnico})">
+
+                <option value="simple">
+                    ${simple}
+                </option>
+
+                <option value="progresivo">
+                    ${progresivo}
+                </option>
+
+                <option value="continuo">
+                    ${continuo}
+                </option>
+
+            </select>
+        </div>
+
+        <div id="campos-tratamiento-${idUnico}">
+
+            <div class="grupo-campo">
+                <label>${fre}</label>
+
+                <input 
+                    type="number" 
+                    class="input-arcoiris input-frecuencia" 
+                    min="1" 
+                    max="24" 
+                    placeholder="${pFre}" 
+                    required>
+            </div>
+
+            <div class="grupo-campo">
+                <label>${dia}</label>
+
+                <input 
+                    type="number" 
+                    class="input-arcoiris input-dias" 
+                    min="1" 
+                    max="365" 
+                    placeholder="${pDia}" 
+                    required>
+            </div>
+
+            <div class="grupo-campo">
+                <label>${ini}</label>
+
+                <input 
+                    type="time" 
+                    class="input-arcoiris input-hora" 
+                    required>
+            </div>
+
+        </div>
+
     `;
+
     contenedor.appendChild(divBloque);
 }
 
-function eliminarBloqueRemedio(id) {
-    const bloque = document.getElementById(`bloque-${id}`);
-    if (bloque) bloque.remove();
+function cambiarTipoTratamiento(select, idUnico) {
+
+    const contenedor = document.getElementById(`campos-tratamiento-${idUnico}`);
+
+    if (!contenedor) return;
+
+    const tipoSeleccionado = select.value;
+
+    // 💊 TRATAMIENTO SIMPLE
+    if (tipoSeleccionado === "simple") {
+
+        contenedor.innerHTML = `
+            <div class="grupo-campo">
+                <label>¿Cada cuántas horas? ⏳</label>
+
+                <input 
+                    type="number" 
+                    class="input-arcoiris input-frecuencia" 
+                    min="1" 
+                    max="24" 
+                    placeholder="Ej: 8" 
+                    required>
+            </div>
+
+            <div class="grupo-campo">
+                <label>¿Por cuántos días? 📅</label>
+
+                <input 
+                    type="number" 
+                    class="input-arcoiris input-dias" 
+                    min="1" 
+                    max="365" 
+                    placeholder="Ej: 7" 
+                    required>
+            </div>
+
+            <div class="grupo-campo">
+                <label>Hora de inicio ⏰</label>
+
+                <input 
+                    type="time" 
+                    class="input-arcoiris input-hora" 
+                    required>
+            </div>
+        `;
+
+    }
+
+    // 🔄 TRATAMIENTO PROGRESIVO
+    else if (tipoSeleccionado === "progresivo") {
+
+        contenedor.innerHTML = `
+
+            <div class="grupo-campo">
+                <label>Hora de inicio ⏰</label>
+
+                <input 
+                    type="time" 
+                    class="input-arcoiris input-hora" 
+                    required>
+            </div>
+
+            <div class="etapas-tratamiento" id="etapas-${idUnico}">
+
+                <div class="etapa-tratamiento">
+
+                    <h4>🔄 Etapa 1</h4>
+
+                    <div class="grupo-campo">
+                        <label>¿Cada cuántas horas? ⏳</label>
+
+                        <input 
+                            type="number" 
+                            class="input-arcoiris input-frecuencia-etapa" 
+                            min="1" 
+                            max="24" 
+                            placeholder="Ej: 4" 
+                            required>
+                    </div>
+
+                    <div class="grupo-campo">
+                        <label>¿Por cuántos días? 📅</label>
+
+                        <input 
+                            type="number" 
+                            class="input-arcoiris input-dias-etapa" 
+                            min="1" 
+                            max="365" 
+                            placeholder="Ej: 2" 
+                            required>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button 
+                type="button" 
+                class="btn-agregar-arcoiris"
+                onclick="agregarEtapaTratamiento(${idUnico})">
+
+                ➕ Agregar etapa
+
+            </button>
+
+        `;
+
+    }
+
+    // ♾️ TRATAMIENTO CONTINUO
+    else if (tipoSeleccionado === "continuo") {
+
+        contenedor.innerHTML = `
+
+            <div class="grupo-campo">
+                <label>¿Cada cuántas horas? ⏳</label>
+
+                <input 
+                    type="number" 
+                    class="input-arcoiris input-frecuencia" 
+                    min="1" 
+                    max="24" 
+                    placeholder="Ej: 8" 
+                    required>
+            </div>
+
+            <div class="grupo-campo">
+                <label>Hora de inicio ⏰</label>
+
+                <input 
+                    type="time" 
+                    class="input-arcoiris input-hora" 
+                    required>
+            </div>
+
+            <p class="mensaje-tratamiento-continuo">
+                ♾️ Este tratamiento no tiene una fecha de finalización.
+                Pequeños Cuidados te ayudará a recordar cada toma.
+            </p>
+
+        `;
+
+    }
+
 }
 
+function agregarEtapaTratamiento(idUnico) {
+
+    const contenedorEtapas = document.getElementById(`etapas-${idUnico}`);
+
+    if (!contenedorEtapas) return;
+
+    const cantidadEtapas = contenedorEtapas.querySelectorAll(".etapa-tratamiento").length;
+
+    // 🔒 Máximo 10 etapas
+    if (cantidadEtapas >= 10) {
+        alert("⚠️ El tratamiento puede tener un máximo de 10 etapas.");
+        return;
+    }
+
+    const numeroEtapa = cantidadEtapas + 1;
+
+    const nuevaEtapa = document.createElement("div");
+
+    nuevaEtapa.className = "etapa-tratamiento";
+
+    nuevaEtapa.innerHTML = `
+
+       <div class="encabezado-etapa">
+
+            <h4>🔄 Etapa ${numeroEtapa}</h4>
+
+               <button 
+                     type="button"
+                     class="btn-eliminar-etapa"
+                     onclick="eliminarEtapaTratamiento(this)"
+                     style="margin-left: auto;">
+                       🗑️
+                 </button>
+
+         </div>
+
+        <div class="grupo-campo">
+
+            <label>¿Cada cuántas horas? ⏳</label>
+
+            <input 
+                type="number"
+                class="input-arcoiris input-frecuencia-etapa"
+                min="1"
+                max="24"
+                placeholder="Ej: 6"
+                required>
+
+        </div>
+
+        <div class="grupo-campo">
+
+            <label>¿Por cuántos días? 📅</label>
+
+            <input 
+                type="number"
+                class="input-arcoiris input-dias-etapa"
+                min="1"
+                max="365"
+                placeholder="Ej: 2"
+                required>
+
+        </div>
+
+    `;
+
+    contenedorEtapas.appendChild(nuevaEtapa);
+
+    // 🔢 Actualizamos los números de las etapas
+    actualizarNumerosEtapas(contenedorEtapas);
+}
+
+
+function eliminarEtapaTratamiento(boton) {
+
+    const etapa = boton.closest(".etapa-tratamiento");
+
+    if (!etapa) return;
+
+    etapa.remove();
+
+    // 🔢 Volvemos a numerar las etapas
+    const contenedorEtapas = etapa.parentElement;
+
+    actualizarNumerosEtapas(contenedorEtapas);
+}
+
+
+function actualizarNumerosEtapas(contenedorEtapas) {
+
+    const etapas = contenedorEtapas.querySelectorAll(".etapa-tratamiento");
+
+    etapas.forEach((etapa, indice) => {
+
+        const titulo = etapa.querySelector("h4");
+
+        if (titulo) {
+            titulo.innerText = `🔄 Etapa ${indice + 1}`;
+        }
+
+    });
+
+}
+
+function eliminarBloqueRemedio(id) {
+
+    const bloque = document.getElementById(`bloque-${id}`);
+
+    if (bloque) {
+        bloque.remove();
+    }
+}
 // ==========================================
 // 6. LÓGICA DE MEDICACIONES MÚLTIPLES (CON FIRMA DE PERFIL ÚNICO)
 // ==========================================
 function guardarTodasLasMedicaciones() {
-    // 🌟 CONTROL: Si no hay un nene activo seleccionado, no dejamos guardar datos vacíos
+
+    // 👶 Debe existir un peque activo
     if (!pequeActivo) {
-        alert(idiomaApp === "en" ? "⚠️ Please create or select a child profile first!" : (idiomaApp === "pt" ? "⚠️ Por favor, crie ou selecione o perfil de um bebê primeiro!" : "⚠️ ¡Por favor, crea o selecciona el perfil de un peque primero antes de guardar!"));
+        alert(
+            idiomaApp === "en"
+                ? "⚠️ Please create or select a child profile first!"
+                : idiomaApp === "pt"
+                    ? "⚠️ Por favor, crie ou selecione o perfil de um bebê primeiro!"
+                    : "⚠️ ¡Por favor, crea o selecciona el perfil de un peque primero antes de guardar!"
+        );
         return;
     }
 
-    const bloques = document.querySelectorAll("#lista-bloques-remedios .bloque-remedio-dinamico");
-    // 🌟 CLAVE: La bolsa ahora es exclusiva del nene activo (ej: Emma_medicaciones)
+    const bloques = document.querySelectorAll(
+        "#lista-bloques-remedios .bloque-remedio-dinamico"
+    );
+
+    if (bloques.length === 0) {
+        alert("⚠️ No hay ninguna medicación para guardar.");
+        return;
+    }
+
+    // 👶 Cada peque tiene su propia lista
     const claveHistorial = pequeActivo + "_medicaciones";
-    let listaMedicaciones = JSON.parse(localStorage.getItem(claveHistorial)) || [];
+
+    // 📦 Recuperamos TODO lo que ya estaba guardado
+    const medicacionesAnteriores =
+        JSON.parse(localStorage.getItem(claveHistorial)) || [];
+
+    // 🆕 Creamos una lista temporal para las nuevas medicaciones
+    const nuevasMedicaciones = [];
+
     let errores = false;
 
     bloques.forEach(bloque => {
-        const remedio = bloque.querySelector(".input-remedio").value;
-        const dosis = bloque.querySelector(".input-dosis").value;
-        const frecuencia = bloque.querySelector(".input-frecuencia").value;
-        const dias = bloque.querySelector(".input-dias").value;
-        const hora = bloque.querySelector(".input-hora").value;
-        if (!remedio || !dosis || !frecuencia || !dias || !hora) { errores = true; return; }
-        listaMedicaciones.push({ id: Date.now() + Math.random(), remedio: remedio, dosis: dosis, frecuenciaHoras: parseInt(frecuencia), diasDuracion: parseInt(dias), horaInicio: hora });
-    });
 
-    if (errores) { alert("⚠️ Por favor, completa todos los casilleros."); return; }
-    localStorage.setItem(claveHistorial, JSON.stringify(listaMedicaciones));
-    
-    if (idiomaApp === "en") {
-        alert(`✨ Medication saved for ${pequeActivo}!\n\n🔔 We will remind you at the exact time of each dose.\n\n💪 Let's go! 🤗`);
-    } else if (idiomaApp === "pt") {
-        alert(`✨ Medicação salva para ${pequeActivo}!\n\n🔔 Vamos avisar você no horário exato de cada dose.\n\n💪 Vamos lá! 🤗`);
-    } else {
-        alert(`✨ ¡Medicación guardada para ${pequeActivo}!\n\n🔔 Te vamos a avisar de forma automática al horario exacto de cada dosis.\n\n💪 ¡Vamos ${rolActivo}! 🤗`);
-    }
+        const remedio =
+            bloque.querySelector(".input-remedio")?.value.trim();
 
-    // 🌟 LOGRADO: Esto es lo que le faltaba a tu código para limpiar la pantalla y dibujar la tabla al instante
-    const listaBloques = document.getElementById("lista-bloques-remedios");
-    if (listaBloques) { 
-        listaBloques.innerHTML = ""; 
-        agregarBloqueRemedioHtml(); // Vuelve a fabricar el primer casillero en blanco
-    }
-    actualizarListaVisual(); // Enciende la fila en la grilla sin salir de la nube
-}
+        const dosis =
+            bloque.querySelector(".input-dosis")?.value.trim();
+
+        const tipoTratamiento =
+            bloque.querySelector(".input-tipo-tratamiento")?.value;
+
+        const horaInicio =
+            bloque.querySelector(".input-hora")?.value;
 
 
-function actualizarListaVisual() {
-    const claveHistorial = pequeActivo + "_medicaciones";
-    const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
-    const contenedorLista = document.getElementById("contenedor-lista-medicaciones");
-    const cuerpoTabla = document.getElementById("tabla-cuerpo-remedios");
-    if (!contenedorLista || !cuerpoTabla) return;
-    if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
-    
-    contenedorLista.style.display = "block"; 
-    cuerpoTabla.innerHTML = "";
-    
-    lista.forEach(item => {
-        const [h, m] = item.horaInicio.split(":").map(Number);
-        
-        let proxima = new Date(); proxima.setHours(h, m, 0, 0); 
-        let ahora = new Date();
-        
-        // Calculamos la fecha exacta de vencimiento sumando los días de duración
-        let fechaVencimiento = new Date(proxima.getTime());
-        fechaVencimiento.setDate(fechaVencimiento.getDate() + item.diasDuracion);
-        
-        let avisoAlarma = "";
-        let claseEstadoAlarma = "";
-        
-        // CONTROL DE CORTE DE ALARMA: Comparamos si ya superó la fecha de fin
-        if (ahora > fechaVencimiento) {
-            avisoAlarma = idiomaApp === "en" ? "Finished! 🎉" : (idiomaApp === "pt" ? "Concluído! 🎉" : "¡Terminado! 🎉");
-            claseEstadoAlarma = "celda-alarma-terminada"; // 🌟 LOGRADO: Clase pura de CSS verde
-        } else {
-           if (proxima < ahora) proxima.setHours(proxima.getHours() + item.frecuenciaHoras);
-            const horaFormateada = proxima.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-            avisoAlarma = horaFormateada;
-        claseEstadoAlarma = "celda-alarma-activa";
+        // Datos básicos obligatorios
+        if (!remedio || !dosis || !tipoTratamiento || !horaInicio) {
+            errores = true;
+            return;
         }
-        
-        let textoCada = `Cada ${item.frecuenciaHoras}hs`;
-        if (idiomaApp === "en") textoCada = `Every ${item.frecuenciaHoras}hs`;
-        else if (idiomaApp === "pt") textoCada = `A cada ${item.frecuenciaHoras}hs`;
-        
-        const fila = document.createElement("tr");
-        // 🌟 LIMPIO: Inyectamos la variable claseEstadoAlarma directo en la etiqueta td sin style="..."
-        fila.innerHTML = `
-            <td><strong>${item.remedio}</strong></td>
-            <td>${item.dosis}</td>
-            <td>${textoCada}</td>
-            <td class="${claseEstadoAlarma}">${avisoAlarma}</td>
-            <td class="celda-centrada">
-                <button class="btn-borrar-tabla" onclick="eliminarMedicionGuardada(${item.id})">🗑️</button>
-            </td>
-        `;
-        cuerpoTabla.appendChild(fila);
+
+
+        // 💊 TRATAMIENTO SIMPLE
+        if (tipoTratamiento === "simple") {
+
+            const frecuencia =
+                bloque.querySelector(".input-frecuencia")?.value;
+
+            const dias =
+                bloque.querySelector(".input-dias")?.value;
+
+
+            if (!frecuencia || !dias) {
+                errores = true;
+                return;
+            }
+
+
+            nuevasMedicaciones.push({
+
+                id: crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : Date.now() + Math.random(),
+
+                remedio: remedio,
+
+                dosis: dosis,
+
+                tipoTratamiento: "simple",
+
+                frecuenciaHoras: parseInt(frecuencia),
+
+                diasDuracion: parseInt(dias),
+
+                horaInicio: horaInicio
+
+            });
+
+        }
+
+
+        // 🔄 TRATAMIENTO PROGRESIVO
+        else if (tipoTratamiento === "progresivo") {
+
+            const etapas =
+                bloque.querySelectorAll(".etapa-tratamiento");
+
+
+            const listaEtapas = [];
+
+
+            etapas.forEach(etapa => {
+
+                const frecuencia =
+                    etapa.querySelector(".input-frecuencia-etapa")?.value;
+
+                const dias =
+                    etapa.querySelector(".input-dias-etapa")?.value;
+
+
+                if (!frecuencia || !dias) {
+                    errores = true;
+                    return;
+                }
+
+
+                listaEtapas.push({
+
+                    frecuenciaHoras:
+                        parseInt(frecuencia),
+
+                    diasDuracion:
+                        parseInt(dias)
+
+                });
+
+            });
+
+
+            if (listaEtapas.length === 0) {
+                errores = true;
+                return;
+            }
+
+
+            nuevasMedicaciones.push({
+
+                id: crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : Date.now() + Math.random(),
+
+                remedio: remedio,
+
+                dosis: dosis,
+
+                tipoTratamiento: "progresivo",
+
+                horaInicio: horaInicio,
+
+                etapas: listaEtapas
+
+            });
+
+        }
+
+
+        // ♾️ TRATAMIENTO CONTINUO
+        else if (tipoTratamiento === "continuo") {
+
+            const frecuencia =
+                bloque.querySelector(".input-frecuencia")?.value;
+
+
+            if (!frecuencia) {
+                errores = true;
+                return;
+            }
+
+
+            nuevasMedicaciones.push({
+
+                id: crypto.randomUUID
+                    ? crypto.randomUUID()
+                    : Date.now() + Math.random(),
+
+                remedio: remedio,
+
+                dosis: dosis,
+
+                tipoTratamiento: "continuo",
+
+                frecuenciaHoras:
+                    parseInt(frecuencia),
+
+                horaInicio: horaInicio
+
+            });
+
+        }
+
     });
-}
 
 
-function eliminarMedicionGuardada(id) {
-    const claveHistorial = pequeActivo + "_medicaciones";
-    let lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
-    lista = lista.filter(item => item.id !== id);
-    localStorage.setItem(claveHistorial, JSON.stringify(lista));
+    // 🛑 Si alguna medicación está incompleta,
+    // NO modificamos lo que ya estaba guardado
+    if (errores) {
+
+        alert(
+            idiomaApp === "en"
+                ? "⚠️ Please complete all required fields."
+                : idiomaApp === "pt"
+                    ? "⚠️ Por favor, preencha todos os campos obrigatórios."
+                    : "⚠️ Por favor, completa todos los campos obligatorios."
+        );
+
+        return;
+    }
+
+
+    // 💾 MUY IMPORTANTE:
+    // Conservamos las medicaciones anteriores
+    // y agregamos las nuevas
+    const listaFinal =
+        [...medicacionesAnteriores, ...nuevasMedicaciones];
+
+
+    // 👶 Guardamos todo en la bolsa del peque activo
+    localStorage.setItem(
+        claveHistorial,
+        JSON.stringify(listaFinal)
+    );
+
+
+    // 💟 MENSAJE
+    if (idiomaApp === "en") {
+
+        alert(
+            `✨ Medication saved for ${pequeActivo}!\n\n` +
+            `💟 Pequeños Cuidados is here to accompany you throughout the time you need us.\n\n` +
+            `💪 You've got this! 🤗`
+        );
+
+    } else if (idiomaApp === "pt") {
+
+        alert(
+            `✨ Medicação salva para ${pequeActivo}!\n\n` +
+            `💟 Pequeños Cuidados está aqui para acompanhar você durante todo o tempo que precisar.\n\n` +
+            `💪 Você consegue! 🤗`
+        );
+
+    } else {
+
+        alert(
+            `✨ ¡Medicación guardada para ${pequeActivo}!\n\n` +
+            `💟 Pequeños Cuidados está para acompañarlos durante todo el tiempo que nos necesiten.\n\n` +
+            `💪 ¡Vamos juntos! 🤗`
+        );
+
+    }
+
+
+    // 🧹 Limpiamos los formularios
+    const listaBloques =
+        document.getElementById("lista-bloques-remedios");
+
+    if (listaBloques) {
+
+        listaBloques.innerHTML = "";
+
+        agregarBloqueRemedioHtml();
+
+    }
+
+
+    // 🔄 Actualizamos la visualización
     actualizarListaVisual();
 }
 
-// ==========================================
-// 7. RENDERIZADO DE TABLAS VISUALES (TURNOS Y VACUNAS CON GIRO DE FECHA)
-// ==========================================
-function actualizarListaTurnosVisual() {
-    const claveHistorial = pequeActivo + "_turnos";
-    const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
-    const contenedorLista = document.getElementById("contenedor-lista-turnos");
-    const cuerpoTabla = document.getElementById("tabla-cuerpo-turnos");
-    if (!contenedorLista || !cuerpoTabla) return;
-    if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
-    
-    contenedorLista.style.display = "block"; 
-    cuerpoTabla.innerHTML = "";
-    
+function actualizarListaVisual() {
+
+    const claveHistorial = pequeActivo + "_medicaciones";
+
+    const lista = pequeActivo
+        ? (JSON.parse(localStorage.getItem(claveHistorial)) || [])
+        : [];
+
+    const contenedorLista =
+        document.getElementById("contenedor-lista-medicaciones");
+
+    const contenedorTarjetas =
+        document.getElementById("contenedor-tarjetas-medicaciones");
+
+    if (!contenedorLista || !contenedorTarjetas) return;
+
+    // Si no hay medicamentos, ocultamos la sección
+    if (lista.length === 0) {
+
+        contenedorLista.style.display = "none";
+
+        return;
+    }
+
+    // Mostramos la sección
+    contenedorLista.style.display = "block";
+
+    // Limpiamos las tarjetas anteriores
+    contenedorTarjetas.innerHTML = "";
+
+
+    // Creamos una tarjeta por cada medicación
     lista.forEach(item => {
-        // 🌟 LOGRADO: Da vuelta la fecha de Año-Mes-Día a Día/Mes/Año de forma infalible
-        const fechaFormateada = item.fecha.split("-").reverse().join("/");
-        const fila = document.createElement("tr");
-        fila.innerHTML = `<td><strong>${item.medico}</strong></td><td>${fechaFormateada}</td><td>${item.hora} hs</td><td>${item.lugar}</td><td class="celda-centrada"><button class="btn-borrar-tabla" onclick="eliminarTurnoGuardado(${item.id})">🗑️</button></td>`;
-        cuerpoTabla.appendChild(fila);
+
+        let textoTipo = "";
+        let textoFrecuencia = "";
+
+
+        // 💊 TRATAMIENTO SIMPLE
+        if (item.tipoTratamiento === "simple") {
+
+            textoTipo = "💊 Tratamiento simple";
+
+            textoFrecuencia =
+                `Cada ${item.frecuenciaHoras} horas`;
+
+        }
+
+
+        // 🔄 TRATAMIENTO PROGRESIVO
+        else if (item.tipoTratamiento === "progresivo") {
+
+            textoTipo = "🔄 Tratamiento progresivo";
+
+            textoFrecuencia =
+                item.etapas
+                    .map(
+                        (etapa, indice) =>
+                            `Etapa ${indice + 1}: cada ${etapa.frecuenciaHoras} horas durante ${etapa.diasDuracion} días`
+                    )
+                    .join("<br><br>");
+
+        }
+
+
+        // ♾️ TRATAMIENTO CONTINUO
+        else if (item.tipoTratamiento === "continuo") {
+
+            textoTipo = "♾️ Tratamiento continuo";
+
+            textoFrecuencia =
+                `Cada ${item.frecuenciaHoras} horas`;
+
+        }
+
+
+        // 🃏 Creamos la tarjeta
+        const tarjeta =
+            document.createElement("div");
+
+        tarjeta.className =
+            "tarjeta-medicacion";
+
+
+        tarjeta.innerHTML = `
+
+            <div class="encabezado-tarjeta-medicacion">
+
+                <h3>
+                    💊 ${item.remedio}
+                </h3>
+
+            </div>
+
+
+            <div class="contenido-tarjeta-medicacion">
+
+                <p>
+                    <strong>💉 Dosis:</strong>
+                    ${item.dosis}
+                </p>
+
+                <p>
+                    <strong>📋 Tratamiento:</strong>
+                    ${textoTipo}
+                </p>
+
+                <p>
+                    <strong>⏰ Frecuencia:</strong><br>
+                    ${textoFrecuencia}
+                </p>
+
+                <p>
+                    <strong>🔔 Hora de inicio:</strong>
+                    ${item.horaInicio}
+                </p>
+
+            </div>
+
+
+            <div class="acciones-tarjeta-medicacion">
+
+                <button
+                    type="button"
+                    class="btn-borrar-tarjeta"
+                    onclick="eliminarMedicionGuardada('${item.id}')">
+
+                    🗑️ Eliminar
+
+                </button>
+
+            </div>
+
+        `;
+
+
+        contenedorTarjetas.appendChild(tarjeta);
+
     });
+
+}
+
+function eliminarMedicionGuardada(id) {
+
+    const claveHistorial =
+        pequeActivo + "_medicaciones";
+
+    let lista =
+        JSON.parse(localStorage.getItem(claveHistorial)) || 
+        
+        [];
+
+
+    lista =
+        lista.filter(item => String (item.id) !== 
+        String(id));
+
+
+    localStorage.setItem(
+        claveHistorial,
+        JSON.stringify(lista)
+    );
+
+
+    actualizarListaVisual();
+
 }
 
 function actualizarListaVacunasVisual() {
     const claveHistorial = pequeActivo + "_vacunas";
     const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
     const contenedorLista = document.getElementById("contenedor-lista-vacunas");
-    const cuerpoTabla = document.getElementById("tabla-cuerpo-vacunas");
+    const cuerpoTabla = document.getElementById("contenedor-tarjeta-vacunas");
     if (!contenedorLista || !cuerpoTabla) return;
     if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
     
@@ -765,38 +1454,103 @@ function actualizarListaVacunasVisual() {
     cuerpoTabla.innerHTML = "";
     
     lista.forEach(item => {
-        // 🌟 LOGRADO: Da vuelta las fechas de aplicación y próxima dosis sin usar corchetes tramposos
+      
         const fechaFormateada = item.fecha.split("-").reverse().join("/");
         const proximaFormateada = item.proxima.split("-").reverse().join("/");
         
-        const fila = document.createElement("tr");
-        fila.innerHTML = `<td><strong>${item.nombre}</strong></td><td>${fechaFormateada}</td><td class="texto-proxima-dosis">📅 ${proximaFormateada}</td><td class="celda-centrada"><button class="btn-borrar-tabla" onclick="eliminarVacunaGuardada(${item.id})">🗑️</button></td>`;
-        cuerpoTabla.appendChild(fila);
+       const tarjeta = document.createElement("div");
+
+             tarjeta.className = "tarjeta-medicacion";
+
+             tarjeta.innerHTML = `
+
+            <div class="encabezado-tarjeta-medicacion">
+
+              <h3>💉 ${item.nombre}</h3>
+
+               </div>
+
+            <div class="contenido-tarjeta-medicacion">
+
+              <p><strong>📅 Aplicada:</strong> ${fechaFormateada}</p>
+
+             <p><strong>🔔 Próxima:</strong> ${proximaFormateada}</p>
+
+             </div>
+
+         <div class="acciones-tarjeta-medicacion">
+
+    <button
+        class="btn-borrar-tarjeta"
+        onclick="eliminarVacunaGuardada(${item.id})">
+
+        🗑️ Eliminar
+
+    </button>
+
+</div>
+
+`;
+
+    cuerpoTabla.appendChild(tarjeta);
+   
     });
+
 }
 
-
-
-// ==========================================
-// 8. FUNCIONES DE PROCESAMIENTO DINÁMICO INTERNACIONAL
-// ==========================================
 function actualizarListaTurnosVisual() {
     const claveHistorial = pequeActivo + "_turnos";
     const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
     const contenedorLista = document.getElementById("contenedor-lista-turnos");
-    const cuerpoTabla = document.getElementById("tabla-cuerpo-turnos");
-    if (!contenedorLista || !cuerpoTabla) return;
-    if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
+    const cuerpoTabla = 
+     document.getElementById("contenedor-tarjeta-turnos");
+
+     if (!contenedorLista || !cuerpoTabla) return;
+     if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
     
-    contenedorLista.style.display = "block"; 
-    cuerpoTabla.innerHTML = "";
+     contenedorLista.style.display = "block"; 
+     cuerpoTabla.innerHTML = "";
     
-    lista.forEach(item => {
-        // 🌟 LOGRADO: Da vuelta la fecha de Año-Mes-Día a Día/Mes/Año de forma infalible y limpia
-        const fechaFormateada = item.fecha.split("-").reverse().join("/");
-        const fila = document.createElement("tr");
-        fila.innerHTML = `<td><strong>${item.medico}</strong></td><td>${fechaFormateada}</td><td>${item.hora} hs</td><td>${item.lugar}</td><td class="celda-centrada"><button class="btn-borrar-tabla" onclick="eliminarTurnoGuardado(${item.id})">🗑️</button></td>`;
-        cuerpoTabla.appendChild(fila);
+     lista.forEach(item => {
+        
+    const fechaFormateada = item.fecha.split("-").reverse().join("/");
+    const tarjeta = document.createElement("div");
+
+     tarjeta.className = "tarjeta-medicacion";
+     tarjeta.innerHTML = `
+
+<div class="encabezado-tarjeta-medicacion">
+
+    <h3>📅 ${item.medico}</h3>
+
+</div>
+
+<div class="contenido-tarjeta-medicacion">
+
+    <p><strong>📅 Fecha:</strong> ${fechaFormateada}</p>
+
+    <p><strong>🕒 Hora:</strong> ${item.hora}</p>
+
+    <p><strong>📍 Lugar:</strong> ${item.lugar}</p>
+
+</div>
+
+<div class="acciones-tarjeta-medicacion">
+
+    <button
+        class="btn-borrar-tarjeta"
+        onclick="eliminarTurnoGuardado(${item.id})">
+
+        🗑️ Eliminar
+
+    </button>
+
+</div>
+
+`;
+
+  cuerpoTabla.appendChild(tarjeta);
+
     });
 }
 
@@ -804,7 +1558,8 @@ function eliminarTurnoGuardado(id) {
     const claveHistorial = pequeActivo + "_turnos";
     let lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
     lista = lista.filter(item => item.id !== id);
-    localStorage.setItem(claveHistorial, JSON.stringify(lista));
+    localStorage.setItem(claveHistorial,
+         JSON.stringify(lista));
     actualizarListaTurnosVisual();
 }
 
@@ -892,32 +1647,118 @@ function eliminarVacunaGuardada(id) {
 }
 
 // ==========================================
-// 10. UNIVERSO ALTA DE PERFIL DE PEQUES (TOTALMENTE SEPARADO) 👶🌈
+// 10. UNIVERSO ALTA DE PERFIL DE PEQUES👶🌈
 // ==========================================
+
 function guardarPerfilPeque() {
+
     const nombre = document.getElementById("nombre-peque").value.trim();
     const edad = document.getElementById("edad-peque").value.trim();
     const peso = document.getElementById("peso-peque").value;
     const altura = document.getElementById("altura-peque").value;
+
     let listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
-    if (listaPeques.some(p => p.nombre.toLowerCase() === nombre.toLowerCase())) { alert("⚠️ Este nombre ya está registrado."); return; }
-    const coloresPastel = ["#fbcfe8", "#bae6fd", "#bbf7d0", "#fef08a", "#e9d5ff"];
-    const colorElegido = coloresPastel[listaPeques.length % coloresPastel.length];
-    listaPeques.push({ nombre: nombre, edad: edad, peso: peso, altura: altura, colorFondo: colorElegido, colorTexto: "#1e293b" });
-    localStorage.setItem("listaPeques", JSON.stringify(listaPeques));
-    document.getElementById("form-perfil").reset();
-    if (idiomaApp === "en") alert(`✨ Rainbow profile for ${nombre} created!\n\n💪 Let's go! 🤗`);
-    else if (idiomaApp === "pt") alert(`✨ Perfil Arco-Íris de ${nombre} criado!\n\n💪 Vamos lá! 🤗`);
-    else alert(`✨ ¡Perfil de ${nombre} creado con éxito!\n\n💪 ¡Vamos ${rolActivo}! 🤗`);
-    actualizarListaPequesVisual();
-}
 
+    const indiceEditar = 
+    localStorage.getItem("pequeEditar");
 
-function actualizarListaPequesVisual() {
-    // Al dar de alta o borrar un nene, redibujamos el nido de nubecitas del Menú Principal
-    if (document.getElementById("contenedor-solapas-peques")) {
-        dibujarSolapasPeques();
+    console.log("Editando:", indiceEditar);
+
+    // ===========================
+    // MODO EDITAR
+    // ===========================
+    if (indiceEditar !== null) {
+
+        const existe = listaPeques.some((p, i) =>
+            i != indiceEditar &&
+            p.nombre.toLowerCase() === nombre.toLowerCase()
+        );
+
+        if (existe) {
+            alert("⚠️ Ese nombre ya está registrado.");
+            return;
+        }
+
+        listaPeques[indiceEditar] = {
+            ...listaPeques[indiceEditar],
+            nombre,
+            edad,
+            peso,
+            altura
+        };
+
+        localStorage.setItem("listaPeques", JSON.stringify(listaPeques));
+        localStorage.removeItem("pequeEditar");
+
+        alert(`✨ ¡Perfil de ${nombre} actualizado!`);
+
+        irA("peques.html");
+
+        return;
     }
+    
+
+    // ===========================
+    // MODO CREAR
+    // ===========================
+
+    const existe = listaPeques.some(
+        p => p.nombre.toLowerCase() === nombre.toLowerCase()
+    );
+
+    if (existe) {
+        alert("⚠️ Ese nombre ya está registrado.");
+        return;
+    }
+
+    const coloresPastel = [
+        "#fbcfe8",
+        "#bae6fd",
+        "#bbf7d0",
+        "#fef08a",
+        "#e9d5ff"
+    ];
+
+    const colorElegido =
+        coloresPastel[listaPeques.length % coloresPastel.length];
+
+    listaPeques.push({
+        nombre,
+        edad,
+        peso,
+        altura,
+        colorFondo: colorElegido,
+        colorTexto: "#1e293b"
+    });
+
+    localStorage.setItem("listaPeques", JSON.stringify(listaPeques));
+
+    document.getElementById("form-perfil").reset();
+
+    alert(`✨ ¡Perfil de ${nombre} creado con éxito!`);
+
+    irA("home.html");
+
+    }
+
+function cargarPequeParaEditar() {
+
+    const indiceEditar = localStorage.getItem("pequeEditar");
+
+    if (indiceEditar === null) return;
+
+
+    const listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
+
+    const peque = listaPeques[indiceEditar];
+
+    if (!peque) return;
+
+    document.getElementById("nombre-peque").value = peque.nombre;
+    document.getElementById("edad-peque").value = peque.edad;
+    document.getElementById("peso-peque").value = peque.peso;
+    document.getElementById("altura-peque").value = peque.altura;
+
 }
 
 function dibujarSolapasPeques() {
@@ -966,7 +1807,7 @@ function dibujarSolapasPeques() {
                 if (confirm(pregunta)) {
                     eliminarPeque(index); // Ejecuta tu función nativa de borrar
                 }
-            }, 3000); // 3 segundos manteniendo apretado activa el borrado
+            }, 1500); // 1.5s segundos manteniendo apretado activa el borrado
         };
 
         // Si suelta antes de tiempo, se cancela el borrado y cuenta como clic normal
@@ -986,70 +1827,180 @@ function dibujarSolapasPeques() {
     });
 }
 
+function mostrarListaPeques() {
 
-function eliminarPeque(index) {
-    let lista = JSON.parse(localStorage.getItem("listaPeques")) || [];
-    lista.splice(index, 1);
-    localStorage.setItem("listaPeques", JSON.stringify(lista));
-    localStorage.setItem("pequeActivo", "");
-    actualizarListaPequesVisual();
-}
+    const contenedor = document.getElementById("contenedor-lista-peques");
 
+    if (!contenedor) return;
 
+    const listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
 
-// ==========================================
-// 11. LÓGICA DE ALTA DE PEQUES (PERFIL CON EDAD, PESO Y ALTURA)
-// ==========================================
-function guardarPerfilPeque() {
-    const nombre = document.getElementById("nombre-peque").value.trim();
-    const edad = document.getElementById("edad-peque").value.trim();
-    const peso = document.getElementById("peso-peque").value;
-    const altura = document.getElementById("altura-peque").value;
-    let listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
-    
-    if (listaPeques.some(p => p.nombre.toLowerCase() === nombre.toLowerCase())) { 
-        alert("⚠️ Este nombre ya está registrado."); 
-        return; 
+    contenedor.innerHTML = "";
+
+    if (listaPeques.length === 0) {
+
+        contenedor.innerHTML = `
+            <p class="mensaje-vacio">
+                Todavía no hay peques registrados 👶
+            </p>
+        `;
+
+        return;
     }
-    
-    const coloresPastel = ["#fbcfe8", "#bae6fd", "#bbf7d0", "#fef08a", "#e9d5ff"];
-    const colorElegido = coloresPastel[listaPeques.length % coloresPastel.length];
-    
-    listaPeques.push({ nombre: nombre, edad: edad, peso: peso, altura: altura, colorFondo: colorElegido, colorTexto: "#1e293b" });
-    localStorage.setItem("listaPeques", JSON.stringify(listaPeques));
-    document.getElementById("form-perfil").reset();
-    
-    if (idiomaApp === "en") alert(`✨ Rainbow profile for ${nombre} created!\n\n💪 Let's go! 🤗`);
-    else if (idiomaApp === "pt") alert(`✨ Perfil Arco-Íris de ${nombre} criado!\n\n💪 Vamos lá! 🤗`);
-    else alert(`✨ ¡Perfil de ${nombre} creado con éxito!\n\n💪 ¡Vamos ${rolActivo}! 🤗`);
-    
-    actualizarListaPequesVisual();
-}
 
-function actualizarListaPequesVisual() {
-    const lista = JSON.parse(localStorage.getItem("listaPeques")) || [];
-    const contenedorLista = document.getElementById("contenedor-lista-peques");
-    const cuerpoTabla = document.getElementById("tabla-cuerpo-peques");
-    if (!contenedorLista || !cuerpoTabla) return;
-    if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
-    contenedorLista.style.display = "block"; cuerpoTabla.innerHTML = "";
-    
-    lista.forEach((item, index) => {
-        const fila = document.createElement("tr");
-        let detalle = `👶 ${item.edad} / ⚖️ ${item.peso} kg / 📏 ${item.altura} cm`;
-        fila.innerHTML = `<td><strong>${item.nombre}</strong></td><td>${detalle}</td><td class="celda-centrada"><button class="btn-borrar-tabla" onclick="eliminarPeque(${index})">✕</button></td>`;
-        cuerpoTabla.appendChild(fila);
+
+    listaPeques.forEach((peque, index) => {
+
+        const tarjeta = document.createElement("div");
+
+        tarjeta.className = "tarjeta-peque-acordeon";
+
+
+        tarjeta.innerHTML = `
+
+            <div 
+                class="encabezado-peque"
+                onclick="abrirPeque(${index})">
+
+                <span>
+                    👶 ${peque.nombre}
+                </span>
+
+                <span id="flecha-${index}">
+                    ▼
+                </span>
+
+            </div>
+
+
+            <div 
+                class="detalle-peque"
+                id="detalle-${index}"
+                style="display:none;">
+
+                <p>🗓️ Edad: ${peque.edad}</p>
+
+                <p>⚖️ Peso: ${peque.peso} kg</p>
+
+                <p>📏 Altura: ${peque.altura} cm</p>
+
+
+                <button
+                    class="btn-comenzar-cuidados"
+                    onclick="comenzarCuidados('${peque.nombre}')">
+
+                    💚 Comenzar cuidados
+
+                </button>
+
+                <button
+                    class="btn-editar-peque"
+                    onclick="editarPeque('${index}')">
+
+                    ✏️ Editar perfil
+
+                </button>
+
+                <button
+                    class="btn-borrar-peque"
+                    onclick="if (confirm('¿Eliminar este peque?🌈')) 
+                    eliminarPeque(${index})">
+
+                    🗑️ Eliminar perfil
+
+            </div>
+
+        `;
+
+
+        contenedor.appendChild(tarjeta);
+
     });
+
 }
 
+function abrirPeque(index) {
+
+    const detalle = document.getElementById(`detalle-${index}`);
+    const flecha = document.getElementById(`flecha-${index}`);
+
+    if (detalle.style.display === "none") {
+
+        detalle.style.display = "block";
+        flecha.innerHTML = "▲";
+
+    } else {
+
+        detalle.style.display = "none";
+        flecha.innerHTML = "▼";
+
+    }
+
+}
+
+function comenzarCuidados(nombre) {
+
+    pequeActivo = nombre;
+    localStorage.setItem("pequeActivo", nombre);
+    irA("home.html");
+}
+
+function editarPeque(index) {
+
+    localStorage.setItem("pequeEditar", index);
+
+    irA("perfil.html");
+}
+
+function seleccionarPeque(nombre) {
+
+    pequeActivo = nombre;
+
+    localStorage.setItem("pequeActivo", nombre);
+
+    irA("home.html");
+
+}
+
+
+
+// ==========================================
+// ELIMINAR PEQUE
+// ==========================================
 function eliminarPeque(index) {
-    let lista = JSON.parse(localStorage.getItem("listaPeques")) || [];
-    lista.splice(index, 1);
-    localStorage.setItem("listaPeques", JSON.stringify(lista));
-    localStorage.setItem("pequeActivo", "");
-    actualizarListaPequesVisual();
-}
 
+    let lista = JSON.parse(localStorage.getItem("listaPeques")) || [];
+
+    const nombreEliminado = lista[index]?.nombre;
+
+    lista.splice(index, 1);
+
+    localStorage.setItem("listaPeques", JSON.stringify(lista));
+
+    // Si borramos el peque activo, seleccionamos otro automáticamente
+    if (pequeActivo === nombreEliminado) {
+
+        if (lista.length > 0) {
+            pequeActivo = lista[0].nombre;
+        } else {
+            pequeActivo = "";
+        }
+
+        localStorage.setItem("pequeActivo", pequeActivo);
+    }
+
+    // Redibujamos la lista si estamos en peques.html
+    if (document.getElementById("contenedor-lista-peques")) {
+        mostrarListaPeques();
+    }
+
+    // Redibujamos las solapas si estamos en home.html
+    if (document.getElementById("contenedor-solapas-peques")) {
+        dibujarSolapasPeques();
+    }
+
+    actualizarMensajeBienvenida();
+}
 
 function seleccionarIdioma(codigoIdioma) {
     localStorage.setItem("idiomaApp", codigoIdioma);
@@ -1072,7 +2023,7 @@ function seleccionarIdioma(codigoIdioma) {
         alert("✨ Bem-vindo! Configurando aplicativo... 🥰");
     }
 
-    window.location.href = "home.html";
+    window.location.href = "bienvenida.html";
 }
 
 // ==========================================
@@ -1113,11 +2064,13 @@ function eliminarBloqueTurno(id) {
 }
 
 function guardarTodosLosTurnos() {
+
     if (!pequeActivo) {
         alert(idiomaApp === "en" ? "⚠️ Please create or select a child profile first!" : "⚠️ ¡Por favor, crea o selecciona el perfil de un peque primero!");
         return;
     }
-    const contenedor = document.getElementById("lista-blocks-turnos") || document.getElementById("lista-bloques-turnos");
+    const contenedor = document.getElementById("lista-blocks-turnos") ||
+     document.getElementById("lista-bloques-turnos");
     if (!contenedor) return;
     const bloques = contenedor.querySelectorAll(".bloque-remedio-dinamico");
     const claveHistorial = pequeActivo + "_turnos";
@@ -1125,7 +2078,7 @@ function guardarTodosLosTurnos() {
     let errores = false;
 
     bloques.forEach(bloque => {
-        const medico = block = bloque.querySelector(".input-medico").value;
+        const medico = bloque.querySelector(".input-medico").value;
         const fecha = bloque.querySelector(".input-fecha-turno").value;
         const hora = bloque.querySelector(".input-hora-turno").value;
         const lugar = bloque.querySelector(".input-lugar-turno").value || "No especificado";
@@ -1133,8 +2086,14 @@ function guardarTodosLosTurnos() {
         listaTurnos.push({ id: Date.now() + Math.random(), medico: medico, fecha: fecha, hora: hora, lugar: lugar });
     });
 
-    if (errores) { alert("⚠️ Por favor, completa los campos obligatorios."); return; }
-    localStorage.setItem(claveHistorial, JSON.stringify(listaTurnos));
+    if (errores) { alert("⚠️ Por favor, completa los campos obligatorios."); 
+        return;
+     }
+
+      console.log(listaTurnos);
+
+    localStorage.setItem(claveHistorial,
+         JSON.stringify(listaTurnos));
     
     // Alerta trilingüe para Turnos (Aviso un día antes de la cita)
     if (idiomaApp === "en") {
@@ -1153,32 +2112,7 @@ function guardarTodosLosTurnos() {
     actualizarListaTurnosVisual();
 }
 
-function actualizarListaTurnosVisual() {
-    const claveHistorial = pequeActivo + "_turnos";
-    const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
-    const contenedorLista = document.getElementById("contenedor-lista-turnos");
-    const cuerpoTabla = document.getElementById("tabla-cuerpo-turnos");
-    if (!contenedorLista || !cuerpoTabla) return;
-    if (lista.length === 0) { contenedorLista.style.display = "none"; return; }
-    
-    contenedorLista.style.display = "block"; 
-    cuerpoTabla.innerHTML = "";
-    
-    lista.forEach(item => {
-        const fechaFormateada = item.fecha.split("-").reverse().join("/");
-        const fila = document.createElement("tr");
-       fila.innerHTML = `<td><strong>${item.medico}</strong></td><td>${fechaFormateada}</td><td>${item.hora}</td><td>${item.lugar}</td><td class="celda-centrada"><button class="btn-borrar-tabla" onclick="eliminarTurnoGuardado(${item.id})">🗑️</button></td>`;
-        cuerpoTabla.appendChild(fila);
-    });
-}
 
-function eliminarTurnoGuardado(id) {
-    const claveHistorial = pequeActivo + "_turnos";
-    let lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
-    lista = lista.filter(item => item.id !== id);
-    localStorage.setItem(claveHistorial, JSON.stringify(lista));
-    actualizarListaTurnosVisual();
-}
 
         document.addEventListener('DOMContentLoaded', () => {
     traducirTodaLaAplicacion();
@@ -1208,3 +2142,71 @@ document.querySelectorAll("[data-i18n]").forEach(el => {
         el.innerText = idioma[key];
     }
 });
+
+function mostrarConfiguracionInicial() {
+
+    const contenedor =
+        document.getElementById("contenedor-configuracion");
+
+    contenedor.innerHTML = `
+
+        <hr>
+
+        <h3>🖐 ¿Cómo querés que te llamemos?📳</h3>
+
+        <input
+            type="text"
+            class="input-arcoiris"
+            placeholder="Ej: Mamá">
+
+        <h3>😊 ¿Cómo se llama tu peque?🧸</h3>
+
+        <input
+            type="text"
+            class="input-arcoiris"
+            placeholder="Nombre del peque">
+
+        <br><br>
+
+        <button
+            class="btn-guardar-todo">
+
+            Continuar
+
+        </button>
+
+    `;
+
+}
+
+function seleccionarCuidador(nombre) {
+
+    const input =
+        document.getElementById("nombre-cuidador");
+
+    if(input && nombre !== ""){
+        input.value = nombre;
+    }
+
+}
+
+function guardarCuidadorYContinuar() {
+
+    const input = document.getElementById("nombre-cuidador");
+
+    if (!input) return;
+
+    const nombreCuidador = input.value.trim();
+
+    if (!nombreCuidador) {
+        alert("💜 Por favor, contanos cómo querés que te llamemos.");
+        input.focus();
+        return;
+    }
+
+    // Guardamos el cuidador elegido
+    localStorage.setItem("rolActivo", nombreCuidador);
+
+    // Pasamos a la pantalla del peque
+    window.location.href = "perfil.html";
+}

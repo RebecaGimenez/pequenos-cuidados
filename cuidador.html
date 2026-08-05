@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pequeños Cuidados</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+
+</head>
+
+<body class="body-cuidador">
+
+    <div class="contenedor-formulario">
+
+        <h2>
+
+            🖐 ¡Contanos quién va a acompañar al peque!
+
+        </h2>
+
+        <p>
+
+            Elegí la opción que mejor te represente.
+
+        </p>
+
+        <div class="contenedor-opciones-cuidador">
+
+            <button class="tarjeta-cuidador"
+              class="tarjeta-cuidador"
+              onclick="seleccionarCuidador('Mamá')">
+
+              💜Mamá
+               
+            </button>
+
+            <button class="tarjeta-cuidador"
+
+              class="tarjeta-cuidador"
+              onclick="seleccionarCuidador('Papá')">
+
+              💙Papá
+
+            </button>
+
+            <button class="tarjeta-cuidador"
+              class="tarjeta-cuidador"
+              onclick="seleccionarCuidador('Abuela')">
+
+              💛Abuela
+
+            </button>
+
+            <button class="tarjeta-cuidador"
+              class="tarjeta-cuidador"
+              onclick="seleccionarCuidador('Abuelo')">
+
+                💚Abuelo
+
+            </button>
+
+            <button class="tarjeta-cuidador"
+              class="tarjeta-cuidador"
+              onclick="seleccionarCuidador('Tía')">
+
+                💖Tía
+
+        </div>
+
+  
+ <div class="grupo-campo">
+
+      <label>
+
+        ¿Cómo querés que te llamemos?
+
+     </label>
+
+      <input 
+
+       type="text"
+       id="nombre-cuidador"
+       class="input-arcoiris"
+       placeholder="Ej: Mamá, Laura, Abu Ana">
+
+</div>
+
+
+  <div class="zona-boton-siguiente">
+         
+        <button
+            type="button"
+            class="btn-guardar-todo"
+            onclick="guardarCuidadorYContinuar()">
+
+            Siguente →
+
+        </button>
+
+       </div> 
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

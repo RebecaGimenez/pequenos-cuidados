@@ -9,32 +9,7 @@
 
 <body class="body-menu">
 
-    <!-- ========================= -->
-    <!-- BARRA SUPERIOR -->
-    <!-- ========================= -->
     <div class="barra-flotante-superior">
-
-        <!-- Cuidador -->
-       <div class="nido-flotante-cuidadores" id="contenedor-cuidador">
-            <button
-                class="mini-sol-cuidador"
-                id="boton-rol-activo"
-                onclick="activarEdicionRol()">
-                👋Mamá
-            </button>
-
-            <input
-                type="text"
-                id="input-rol-oculto"
-                class="input-cuidador-escondido"
-                placeholder="¿Quién sos?"
-                onblur="guardarRolDesdeInput(this.value)"
-                onkeydown="if(event.key==='Enter') guardarRolDesdeInput(this.value)">
-
-            <span class="cartelito-invitacion-rol">
-                ¿Con quién hablo hoy? 👀
-            </span>
-        </div>
 
         <!-- Agregar peque -->
         <div class="nido-flotante-peques">
@@ -45,26 +20,18 @@
 
             <button
                 class="mini-nube-agregar"
-                onclick="irA('perfil.html')">
-                ➕
+                onclick="irA('peques.html')">
+                👣
             </button>
 
         </div>
 
     </div>
-    <!-- FIN BARRA SUPERIOR -->
-
-
-    <!-- Solapas -->
-    <div
-        id="contenedor-solapas-peques"
-        class="lista-solapas-peques">
-    </div>
-
 
     <!-- Saludo -->
     <p id="frase-aliento" class="mensaje-aliento">
-        ✨ ¡Hola! ¿Qué hacemos hoy? 😊
+
+        🍀¡Hola! ¿Qué hacemos hoy? 😊
     </p>
 
 
