@@ -14,17 +14,32 @@
         <!-- Agregar peque -->
         <div class="nido-flotante-peques">
 
-            <span class="cartelito-invitacion">
-                Agregá a tu peque 🧸
-            </span>
-
-            <button
-                class="mini-nube-agregar"
-                onclick="irA('peques.html')">
-                👣
+            <button 
+               type="button"
+               class="mini-boton-menu boton-peques" 
+               onclick="irA('peques.html')"> 
+               <span>👣</span>
             </button>
-
         </div>
+
+            <div>
+                <button
+                   type="button"
+                   class="mini-boton-menu boton-idioma"
+                   onclick="cambiarIdioma()"
+                   title="Idioma">
+                   🌍
+                </button>
+          </div>
+
+        <button
+            type="button"
+            class="mini-boton-menu boton-recetas"
+            onclick="irA('recetas.html')"
+            title="Recetas">
+            📄 
+        </button>
+
 
     </div>
 

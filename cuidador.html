@@ -18,69 +18,61 @@
 
     <div class="contenedor-formulario">
 
-        <h2>
-
-            🖐 ¡Contanos quién va a acompañar al peque!
-
+        <h2 id="cuidador-titulo">
+            🖐¡Contanos quién va a acompañar al peque!
         </h2>
 
-        <p>
-
-            Elegí la opción que mejor te represente.
-
+        <p id="cuidador-subtitulo">
+           Elegí la opción que mejor te represente.
         </p>
 
         <div class="contenedor-opciones-cuidador">
 
-            <button class="tarjeta-cuidador"
-              class="tarjeta-cuidador"
+            <button
+             class="tarjeta-cuidador"
+              id="cuidador-mama"
               onclick="seleccionarCuidador('Mamá')">
-
-              💜Mamá
-               
+              💜 Mamá
             </button>
 
-            <button class="tarjeta-cuidador"
-
+             <button
               class="tarjeta-cuidador"
+              id="cuidador-papa"
               onclick="seleccionarCuidador('Papá')">
+              💙 Papá
+             </button>
 
-              💙Papá
+              <button
+                class="tarjeta-cuidador"
+                id="cuidador-abuela"
+                onclick="seleccionarCuidador('Abuela')">
+                💛 Abuela
+              </button>
 
-            </button>
+              <button
+               class="tarjeta-cuidador"
+               id="cuidador-abuelo"
+               onclick="seleccionarCuidador('Abuelo')">
+               💚 Abuelo
+              </button>
 
-            <button class="tarjeta-cuidador"
-              class="tarjeta-cuidador"
-              onclick="seleccionarCuidador('Abuela')">
-
-              💛Abuela
-
-            </button>
-
-            <button class="tarjeta-cuidador"
-              class="tarjeta-cuidador"
-              onclick="seleccionarCuidador('Abuelo')">
-
-                💚Abuelo
-
-            </button>
-
-            <button class="tarjeta-cuidador"
-              class="tarjeta-cuidador"
-              onclick="seleccionarCuidador('Tía')">
-
-                💖Tía
+              <button
+               class="tarjeta-cuidador"
+               id="cuidador-tia"
+               onclick="seleccionarCuidador('Tía')">
+               💖 Tía
+              </button>
 
         </div>
 
   
  <div class="grupo-campo">
 
-      <label>
+      <label id="cuidador-nombre-label">
 
         ¿Cómo querés que te llamemos?
 
-     </label>
+      </label>
 
       <input 
 
@@ -89,7 +81,7 @@
        class="input-arcoiris"
        placeholder="Ej: Mamá, Laura, Abu Ana">
 
-</div>
+  </div>
 
 
   <div class="zona-boton-siguiente">
@@ -97,6 +89,7 @@
         <button
             type="button"
             class="btn-guardar-todo"
+            id="btn-cuidador-siguiente"
             onclick="guardarCuidadorYContinuar()">
 
             Siguente →

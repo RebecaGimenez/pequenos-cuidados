@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pequeños Cuidados - Recetas</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body class="body-recetas">
+
+    <div class="encabezado-recetas">
+        <h1>📄 Recetas</h1>
+        <p>Guardá las indicaciones de tu peque y organizá sus cuidados.</p>
+    </div>
+
+    <div class="contenedor-recetas">
+
+        <button
+            type="button"
+            class="btn-agregar-receta"
+            onclick="agregarReceta()">
+
+            ➕ Agregar receta
+        </button>
+
+        <div  
+             id="opciones-receta"
+              class="opciones-recetas" 
+             style="display: none;">
+
+            <h2>¿Cómo queres agregar la receta?</h2>
+
+            <button
+                type="button"
+                onclick="escanearRecetas()">
+                📷 Escanear / Tomar foto
+            </button>
+
+            <input
+                type="file"
+                id="foto-receta"
+                accept="image/*"
+                capture="environment"
+                style="display: none;"
+                onchange="procesarFotoReceta(this)">
+
+            <Button 
+                type="button"
+                onclick="cargarRecetaDigital()">
+                📂 Cargar receta digital
+            </Button>
+
+    </div>
+
+    <div class="volver-recetas">
+
+        <button
+            type="button"
+            onclick="irA('home.html')">
+            🏠 Volver al menú
+        </button>
+
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -30,9 +30,14 @@
         </div>
     </div>
 
-<script>console.log("HTML cargando");
-  </script>
+<script>
+    const idiomaGuardado = localStorage.getItem("idiomaApp");
 
-    <script src="js/app.js"></script>
+    if (idiomaGuardado) {
+        window.location.href = "bienvenida.html";
+    }
+</script>
+
+<script src="js/app.js"></script>
 </body>
 </html>
