@@ -116,6 +116,11 @@ body {
   margin-bottom: 30px;
 }
 
+.body-peques .contenedor-formulario {
+    background: #f5e5c5;
+    border: 2px solid #f8af4f;
+}
+
 .grupo-campo {
     display: flex;
     flex-direction: column;
@@ -268,48 +273,71 @@ body {
     margin-bottom: 10px; 
 }
 
-.solapa-peque { 
-    border: none; 
-    padding: 10px 18px; 
-    border-radius: 30px; 
-    font-family: 'Comic Sans MS', sans-serif; 
-    font-size: 14px; 
-    font-weight: bold; 
-    cursor: pointer; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
-    transition: transform 0.2s, box-shadow 0.2s; 
+.solapa-peque {
+    border: 2px solid #c4b5fd;
+    padding: 12px 20px;
+    border-radius: 22px;
+
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    background: #f5f3ff;
+    color: #57534e;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
-.solapa-peque.activa { 
-    transform: scale(1.1); 
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
-    border: 2px dashed #475569; 
+.solapa-peque:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.09);
+}
+
+.solapa-peque.activa {
+    transform: scale(1.06);
+
+    box-shadow: 0 7px 16px rgba(0, 0, 0, 0.10);
+
+    border: 2px solid #f193d5;
 }
 
 /* Tu mini nube redonda verde de la cruz perfecta */
 .mini-nube-agregar {
-    background-color: #ffffff !important; 
-    color: #a855f7 !important;            
-    border: 3px solid #bbf7d0 !important; 
-    width: 42px !important;               
-    height: 42px !important;
-    border-radius: 50% !important;        
-    font-size: 18px !important;           
-    font-weight: bold !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04) !important;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    margin-top: -5px !important; /* Ajuste fino para que quede centrada verticalmente */ 
+    min-width: 115px;
+    min-height: 48px;
+    padding: 8px 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    border: 2px solid #f193d5;
+    border-radius: 30px;
+
+    background: #f3e8ff;
+    color: #524f4e;
+
+    cursor: pointer;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .mini-nube-agregar:hover {
-    transform: rotate(90deg) scale(1.12) !important; 
-    background-color: #f0fdf4 !important; 
-    border-color: #86efac !important;    
-    box-shadow: 0 6px 15px rgba(134, 239, 172, 0.2) !important;
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+.mini-nube-agregar:active {
+    transform: scale(0.95);
 }
 
 /* Cartelitos flotantes libres originales */
@@ -372,58 +400,9 @@ body {
     position: relative !important; 
 }
 
-.mini-sol-cuidador { 
-    background-color: #fef9c3 !important; 
-    color: #475569 !important; 
-    border: 2px solid #fef08a !important; 
-    padding: 10px 16px !important; 
-    border-radius: 30px !important; 
-    font-family: 'Comic Sans MS', sans-serif !important; 
-    font-size: 15px !important; 
-    font-weight: bold !important; 
-    cursor: pointer !important; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05) !important; 
-    transition: transform 0.2s !important; 
-}
-
-.input-cuidador-escondido {
-     display: none; 
-     background-color: #fef9c3 !important; 
-     color: #475569 !important; 
-     border: 2px solid #fef08a !important; 
-     padding: 10px 20px !important; 
-     border-radius: 30px !important; 
-     font-family: 'Comic Sans MS', sans-serif !important; 
-     font-size: 15px !important; 
-     font-weight: bold !important; 
-     outline: none !important; 
-     width: 180px !important; 
-     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important; 
-     box-sizing: border-box !important; 
-     text-align: center !important;
-     }
-
-.nido-flotante-cuidadores.editando .mini-sol-cuidador {
-     display: none !important;
-     }
-
-.nido-flotante-cuidadores.editando .input-cuidador-escondido { 
-    display: inline-block !important;
- }
-
 .nido-flotante-cuidadores.editando .cartelito-invitacion-rol { 
     display: none !important;
  }
-
-.menu-desplegable-roles { 
-    border: 2px solid #fef08a !important; 
-    background-color: #ffffff !important;
- }
-
-.menu-desplegable-roles button:hover {
-     background-color: #fef9c3 !important;
-     }
-
 
 /* ==========================================================================
    7. PALETAS MODULARES EXCLUSIVAS POR PANTALLA
@@ -683,7 +662,7 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 .btn-borrar-tabla {
      background: #fff1f2;
      border: 1px solid #fecdd3;
-     border-radius: 12px;
+     border-radius: 30px;
      padding: 8px 14px;
      cursor: pointer;
      font-size: 0.9rem;
@@ -1082,4 +1061,270 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 .zona-boton-siguiente{
 
     margin-top: 30px !important;
+}
+
+.mini-boton-idioma {
+    background-color: #fef9c3;
+    color: #475569;
+    border: 2px solid #f0e276;
+    padding: 10px 14px;
+    border-radius: 30px;
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mini-boton-idioma:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================
+   🧸 TARJETAS DE PEQUES
+   ================================ */
+
+#contenedor-lista-peques {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.tarjeta-peque-acordeon {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 20px;
+    overflow: hidden;
+
+    background: #f0f9ff;
+    border: 2px solid #bae6fd;
+
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.07);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tarjeta-peque-acordeon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+}
+
+.encabezado-peque {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+
+    color: #475569;
+;
+    cursor: pointer;
+}
+
+.detalle-peque {
+    padding: 18px 20px;
+    background: #f8fdff;
+    border-top: 1px solid #bae6fd;
+}
+
+.detalle-peque p {
+    margin: 8px 0;
+    color: #57534e;
+    font-size: 0.95rem;
+}
+
+/* =================================
+   🌈 COLORES DE LAS TARJETAS DE PEQUES
+   Se repiten cada 5 peques
+   ================================= */
+
+.tarjeta-peque-acordeon.color-peque-0 {
+    background: #e0f2fe;
+    border-color: #bae6fd;
+}
+
+.tarjeta-peque-acordeon.color-peque-1 {
+    background: #ede9fe;
+    border-color: #ddd6fe;
+}
+
+.tarjeta-peque-acordeon.color-peque-2 {
+    background: #fce7f3;
+    border-color: #f9a8d4;
+}
+
+.tarjeta-peque-acordeon.color-peque-3 {
+    background: #dcfce7;
+    border-color: #bbf7d0;
+}
+
+.tarjeta-peque-acordeon.color-peque-4 {
+    background: #ffedd5;
+    border-color: #fed7aa;
+}
+
+
+/* Fondos interiores, más suaves */
+
+.color-peque-0 .detalle-peque {
+    background: #f8fdff;
+    border-top-color: #bae6fd;
+}
+
+.color-peque-1 .detalle-peque {
+    background: #faf9ff;
+    border-top-color: #ddd6fe;
+}
+
+.color-peque-2 .detalle-peque {
+    background: #fff8fc;
+    border-top-color: #f9a8d4;
+}
+
+.color-peque-3 .detalle-peque {
+    background: #f7fff9;
+    border-top-color: #bbf7d0;
+}
+
+.color-peque-4 .detalle-peque {
+    background: #fffaf5;
+    border-top-color: #fed7aa;
+}
+
+
+.color-peque-0 .encabezado-peque {
+    background: #e0f2fe;
+}
+
+.color-peque-1 .encabezado-peque {
+    background: #ede9fe;
+}
+
+.color-peque-2 .encabezado-peque {
+    background: #fce7f3;
+}
+
+.color-peque-3 .encabezado-peque {
+    background: #dcfce7;
+}
+
+.color-peque-4 .encabezado-peque {
+    background: #ffedd5;
+}
+
+/* Botones de cada peque */
+
+.btn-comenzar-cuidados,
+.btn-editar-peque,
+.btn-borrar-peque {
+    border: none;
+    border-radius: 20px;
+    padding: 9px 14px;
+    margin: 6px 4px 0 0;
+
+    font-family: 'Comic Sans MS', sans-serif;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-comenzar-cuidados {
+    background: #dcfce7;
+    border: 2px solid #86efac;
+    color: #166534;
+}
+
+.btn-editar-peque {
+    background: #e0f2fe;
+    border: 2px solid #7dd3fc;
+    color: #075985;
+}
+
+.btn-borrar-peque {
+    background: #fce7f3;
+    border: 2px solid #f9a8d4;
+    color: #9d174d;
+}
+
+.btn-comenzar-cuidados:hover,
+.btn-editar-peque:hover,
+.btn-borrar-peque:hover {
+    transform: scale(1.04);
+}
+
+
+.body-peques .btn-agregar-arcoiris {
+    background: #eddffc;
+    border: 2px solid #b180e5;
+    color: #581c87;
+
+    border-radius: 30px;
+    padding: 10px 18px;
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.body-peques .btn-agregar-arcoiris:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+.body-peques .btn-agregar-arcoiris:active {
+    transform: scale(0.95);
+}
+
+/*botones pequeós del menu superior de la pantalla de peques*/
+
+.mini-boton-menu {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: #f3e8ff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease;
+}
+
+.mini-boton-menu:hover {
+    transform: scale(1.08);
+}
+
+.mini-boton-menu:active {
+    transform: scale(0.95);
+}
+
+/*color de los botones superiores de la pantalla de peques*/
+
+.boton-peques{
+     border: 2px solid #fad07b;
+     background-color: #f3ead5;
+}
+
+.boton-idioma{
+        border: 2px solid #99d499;
+        background-color: #dffad9;
+}
+
+.boton-recetas{
+        border: 2px solid #dd9cbd;
+        background-color: #f5dee7;
 }

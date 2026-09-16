@@ -208,6 +208,24 @@ const diccionarioTraducciones = {
 
     "invitacion-rol": "¿Con quién estoy hablando hoy? 👀",
     "invitacion-peque": "¡Agregá a tu peque! 🧸",
+    "bienvenida-titulo": "🌈 Bienvenidos a Pequeños Cuidados",
+    "bienvenida-saludo": "🧡Nos alegra acompañarlos💚",
+    "bienvenida-organizar": "💙Ayudamos a organizar los cuidados de tu peque para que puedan dedicar su tiempo a lo más importante:",
+    "bienvenida-ustedes": "ustedes.",
+    "bienvenida-tratamientos": "💛Cada tratamiento, cada vacuna y cada turno estarán organizados para acompañarlos durante todo el tiempo que lo necesiten 🤎",
+    "bienvenida-comenzamos": "¿Comenzamos?",
+
+    "cuidador-titulo": "🖐 ¡Contanos quién va a acompañar al peque!",
+    "cuidador-subtitulo": "Elegí la opción que mejor te represente.",
+    "cuidador-nombre-label": "¿Cómo querés que te llamemos?",
+    "cuidador-nombre-placeholder": "Ej: Mamá, Laura, Abu Ana",
+    "cuidador-siguiente": "Siguiente →",
+    "cuidador-mama": "💜 Mamá",
+    "cuidador-papa": "💙 Papá",
+    "cuidador-abuela": "💛 Abuela",
+    "cuidador-abuelo": "💚 Abuelo",
+    "cuidador-tia": "💖 Tía",
+
 
     "btn-volver": "⬅️ Volver al menú",
 
@@ -285,7 +303,27 @@ const diccionarioTraducciones = {
 
     en: {
         "nube-med": "Medication 💊", "nube-tur": "Appointments 📅", "nube-vac": "Vaccines 💉",
-        "invitacion-rol": "Who am I talking to today? 👀", "invitacion-peque": "Add your child! 🧸",
+        "invitacion-rol": "Who am I talking to today? 👀",
+        "invitacion-peque": "Add your child! 🧸",
+        "bienvenida-titulo": "🌈 Welcome to Pequeños Cuidados",
+        "bienvenida-saludo": "🧡We are happy to accompany you💚",
+        "bienvenida-organizar": "💙We help organize your child's care so you can dedicate your time to what matters most:",
+        "bienvenida-ustedes": "you.",
+        "bienvenida-tratamientos": "💛Every treatment, vaccine and appointment will be organized to support you for as long as you need it 🤎",
+        "bienvenida-comenzamos": "Shall we begin?",
+
+        "cuidador-titulo": "🖐 Tell us who will be caring for your child!",
+        "cuidador-subtitulo": "Choose the option that best represents you.",
+        "cuidador-nombre-label": "What would you like us to call you?",
+        "cuidador-nombre-placeholder": "E.g.: Mom, Laura, Grandma Ana",
+        "cuidador-siguiente": "Next →",
+
+        "cuidador-mama": "💜 Mommy",
+        "cuidador-papa": "💙 Daddy",
+        "cuidador-abuela": "💛 Grandma",
+        "cuidador-abuelo": "💚 Grandpa",
+        "cuidador-tia": "💖 Aunt",
+
         "btn-volver": "⬅️ Back to Menu",
         "titulo-med": "Your child's medication 💉",
         "label-med-nom": "Medication Name 💊", "place-med-nom": "E.g., Paracetamol",
@@ -326,7 +364,27 @@ const diccionarioTraducciones = {
     },
     pt: {
         "nube-med": "Medicação 💊", "nube-tur": "Consultas 📅", "nube-vac": "Vacinas 💉",
-        "invitacion-rol": "Com quem estou falando hoje? 👀", "invitacion-peque": "Adicione seu bebê! 🧸",
+        "invitacion-rol": "Com quem estou falando hoje? 👀",
+        "invitacion-peque": "Adicione seu bebê! 🧸",
+        "bienvenida-titulo": "🌈 Bem-vindos ao Pequeños Cuidados",
+        "bienvenida-saludo": "🧡Estamos felizes em acompanhar vocês💚",
+        "bienvenida-organizar": "💙Ajudamos a organizar os cuidados do seu bebê para que possam dedicar seu tempo ao que realmente importa:",
+        "bienvenida-ustedes": "vocês.",
+        "bienvenida-tratamientos": "💛Cada tratamento, cada vacina e cada consulta estarão organizados para acompanhar vocês durante todo o tempo que precisarem 🤎",
+        "bienvenida-comenzamos": "Vamos começar?",
+
+        "cuidador-titulo": "🖐 Conte-nos quem vai acompanhar o bebê!",
+        "cuidador-subtitulo": "Escolha a opção que melhor representa você.",
+        "cuidador-nombre-label": "Como você quer que chamemos você?",
+        "cuidador-nombre-placeholder": "Ex.: Mamãe, Laura, Vovó Ana",
+        "cuidador-siguiente": "Próximo →", 
+          
+        "cuidador-mama": "💜 Mamãe",
+        "cuidador-papa": "💙 Papai",
+        "cuidador-abuela": "💛 Vovó",
+        "cuidador-abuelo": "💚 Vovô",
+        "cuidador-tia": "💖 Tia",
+
         "btn-volver": "⬅️ Voltar ao Menu",
         "titulo-med": "Medicação do seu bebê 💉",
         "label-med-nom": "Nome do medicamento 💊", "place-med-nom": "Ex: Paracetamol",
@@ -408,6 +466,61 @@ function traducirTodaLaAplicacion() {
 
     const btnVolver = document.querySelector(".btn-volver");
     if (btnVolver) btnVolver.innerText = idioma["btn-volver"];
+
+
+   // =========================
+   // 🌈 BIENVENIDA
+   // =========================
+ if (document.getElementById("bienvenida-titulo")) {
+
+    const titulo = document.getElementById("bienvenida-titulo");
+    const saludo = document.getElementById("bienvenida-saludo");
+    const organizar = document.getElementById("bienvenida-organizar");
+    const ustedes = document.getElementById("bienvenida-ustedes");
+    const tratamientos = document.getElementById("bienvenida-tratamientos");
+    const comenzamos = document.getElementById("btn-comenzamos");
+
+    if (titulo) titulo.innerText = idioma["bienvenida-titulo"];
+    if (saludo) saludo.innerText = idioma["bienvenida-saludo"];
+    if (organizar) organizar.innerText = idioma["bienvenida-organizar"];
+    if (ustedes) ustedes.innerText = idioma["bienvenida-ustedes"];
+    if (tratamientos) tratamientos.innerText = idioma["bienvenida-tratamientos"];
+    if (comenzamos) comenzamos.innerText = idioma["bienvenida-comenzamos"];
+ }
+      
+
+      // =========================
+      // 🖐 CUIDADOR
+      // =========================
+   if (document.getElementById("cuidador-titulo")) {
+
+    const titulo = document.getElementById("cuidador-titulo");
+    const subtitulo = document.getElementById("cuidador-subtitulo");
+    const label = document.getElementById("cuidador-nombre-label");
+    const input = document.getElementById("nombre-cuidador");
+    const siguiente = document.getElementById("btn-cuidador-siguiente");
+
+    if (titulo) titulo.innerText = idioma["cuidador-titulo"];
+    if (subtitulo) subtitulo.innerText = idioma["cuidador-subtitulo"];
+    if (label) label.innerText = idioma["cuidador-nombre-label"];
+
+    if (input) {
+        input.placeholder = idioma["cuidador-nombre-placeholder"];
+    }
+
+    if (siguiente) siguiente.innerText = idioma["cuidador-siguiente"];
+   }
+    const mama = document.getElementById("cuidador-mama");
+    const papa = document.getElementById("cuidador-papa");
+    const abuela = document.getElementById("cuidador-abuela");
+    const abuelo = document.getElementById("cuidador-abuelo");
+    const tia = document.getElementById("cuidador-tia");
+
+    if (mama) mama.innerText = idioma["cuidador-mama"];
+    if (papa) papa.innerText = idioma["cuidador-papa"];
+    if (abuela) abuela.innerText = idioma["cuidador-abuela"];
+    if (abuelo) abuelo.innerText = idioma["cuidador-abuelo"];
+    if (tia) tia.innerText = idioma["cuidador-tia"];
 
     const enlacePrivacidad = document.querySelector(".enlace-privacidad-menu");
     if (enlacePrivacidad) {
@@ -1853,7 +1966,7 @@ function mostrarListaPeques() {
 
         const tarjeta = document.createElement("div");
 
-        tarjeta.className = "tarjeta-peque-acordeon";
+       tarjeta.className = `tarjeta-peque-acordeon color-peque-${index % 5}`;
 
 
         tarjeta.innerHTML = `
@@ -1961,8 +2074,6 @@ function seleccionarPeque(nombre) {
     irA("home.html");
 
 }
-
-
 
 // ==========================================
 // ELIMINAR PEQUE
@@ -2181,13 +2292,30 @@ function mostrarConfiguracionInicial() {
 
 function seleccionarCuidador(nombre) {
 
-    const input =
-        document.getElementById("nombre-cuidador");
+    const input = document.getElementById("nombre-cuidador");
 
-    if(input && nombre !== ""){
-        input.value = nombre;
+    if (!input || nombre === "") return;
+
+    let nombreTraducido = nombre;
+
+    if (idiomaApp === "en") {
+
+        if (nombre === "Mamá") nombreTraducido = "Mommy";
+        else if (nombre === "Papá") nombreTraducido = "Daddy";
+        else if (nombre === "Abuela") nombreTraducido = "Grandma";
+        else if (nombre === "Abuelo") nombreTraducido = "Grandpa";
+        else if (nombre === "Tía") nombreTraducido = "Aunt";
+
+    } else if (idiomaApp === "pt") {
+
+        if (nombre === "Mamá") nombreTraducido = "Mamãe";
+        else if (nombre === "Papá") nombreTraducido = "Papai";
+        else if (nombre === "Abuela") nombreTraducido = "Vovó";
+        else if (nombre === "Abuelo") nombreTraducido = "Vovô";
+        else if (nombre === "Tía") nombreTraducido = "Tia";
     }
 
+    input.value = nombreTraducido;
 }
 
 function guardarCuidadorYContinuar() {
@@ -2210,3 +2338,33 @@ function guardarCuidadorYContinuar() {
     // Pasamos a la pantalla del peque
     window.location.href = "perfil.html";
 }
+
+
+function cambiarIdioma() {
+    localStorage.removeItem("idiomaApp");
+    irA("index.html");
+}
+
+
+function agregarReceta() {
+    const opciones =
+     document.getElementById("opciones-receta");
+
+    if (opciones.style.display === "none") {
+        opciones.style.display = "block";   
+        }
+        else {
+        opciones.style.display = "none";
+    }
+
+}
+
+function escanearRecetas() {
+    document.getElementById("foto-receta").click();
+}    
+
+function procesarFotoReceta(input) {
+    if (input.files && input.files.length > 0) {
+        alert ("Receta recibida!");
+    }
+    }
