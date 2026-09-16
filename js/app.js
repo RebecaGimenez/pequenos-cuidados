@@ -2364,7 +2364,26 @@ function escanearRecetas() {
 }    
 
 function procesarFotoReceta(input) {
-    if (input.files && input.files.length > 0) {
-        alert ("Receta recibida!");
-    }
-    }
+    if (input.files || input.files.length === 0) return;
+    const archivo = input.files[0];
+    const lector = new FileReader();
+    lector.onload = function(e) {
+        const recetas=
+        JSON.parse(localStorage.getItem("recetas")) || [];
+        
+        recetas.push({
+            fecha: new Date().toLocaleDateString(),
+            imagen: e.target.result,
+            estado: "pendiente de clasificar"
+        });
+        
+        localStorage.setItem(
+            "recetas",
+             JSON.stringify(recetas)
+            );
+            MostrarRecetas();
+            alert("receta guardada correctamente");
+    };
+            lector.readAsDataURL(archivo);
+  
+}
