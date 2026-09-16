@@ -2387,3 +2387,65 @@ function procesarFotoReceta(input) {
             lector.readAsDataURL(archivo);
   
 }
+
+function mostrarRecetas() {
+
+    const contenedor =
+        document.getElementById("lista-recetas");
+
+    if (!contenedor) return;
+
+    const recetas =
+        JSON.parse(localStorage.getItem("recetas")) || [];
+
+    contenedor.innerHTML = "";
+
+    recetas.forEach((receta, index) => {
+
+        contenedor.innerHTML += `
+
+            <div class="tarjeta-receta">
+
+                <h3>📄 Receta ${receta.fecha}</h3>
+
+                <img
+                    src="${receta.imagen}"
+                    class="imagen-receta">
+
+                <p>
+                    ⏳ ${receta.estado}
+                </p>
+
+                <button
+                    class="btn-borrar-receta"
+                    onclick="eliminarReceta(${index})">
+
+                    🗑️ Eliminar
+
+                </button>
+
+            </div>
+
+        `;
+    });
+}
+
+function eliminarReceta(index) {
+
+    const recetas =
+        JSON.parse(localStorage.getItem("recetas")) || [];
+
+        recetas.splice(index, 1);
+
+        localStorage.setItem(
+            "recetas",
+             JSON.stringify(recetas)
+            );
+
+            mostrarRecetas();
+            
+}
+
+if (document.getElementById("lista-recetas")) {
+    mostrarRecetas();
+}
