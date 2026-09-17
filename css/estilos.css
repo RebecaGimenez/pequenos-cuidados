@@ -155,7 +155,13 @@ body {
 .grupo-campo input:hover,
 .grupo-campo input:focus {
     background-color: #ffffff !important;
-    transform: scale(1.01);
+    transform: scale(1.03);
+}
+
+#nombre-cuidador:hover,
+#nombre-cuidador:focus {
+    background-color: #d1eaec !important;
+    transform: scale(1.03);
 }
 
 .bloque-remedio-dinamico {
@@ -1034,21 +1040,6 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 
 }
 
-.tarjeta-cuidador{
-
-          width: 100% !important;
-          padding: 18px !important;
-          border-radius: 15px !important;
-          border: 2px solid #dbeafe !important;
-          background: white !important;
-          cursor: pointer !important;
-          font-size: 18px !important;
-          transition: 0.3s;
-          display: flex !important;
-          gap: 15px !important;
-
-
-}
 
 .icono-cuidador{
 
@@ -1283,7 +1274,7 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 }
 
 .body-peques .btn-agregar-arcoiris:active {
-    transform: scale(0.95);
+    transform: scale(0.97);
 }
 
 /*botones pequeós del menu superior de la pantalla de peques*/
@@ -1327,4 +1318,243 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 .boton-recetas{
         border: 2px solid #dd9cbd;
         background-color: #f5dee7;
+}
+
+/* =========================
+   BIENVENIDA
+   ========================= */
+
+.body-bienvenida {
+    min-height: 100vh;
+    margin: 0;
+    padding: 25px 15px;
+    box-sizing: border-box;
+
+    background: linear-gradient(
+        180deg,
+        #aee0f7 0%,
+        #d5effc 55%,
+        #eaf8ff 100%
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-bienvenida {
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+
+    padding: 30px 25px;
+
+    background: #f0eecf;
+
+    border: 4px solid #875bb1;
+    border-radius: 30px;
+
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.10);
+
+    text-align: center;
+}
+
+/* Título */
+.contenedor-bienvenida h2 {
+    color: #f85656;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Saludo */
+#bienvenida-saludo {
+    color: #3389ec;
+}
+
+/* Texto principal */
+#bienvenida-organizar {
+    color: #3ba05b;
+}
+
+/* Ustedes */
+#bienvenida-ustedes {
+    color: #f13952;
+}
+
+/* Tratamientos */
+#bienvenida-tratamientos {
+    color: #f75515;
+}
+
+/* Botón comenzar */
+#btn-comenzamos {
+    margin-top: 20px;
+
+    padding: 13px 30px;
+
+    border: 3px solid #4c5ec4;
+    border-radius: 30px;
+
+    background: #a4ebbc;
+
+    color: #cc3bda;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+#btn-comenzamos:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+}
+
+#btn-comenzamos:active {
+    transform: scale(0.97);
+}
+
+/* =========================
+   BOTONES DE CUIDADOR
+   ========================= */
+
+.tarjeta-cuidador {
+    width: 100%;
+    padding: 14px 18px;
+    margin: 8px 0;
+
+    border-radius: 22px;
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+
+/* Mamá */
+#cuidador-mama {
+    background: #fff0f7;
+    border: 3px solid #c9a7e8;
+    color: #76558d;
+}
+
+/* Papá */
+#cuidador-papa {
+    background: #daeceb;
+    border: 3px solid #8fc9e8;
+    color: #4f7890;
+}
+
+/* Abuela */
+#cuidador-abuela {
+    background: #ebe7ba;
+    border: 3px solid #e6c65c;
+    color: #b88a0e;
+}
+
+/* Abuelo */
+#cuidador-abuelo {
+    background: #b7c9bd;
+    border: 3px solid #63d663;
+    color: #2b5e32;
+}
+
+/* Tía */
+#cuidador-tia {
+    background: #f5daef;
+    border: 3px solid #f595bf;
+    color: #9b5777;
+}
+
+.body-cuidador .contenedor-formulario {
+   background: #f1e1d7;
+   border: 3px solid #f37d47;
+}
+
+#btn-cuidador-siguiente{
+
+background: #f5bebe;
+border: 3px solid #f83232;
+color: #6e0909;
+
+padding: 13px 28px;
+border-radius: 30px;
+
+font-size: 17px;
+font-weight: bold;
+
+cursor: pointer;
+
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
+
+transition: transform 0.2s ease,
+            box-shadow 0.2s ease;
+}
+
+#btn-cuidador-siguiente:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+}
+
+#btn-cuidador-siguiente:active {
+    transform: scale(0.97);
+}
+
+/* Texto */
+#cuidador-nombre-label {
+    display: block;
+    margin-bottom: 10px;
+
+    color: #1fb2bd;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    text-align: center;
+}
+
+/* Caja */
+#nombre-cuidador {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 14px;
+
+    border: 3px solid #71ebe5;
+    border-radius: 18px;
+
+    background: #d1eaec;
+
+    color: #2f89a5;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    text-align: center;
+}
+
+/* Cuando escriben */
+#nombre-cuidador:focus {
+    outline: none;
+
+    border-color: #5ee7e0;
+
+    box-shadow: 0 0 10px rgba(67, 146, 160, 0.25);
+}
+
+.tarjeta-cuidador:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.10);
+}
+
+.tarjeta-cuidador:active {
+    transform: scale(0.98);
 }
