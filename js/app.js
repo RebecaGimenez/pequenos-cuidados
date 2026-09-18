@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarMensajeBienvenida();
     mostrarListaPeques();
 });
+
 // ==========================================
 // 2. NAVEGACIÓN, LÓGICA DEL CUIDADOR Y SALUDOS
 // ==========================================
@@ -248,6 +249,17 @@ const diccionarioTraducciones = {
     "th-med-acc": "Acción",
     "historial-med": "Registro de medicamentos 📋",
 
+    "label-med-tipo": "Tipo de tratamiento 🔄",
+    "tipo-med-simple": "💊 Tratamiento simple",
+    "tipo-med-progresivo": "🔄 Tratamiento progresivo",
+    "tipo-med-continuo": "♾️ Tratamiento continuo",
+    "label-med-proxima": "Próxima toma",
+    "label-med-inicio": "Hora de inicio",
+    "label-med-tratamiento": "Tratamiento",
+    "label-med-frecuencia": "Frecuencia",
+    "label-med-eliminar": "🗑️ Eliminar",
+
+
     "titulo-tur": "Los próximos turnos de tu peque 📅",
     "label-tur-med": "¿Médico o especialista? 👩‍⚕️",
     "place-tur-med": "P. ej., Pediatra, Dentista",
@@ -264,6 +276,11 @@ const diccionarioTraducciones = {
     "th-tur-acc": "Acción",
     "historial-tur": "Turnos programados 📋",
 
+    "label-tur-fecha": "Fecha",
+    "label-tur-hora": "Hora",
+    "label-tur-lugar": "Lugar",
+    "label-tur-eliminar": "🗑️ Eliminar",
+
     "titulo-vac": "Las vacunas de tu peque 💉",
     "label-vac-nom": "Nombre de la vacuna 💉",
     "place-vac-nom": "P. ej., Gripe, Sarampión",
@@ -276,6 +293,10 @@ const diccionarioTraducciones = {
     "th-vac-pro": "Próxima dosis",
     "th-vac-acc": "Acción",
     "historial-vac": "Registro de vacunas 📋",
+
+    "label-vac-aplicada": "Aplicada",
+    "label-vac-proxima": "Próxima",
+    "label-vac-eliminar": "🗑️ Eliminar",
 
     "titulo-per": "¡Te damos la bienvenida! 👶🌈",
     "sub-per": "Ingresá los datos para personalizar el cuidado de tu peque.",
@@ -298,6 +319,7 @@ const diccionarioTraducciones = {
 "privacidad-2": "Queremos que te quedes totalmente tranquila/o: esta aplicación no recolecta ni envía datos.",
 "privacidad-3": "Todos los datos se guardan en tu dispositivo usando LocalStorage.",
 "privacidad-4": "Al usar esta app aceptás este entorno seguro creado con cariño. ❤️",
+
 
 },
 
@@ -334,6 +356,17 @@ const diccionarioTraducciones = {
         "btn-med-add": "➕ Add Medication", "btn-med-save": "🌟 Save Medication",
         "th-med-nom": "Medication Name", "th-med-dos": "Dose", "th-med-fre": "Frequency", "th-med-pro": "Next Dose", "th-med-acc": "Action",
         "historial-med": "Medication log 📋",
+
+        "label-med-tipo": "Treatment type 🔄",
+        "tipo-med-simple": "💊 Simple treatment",
+        "tipo-med-progresivo": "🔄 Progressive treatment",
+        "tipo-med-continuo": "♾️ Continuous treatment",
+        "label-med-proxima": "Next dose",
+        "label-med-inicio": "Start time",
+        "label-med-tratamiento": "Treatment",
+        "label-med-frecuencia": "Frequency",
+        "label-med-eliminar": "🗑️ Delete",
+
         "titulo-tur": "Your child's upcoming appointments 📅",
         "label-tur-med": "Doctor or specialist? 👩‍⚕️", "place-tur-med": "E.g., Pediatrician, Dentist",
         "label-tur-fec": "What day is it? 🗓️", "label-tur-hor": "At what time? ⏰",
@@ -341,12 +374,23 @@ const diccionarioTraducciones = {
         "btn-tur-add": "➕ Add Appointment", "btn-tur-save": "🌟 Save Appointments",
         "th-tur-med": "Doctor / Specialist", "th-tur-fec": "Date", "th-tur-hor": "Time", "th-tur-lug": "Location", "th-tur-acc": "Action",
         "historial-tur": "Scheduled appointments 📋",
+
+        "label-tur-fecha": "Date",
+        "label-tur-hora": "Time",
+        "label-tur-lugar": "Location",
+        "label-tur-eliminar": "🗑️ Delete",
+
         "titulo-vac": "Your child's vaccines 💉",
         "label-vac-nom": "Vaccine name 💉", "place-vac-nom": "E.g., Flu, Measles",
         "label-vac-fec": "Date given 🗓️", "label-vac-pro": "Next dose date 🕒",
         "btn-vac-add": "➕ Add Vaccine", "btn-vac-save": "🌟 Save Vaccines",
         "th-vac-nom": "Vaccine Name", "th-vac-fec": "Date Given", "th-vac-pro": "Next Dose", "th-vac-acc": "Action",
         "historial-vac": "Vaccine record 📋",
+
+        "label-vac-aplicada": "Applied",
+        "label-vac-proxima": "Next dose",
+        "label-vac-eliminar": "🗑️ Delete",
+
         "titulo-per": "Welcome! 👶🌈", "sub-per": "Enter data to personalize your child's care.",
         "label-per-nom": "What's their name? 🧸", "place-per-nom": "E.g., Benja, Cati, Sofi",
         "label-per-eda": "How old are they? 🗓️", "place-per-eda": "E.g., 8 months, 2 years",
@@ -395,6 +439,17 @@ const diccionarioTraducciones = {
         "btn-med-add": "➕ Adicionar", "btn-med-save": "🌟 Salvar",
         "th-med-nom": "Medicamento", "th-med-dos": "Dose", "th-med-fre": "Frequência", "th-med-pro": "Próxima Dose", "th-med-acc": "Ação",
         "historial-med": "Histórico de medicação 📋",
+
+        "label-med-tipo": "Tipo de tratamento 🔄",
+        "tipo-med-simple": "💊 Tratamento simples",
+        "tipo-med-progresivo": "🔄 Tratamento progressivo",
+        "tipo-med-continuo": "♾️ Tratamento contínuo",
+        "label-med-proxima": "Próxima dose",
+        "label-med-inicio": "Hora de início",
+        "label-med-tratamiento": "Tratamento",
+        "label-med-frecuencia": "Frequência",
+        "label-med-eliminar": "🗑️ Excluir",
+
         "titulo-tur": "Próximas consultas do seu bebê 📅",
         "label-tur-med": "Médico ou especialista? 👩‍⚕️", "place-tur-med": "Ex: Pediatra, Dentista",
         "label-tur-fec": "Que dia é? 🗓️", "label-tur-hor": "A que horas? ⏰",
@@ -402,12 +457,23 @@ const diccionarioTraducciones = {
         "btn-tur-add": "➕ Adicionar Consulta", "btn-tur-save": "🌟 Salvar Consultas",
         "th-tur-med": "Médico / Especialista", "th-tur-fec": "Data", "th-tur-hor": "Hora", "th-tur-lug": "Local", "th-tur-acc": "Ação",
         "historial-tur": "Consultas agendadas 📋",
+
+        "label-tur-fecha": "Data",
+        "label-tur-hora": "Hora",
+        "label-tur-lugar": "Local",
+        "label-tur-eliminar": "🗑️ Excluir",
+
         "titulo-vac": "Vacinas do seu bebê 💉",
         "label-vac-nom": "Nome da vacina 💉", "place-vac-nom": "Ex: Gripe, Tríplice",
         "label-vac-fec": "Data de aplicação 🗓️", "label-vac-pro": "Próxima aplicação 🕒",
         "btn-vac-add": "➕ Adicionar Vacina", "btn-vac-save": "🌟 Salvar Vacinas",
         "th-vac-nom": "Vacina", "th-vac-fec": "Data Aplicada", "th-vac-pro": "Próxima Dose", "th-vac-acc": "Ação",
         "historial-vac": "Histórico de vacinas 📋",
+
+        "label-vac-aplicada": "Aplicada",
+        "label-vac-proxima": "Próxima",
+        "label-vac-eliminar": "🗑️ Excluir", 
+
         "titulo-per": "Bem-vindo! 👶🌈", "sub-per": "Insira os dados para personalizar os cuidados do seu bebê.",
         "label-per-nom": "Como ele se chama? 🧸", "place-per-nom": "Ex: Benja, Cati, Sofi",
         "label-per-eda": "Qual é a idade dele? 🗓️", "place-per-eda": "Ex: 8 meses, 2 anos",
@@ -734,6 +800,10 @@ function agregarBloqueRemedioHtml() {
 
         nom = idioma["label-med-nom"];
         dos = idioma["label-med-dos"];
+        tipo = idioma["label-med-tipo"];
+        simple = idioma["tipo-med-simple"];
+        progresivo = idioma["tipo-med-progresivo"];
+        continuo = idioma["tipo-med-continuo"];
         fre = idioma["label-med-fre"];
         dia = idioma["label-med-dia"];
         ini = idioma["label-med-ini"];
@@ -749,6 +819,10 @@ function agregarBloqueRemedioHtml() {
 
         nom = idioma["label-med-nom"];
         dos = idioma["label-med-dos"];
+        tipo = idioma["label-med-tipo"];
+        simple = idioma["tipo-med-simple"];
+        progresivo = idioma["tipo-med-progresivo"];
+        continuo = idioma["tipo-med-continuo"];
         fre = idioma["label-med-fre"];
         dia = idioma["label-med-dia"];
         ini = idioma["label-med-ini"];
@@ -1389,6 +1463,8 @@ function guardarTodasLasMedicaciones() {
 
 function actualizarListaVisual() {
 
+    const idioma = diccionarioTraducciones[idiomaApp];
+
     const claveHistorial = pequeActivo + "_medicaciones";
 
     const lista = pequeActivo
@@ -1425,43 +1501,39 @@ function actualizarListaVisual() {
         let textoFrecuencia = "";
 
 
-        // 💊 TRATAMIENTO SIMPLE
         if (item.tipoTratamiento === "simple") {
 
-            textoTipo = "💊 Tratamiento simple";
+            textoTipo = idioma["tipo-med-simple"];
 
-            textoFrecuencia =
-                `Cada ${item.frecuenciaHoras} horas`;
+          textoFrecuencia =
+             `${idioma["label-med-frecuencia"]}: ${item.frecuenciaHoras} h`;
 
         }
 
 
-        // 🔄 TRATAMIENTO PROGRESIVO
         else if (item.tipoTratamiento === "progresivo") {
 
-            textoTipo = "🔄 Tratamiento progresivo";
+         textoTipo = idioma["tipo-med-progresivo"];
 
-            textoFrecuencia =
-                item.etapas
-                    .map(
-                        (etapa, indice) =>
-                            `Etapa ${indice + 1}: cada ${etapa.frecuenciaHoras} horas durante ${etapa.diasDuracion} días`
-                    )
-                    .join("<br><br>");
+         textoFrecuencia =
+         item.etapas
+            .map(
+                (etapa, indice) =>
+                    `Etapa ${indice + 1}: ${etapa.frecuenciaHoras} h / ${etapa.diasDuracion} días`
+            )
+            .join("<br><br>");
 
         }
 
 
-        // ♾️ TRATAMIENTO CONTINUO
         else if (item.tipoTratamiento === "continuo") {
 
-            textoTipo = "♾️ Tratamiento continuo";
+            textoTipo = idioma["tipo-med-continuo"];
 
             textoFrecuencia =
-                `Cada ${item.frecuenciaHoras} horas`;
+             `${idioma["label-med-frecuencia"]}: ${item.frecuenciaHoras} h`;
 
         }
-
 
         // 🃏 Creamos la tarjeta
         const tarjeta =
@@ -1485,22 +1557,22 @@ function actualizarListaVisual() {
             <div class="contenido-tarjeta-medicacion">
 
                 <p>
-                    <strong>💉 Dosis:</strong>
+                   <strong>💉 ${idioma["label-med-dos"]}:</strong>
                     ${item.dosis}
                 </p>
 
                 <p>
-                    <strong>📋 Tratamiento:</strong>
+                    <strong>📋 ${idioma["label-med-tratamiento"]}:</strong>
                     ${textoTipo}
                 </p>
 
                 <p>
-                    <strong>⏰ Frecuencia:</strong><br>
-                    ${textoFrecuencia}
+                    <strong>⏰ ${idioma["label-med-frecuencia"]}:</strong><br>
+                     ${item.frecuenciaHoras}
                 </p>
 
                 <p>
-                    <strong>🔔 Hora de inicio:</strong>
+                    <strong>🔔 ${idioma["label-med-inicio"]}:</strong>
                     ${item.horaInicio}
                 </p>
 
@@ -1514,7 +1586,7 @@ function actualizarListaVisual() {
                     class="btn-borrar-tarjeta"
                     onclick="eliminarMedicionGuardada('${item.id}')">
 
-                    🗑️ Eliminar
+                    ${idioma["label-med-eliminar"]}
 
                 </button>
 
@@ -1556,6 +1628,9 @@ function eliminarMedicionGuardada(id) {
 }
 
 function actualizarListaVacunasVisual() {
+     
+    const idioma = diccionarioTraducciones[idiomaApp];
+
     const claveHistorial = pequeActivo + "_vacunas";
     const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
     const contenedorLista = document.getElementById("contenedor-lista-vacunas");
@@ -1585,10 +1660,9 @@ function actualizarListaVacunasVisual() {
 
             <div class="contenido-tarjeta-medicacion">
 
-              <p><strong>📅 Aplicada:</strong> ${fechaFormateada}</p>
+              <p><strong>📅 ${idioma["label-vac-fec"]}:</strong> ${fechaFormateada}</p>
 
-             <p><strong>🔔 Próxima:</strong> ${proximaFormateada}</p>
-
+              <p><strong>🔔 ${idioma["label-vac-pro"]}:</strong> ${proximaFormateada}</p>
              </div>
 
          <div class="acciones-tarjeta-medicacion">
@@ -1597,7 +1671,7 @@ function actualizarListaVacunasVisual() {
         class="btn-borrar-tarjeta"
         onclick="eliminarVacunaGuardada(${item.id})">
 
-        🗑️ Eliminar
+        ${idioma["label-vac-eliminar"]}
 
     </button>
 
@@ -1612,6 +1686,9 @@ function actualizarListaVacunasVisual() {
 }
 
 function actualizarListaTurnosVisual() {
+    
+    const idioma = diccionarioTraducciones[idiomaApp];
+
     const claveHistorial = pequeActivo + "_turnos";
     const lista = pequeActivo ? (JSON.parse(localStorage.getItem(claveHistorial)) || []) : [];
     const contenedorLista = document.getElementById("contenedor-lista-turnos");
@@ -1640,11 +1717,11 @@ function actualizarListaTurnosVisual() {
 
 <div class="contenido-tarjeta-medicacion">
 
-    <p><strong>📅 Fecha:</strong> ${fechaFormateada}</p>
+    <p><strong>📅 ${idioma["label-tur-fecha"]}:</strong> ${fechaFormateada}</p>
 
-    <p><strong>🕒 Hora:</strong> ${item.hora}</p>
+    <p><strong>🕒 ${idioma["label-tur-hora"]}:</strong> ${item.hora}</p>
 
-    <p><strong>📍 Lugar:</strong> ${item.lugar}</p>
+    <p><strong>📍 ${idioma["label-tur-lugar"]}:</strong> ${item.lugar}</p>
 
 </div>
 
@@ -1654,7 +1731,7 @@ function actualizarListaTurnosVisual() {
         class="btn-borrar-tarjeta"
         onclick="eliminarTurnoGuardado(${item.id})">
 
-        🗑️ Eliminar
+        ${idioma["label-tur-eliminar"]}
 
     </button>
 

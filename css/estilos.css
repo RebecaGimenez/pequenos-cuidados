@@ -172,20 +172,33 @@ body {
 }
 
 .btn-eliminar-bloque {
-     position: absolute; 
-     top: 10px;
-     right: 10px;
-     background: #ef4444;
-     color: white;
-    border: none; 
-    border-radius: 50%; 
-    width: 28px; 
-    height: 28px; 
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    
+    background: #e2e3e9;
+    border: 3px solid #6c6d6e;
+    border-radius: 50%;
+
+    width: 42px;
+    height: 42px;
+
+    color: #838388;
+    font-size: 18px;
     font-weight: bold;
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
     justify-content: center;
+
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-eliminar-bloque:hover {
+    transform: scale(1.08);
+    background: #85878b;
 }
 
 #form-turno, #form-vacuna, #form-medicacion, #form-perfil {
@@ -590,15 +603,25 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 
 .tarjeta-medicacion {
 
-          width: 100%;
+          width: 94%;
+          margin: 0 auto;
           box-sizing: border-box;
-          background: linear-gradient(135deg, #fffdf5, #f8fbff);
+          background: linear-gradient(135deg, #fde6d7, #fce1cf);
           border-radius: 20px;
           padding: 22px;
           box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-          border: 2px solid #e0f2fe;
+          border: 2px solid #fda16b;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
           }
+
+#contenedor-lista-medicaciones {
+          width: 100%;
+          box-sizing: border-box;
+          background: #eaf7ff;
+          border: 3px solid #f88b70;
+          border-radius: 20px;
+          margin-top: 20px;
+          }          
 
 .tarjeta-medicacion:hover {
              transform: translateY(-2px);
@@ -666,37 +689,39 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
      }
 
 .btn-borrar-tabla {
-     background: #fff1f2;
-     border: 1px solid #fecdd3;
-     border-radius: 30px;
-     padding: 8px 14px;
-     cursor: pointer;
-     font-size: 0.9rem;
-     color: #be123c;
-     transition: transform 0.2s ease, background 0.2s ease;
-         }
+    background: #ffe0b2;
+    border: 3px solid #f16d20;
+    border-radius: 30px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #9a3d00;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
 
 .btn-borrar-tabla:hover {
-     transform: scale(1.05);
-     background: #ffe4e6;
-     }
+    transform: scale(1.05);
+    background: #ffc46b;
+}
 
 .btn-editar-medicacion{
 
          background: #eff6ff;
-         border: 1px solid #bfdbfe;
-         border-radius: 12px;
-         padding: 8px 14px;
+         border: 2px solid #eff6ff;
+         border-radius: 30px;
+         padding: 8px 16px;
          cursor: pointer;
          font-size: 0.9rem;
-         color: #2563eb;
+         font-weight: bold;
+         color: #2f89a5;
          transition: transform 0.2s ease, background 0.2s ease;
          }
 
 .btn-editar-medicacion:hover {
     
          transform: scale(1.05);
-         background: #dbeafe;
+         background: #d1eaec;
          }   
 
 .celda-centrada {
@@ -747,6 +772,29 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
      cursor: pointer; 
      font-weight: bold;
      }
+
+
+.btn-eliminar-etapa {
+    background: #ffe0b2;
+    border: 2px solid #f16d20;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    color: #9a3d00;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-eliminar-etapa:hover {
+    transform: scale(1.08);
+    background: #ffc46b;
+} 
+
 
 /* ==========================================================================
    9. SECCIÓN DEFINITIVA DE BOTONES EN FILA SIMÉTRICA (ÓVALOS)
@@ -825,6 +873,40 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
     background: linear-gradient(135deg, #ccfbf1, #bfdbfe) !important;
     color: #0f172a !important; 
     border: 4px solid #99f6e4 !important; /* Inflado grueso burbuja */
+}
+
+.btn-borrar-tarjeta {
+    background: #dfe9d1;
+    border: 2px solid #4ebb5c;
+    border-radius: 30px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #2b2a2a;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-borrar-tarjeta:hover {
+    transform: scale(1.05);
+    background: #f3efe8;
+}
+
+.bloque-remedio-dinamico .btn-agregar-arcoiris {
+    background: #f0e4c4;
+    border: 2px solid #4ebb5c;
+    border-radius: 30px;
+    padding: 9px 18px;
+    color: #444343;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.bloque-remedio-dinamico .btn-agregar-arcoiris:hover {
+    transform: scale(1.04);
+    background: #e9cd91;
 }
 
 /* ==========================================================================
@@ -1533,7 +1615,7 @@ transition: transform 0.2s ease,
 
     background: #d1eaec;
 
-    color: #2f89a5;
+    color: #282829;
 
     font-size: 16px;
     font-weight: bold;
@@ -1557,4 +1639,86 @@ transition: transform 0.2s ease,
 
 .tarjeta-cuidador:active {
     transform: scale(0.98);
+}
+
+.body-turnos .tarjeta-medicacion{
+
+     background: linear-gradient(135deg, #fef9c3, #ecfeff) !important;
+     border: 2px solid #22d3ee !important;
+
+}
+
+.body-vacunas .tarjeta-medicacion {
+
+    background: #bbf7d0 !important;
+
+    border: 2px solid #86efac !important;
+
+    border-radius: 20px !important;
+
+}
+
+.body-vacunas #contenedor-lista-vacunas {
+
+    background: #f0fdf4 !important;
+
+    border: 3px dashed #16a34a !important;
+
+    border-radius: 20px !important;
+
+}
+
+.body-vacunas .tarjeta-medicacion h3 {
+
+    color: #1e2433 !important;
+
+}
+
+.body-vacunas .tarjeta-medicacion p,
+.body-vacunas .tarjeta-medicacion strong {
+
+    color: #101111 !important;
+
+}
+
+.body-vacunas .btn-borrar-tarjeta {
+
+    background: #faf5ff !important;
+
+    border: 2px solid #c084fc !important;
+
+    color: #7e22ce !important;
+
+}
+
+.body-vacunas .btn-borrar-tarjeta:hover {
+
+    background: #f3e8ff !important;
+
+}
+
+.body-medicacion #contenedor-lista-medicaciones {
+    background: #fcf9ee !important;
+    border: 3px dashed #ea580c !important;
+}
+
+.body-turnos #contenedor-lista-turnos {
+    background: #fffdf5 !important;
+    border: 3px dashed #eab308 !important;
+}
+
+.body-turnos .tarjeta-medicacion {
+    background: #fdf9d0 !important;
+    border: 2px solid #fad97e !important;
+}
+
+.body-turnos .btn-borrar-tarjeta {
+    background: #cdeef1 !important;
+    border: 2px solid #67cdd6 !important;
+    color: #353636 !important;
+}
+
+.body-turnos .btn-borrar-tarjeta:hover {
+    background: #e5edee !important;
+    transform: scale(1.05);
 }
