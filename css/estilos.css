@@ -2014,3 +2014,26 @@ transition: transform 0.2s ease,
     text-align: center;
     margin-left: 10px;
 }
+
+.btn-compartir-tarjeta {
+    background: linear-gradient(
+        135deg,
+        #bae6fd,
+        #c4b5fd
+    );
+    color: #171718;
+    border: 2px solid #fcc30a;
+    border-radius: 18px;
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 6px;
+    background: #f9faae;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-compartir-tarjeta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.16);
+}
