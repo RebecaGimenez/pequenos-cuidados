@@ -876,20 +876,20 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 }
 
 .btn-borrar-tarjeta {
-    background: #dfe9d1;
-    border: 2px solid #4ebb5c;
+    background: linear-gradient(135deg, #ccfbf1, #d3dfee);
+    border: 3px solid #84f0da;
     border-radius: 30px;
     padding: 8px 16px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: bold;
-    color: #2b2a2a;
+    color: #0f172a;
     transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .btn-borrar-tarjeta:hover {
     transform: scale(1.05);
-    background: #f3efe8;
+    background: #b6d2e9;
 }
 
 .bloque-remedio-dinamico .btn-agregar-arcoiris {
@@ -1557,18 +1557,18 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 }
 
 .body-cuidador .contenedor-formulario {
-   background: #f1e1d7;
-   border: 3px solid #f37d47;
+   background: #dceed1;
+   border: 3px solid #51df3f;
 }
 
 #btn-cuidador-siguiente{
 
-background: #f0caca;
-border: 3px solid #f83232;
-color: #6e0909;
+background: #fdd3d3;
+border: 3px solid #f04646;
+color: #940404;
 
 padding: 13px 28px;
-border-radius: 30px;
+border-radius: 20px;
 
 font-size: 17px;
 font-weight: bold;
@@ -1721,4 +1721,296 @@ transition: transform 0.2s ease,
 .body-turnos .btn-borrar-tarjeta:hover {
     background: #e5edee !important;
     transform: scale(1.05);
+}
+
+.tratamiento-finalizado {
+
+    margin-top: 10px;
+    padding: 10px;
+
+    background: #dcfce7;
+
+    border: 2px solid #16a34a;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+}
+
+.chapita-etapa{
+
+    display:inline-block;
+
+    background:#dbeafe;
+
+    border:2px solid #60a5fa;
+
+    color:#1e40af;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+
+    margin:8px 0;
+
+}
+
+.chapita-etapa-final{
+    background:#dcfce7;
+    border:2px solid #22c55e;
+    color:#166534;
+}
+
+.etapa-frecuencia {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+.etapa-color-1 {
+    background: #ffe0e6;
+    border: 2px solid #f43f5e;
+    color: #9f1239;
+}
+
+.etapa-color-2 {
+    background: #f3e8ff;
+    border: 2px solid #c084fc;
+    color: #7e22ce;
+}
+
+.etapa-color-3 {
+    background: #dcfce7;
+    border: 2px solid #22c55e;
+    color: #166534;
+}
+
+.etapa-color-4 {
+    background: #fce7f3;
+    border: 2px solid #ec4899;
+    color: #9d174d;
+}
+
+
+.etapa-color-5 {
+    background: #e0f2fe;
+    border: 2px solid #06b6d4;
+    color: #155e75;
+}
+
+.etapa-color-6 {
+    background: #ede9fe;
+    border: 2px solid #8b5cf6;
+    color: #5b21b6;
+}
+.etapa-color-7 {
+    background: #ffedd5;
+    border: 2px solid #f97316;
+    color: #9a3412;
+}
+
+.etapa-color-8 {
+    background: #dbeafe;
+    border: 2px solid #38bdf8;
+    color: #075985;
+}
+.etapa-color-9 {
+    background: #fef9c3;
+    border: 2px solid #eab308;
+    color: #854d0e;
+}
+.etapa-color-10 {
+    background: #ccfbf1;
+    border: 2px solid #14b8a6;
+    color: #115e59;
+}
+
+.frecuencia-continuo {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 20px;
+    background: #dbeafe;
+    border: 2px solid #38bdf8;
+    color: #075985;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+.frecuencia-simple {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 20px;
+    background: #ede9fe;
+    border: 2px solid #8b5cf6;
+    color: #5b21b6;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+/* ============================= */
+/* ALERGIAS Y ANTECEDENTES */
+/* ============================= */
+
+.bloque-alergia,
+.bloque-antecedente
+ {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.bloque-alergia .tipo-alergia,
+.bloque-antecedente .tipo-antecedente {
+    flex: 1;
+}
+
+.bloque-alergia .texto-alergia,
+.bloque-antecedente .texto-antecedente {
+    flex: 2;
+}
+
+
+/* Chapitas para agregar */
+
+.btn-agregar-alergia,
+.btn-agregar-antecedente {
+    display: inline-block;
+    width: 140px;
+    padding: 4px 8px;
+    margin-top: 5px;
+
+    border: 2px solid #f0c30f;
+    border-radius: 20px;
+
+    background: #fef9c3;
+    color: #b45309;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+}
+
+.btn-agregar-alergia:hover,
+.btn-agregar-antecedente:hover {
+    transform: scale(1.03);
+}
+
+
+/* Cestito */
+
+.btn-eliminar-alergia,
+.btn-eliminar-antecedente {
+    flex: 0 0 auto;
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    border: 1px solid #fca5a5;
+    border-radius: 50%;
+
+    background: #fff1f2;
+    color: #dc2626;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-eliminar-alergia:hover,
+.btn-eliminar-antecedente:hover {
+    transform: scale(1.08);
+}
+
+/* ============================= */
+/* DESPLEGABLES DEL PEQUE */
+/* ============================= */
+
+.bloque-desplegable-peque {
+    margin-top: 10px;
+}
+
+
+/* Botón Alergias / Antecedentes */
+
+.boton-desplegable-peque {
+    width: 100%;
+    padding: 10px 14px;
+
+    border: 2px solid #c4b5fd;
+    border-radius: 18px;
+
+    background: #f5f3ff;
+    color: #6d28d9;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    transition: transform 0.2s ease;
+}
+
+
+.boton-desplegable-peque:hover {
+    transform: scale(1.02);
+}
+
+
+/* Información que aparece al abrir */
+
+.contenido-desplegable-peque {
+    margin-top: 6px;
+    padding: 8px 12px;
+
+    border-radius: 14px;
+
+    background: #faf5ff;
+    border: 1px solid #ddd6fe;
+
+    color: #475569;
+}
+
+
+.contenido-desplegable-peque p {
+    margin: 5px 0;
+}
+
+/* Campo para antecedentes */
+
+#antecedentes-peque {
+    min-height: 45px;
+    height: 45px;
+    resize: none;
+}
+
+.texto-antecedente {
+    min-height: 45px;
+    height: 45px;
+    resize: none;
+}
+
+.titulo-editar-cuidador {
+    text-align: center;
+    margin-left: 10px;
 }

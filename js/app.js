@@ -8,6 +8,7 @@ return localStorage.getItem("idiomaApp") || "es";
 let rolActivo = localStorage.getItem("rolActivo") || "Mamá";
 let pequeActivo = localStorage.getItem("pequeActivo") || "";
 let idiomaApp = obtenerIdioma();
+let medicacionEditando= null;
 
 // ==========================================
 // 1. INICIALIZADOR GENERAL DE PANTALLAS (CON MEMORIA SEPARADA POR HIJO)
@@ -233,7 +234,7 @@ const diccionarioTraducciones = {
     "titulo-med": "Agregá los medicamentos de tu peque 💉",
     "label-med-nom": "Nombre del medicamento 💊",
     "place-med-nom": "P. ej., Paracetamol",
-    "label-med-dos": "Dosis 💉",
+    "label-med-dos": "Dosis",
     "place-med-dos": "P. ej., 10 gotas",
     "label-med-fre": "¿Cada cuántas horas? ⏳",
     "place-med-fre": "P. ej., 8",
@@ -253,11 +254,32 @@ const diccionarioTraducciones = {
     "tipo-med-simple": "💊 Tratamiento simple",
     "tipo-med-progresivo": "🔄 Tratamiento progresivo",
     "tipo-med-continuo": "♾️ Tratamiento continuo",
-    "label-med-proxima": "Próxima toma",
     "label-med-inicio": "Hora de inicio",
+    "label-med-fecha-inicio": "Fecha de inicio",
+    "label-med-proxima": "Próxima toma",
+    "label-med-finalizacion": "Finalización",
+    "label-med-dias-restantes": "Días restantes",
     "label-med-tratamiento": "Tratamiento",
     "label-med-frecuencia": "Frecuencia",
+    "label-med-duracion": "Duración",
+    "label-med-frecuencia-actual": "Frecuencia actual",
+    "label-med-etapa-actual": "Etapa actual",
+    "label-med-etapa": "Etapa",
+    "label-med-dia": "Día",
+    "label-med-dias": "Días",
+    "label-med-de": "de",
+    "label-med-continuo": "Continuo",
     "label-med-eliminar": "🗑️ Eliminar",
+    "label-med-finalizado": "Tratamiento finalizado",
+    "label-med-compartir": "Compartir tratamiento",
+
+    "med-pregunta-frecuencia": "¿Cada cuántas horas? ⏳",
+    "med-fecha-inicio": "Fecha de inicio 🗓",
+    "med-pregunta-dias": "¿Por cuántos días? 📅",
+    "med-agregar-etapa": "➕ Agregar etapa",
+    "med-etapa": "Etapa",
+    "med-continuo-mensaje": "♾️ Este tratamiento no tiene una fecha de finalización. Pequeños Cuidados te ayudará a recordar cada toma.",
+    "med-max-etapas": "⚠️ El tratamiento puede tener un máximo de 10 etapas.",
 
 
     "titulo-tur": "Los próximos turnos de tu peque 📅",
@@ -309,16 +331,50 @@ const diccionarioTraducciones = {
     "label-per-alt": "¿Altura actual? (en cm) 📏",
     "place-per-alt": "P. ej., 85",
     "btn-per-save": "✨ Crear Perfil Arcoíris 🌈",
+    "btn-per-add": "➕ Agregar Peque",
     "historial-per": "Peques registrados 📋",
     "th-per-nom": "Nombre",
     "th-per-dat": "Edad / Peso / Altura",
     "th-per-acc": "Acción",
+    "label-peque-edad": "Edad",
+    "label-peque-peso": "Peso",
+    "label-peque-altura": "Altura",
+    "btn-peque-cuidados": "💚 Comenzar cuidados",
+    "btn-peque-editar": "✏️ Editar perfil",
+    "btn-peque-eliminar": "🗑️ Eliminar perfil",
+    "confirmar-peque-eliminar": "¿Eliminar este peque? 🌈",
+    "alert-peque-creado": "✨ ¡Perfil de {nombre} creado con éxito!",
+    "alert-peque-actualizado": "✨ ¡Perfil de {nombre} actualizado!",
+    "alert-peque-nombre-existe": "⚠️ Ese nombre ya está registrado.",
+    "perfil-grupo-sanguineo": "Grupo y factor sanguíneo",
+    "perfil-grupo-no-sabe": "No lo sé",
+    "perfil-grupo-no-registrado": "No registrado",
 
-"titulo-privacidad": "🔒 Política de Privacidad",
-"privacidad-1": "En Pequeños Cuidados, la seguridad de tu familia es lo primero. 🧸",
-"privacidad-2": "Queremos que te quedes totalmente tranquila/o: esta aplicación no recolecta ni envía datos.",
-"privacidad-3": "Todos los datos se guardan en tu dispositivo usando LocalStorage.",
-"privacidad-4": "Al usar esta app aceptás este entorno seguro creado con cariño. ❤️",
+    "perfil-alergias-titulo": "Alergias",
+    "alergia-tipo-alimentos": "Alimentos",
+    "alergia-tipo-medicamentos": "Medicamentos",
+    "alergia-tipo-ambientales": "Ambientales",
+    "alergia-tipo-animales": "Animales",
+    "alergia-tipo-otros": "Otros",
+    "alergia-placeholder": "Ej: frutilla, huevo, penicilina...",
+    "btn-agregar-alergia": "Agregar otra alergia",
+    "perfil-sin-registrar": "Sin registrar",
+
+    "perfil-antecedentes-titulo": "Antecedentes importantes",
+    "antecedente-placeholder": "Ej: Asma, cirugía, internación...",
+    "btn-agregar-antecedente": "Agregar otro antecedente",
+
+    "editar-cuidador-titulo": "Editar cuidador",
+    "editar-cuidador-sub": "Podés cambiar cómo queremos llamarte 💜",
+    "editar-cuidador-label": "¿Cómo querés que te llamemos? 🧡",
+    "editar-cuidador-placeholder": "Escribí tu nombre",
+    "editar-cuidador-guardar": "💾 Guardar cambios",
+
+    "titulo-privacidad": "🔒 Política de Privacidad",
+    "privacidad-1": "En Pequeños Cuidados, la seguridad de tu familia es lo primero. 🧸",
+    "privacidad-2": "Queremos que te quedes totalmente tranquila/o: esta aplicación no recolecta ni envía datos.",
+    "privacidad-3": "Todos los datos se guardan en tu dispositivo usando LocalStorage.",
+    "privacidad-4": "Al usar esta app aceptás este entorno seguro creado con cariño. ❤️",
 
 
 },
@@ -349,23 +405,50 @@ const diccionarioTraducciones = {
         "btn-volver": "⬅️ Back to Menu",
         "titulo-med": "Your child's medication 💉",
         "label-med-nom": "Medication Name 💊", "place-med-nom": "E.g., Paracetamol",
-        "label-med-dos": "Dose 💉", "place-med-dos": "E.g., 10 drops",
+        "label-med-dos": "Dose", "place-med-dos": "E.g., 10 drops",
         "label-med-fre": "Every how many hours? ⏳", "place-med-fre": "E.g., 8",
         "label-med-dia": "For how many days? 📅", "place-med-dia": "E.g., 7",
         "label-med-ini": "Start time ⏰",
         "btn-med-add": "➕ Add Medication", "btn-med-save": "🌟 Save Medication",
-        "th-med-nom": "Medication Name", "th-med-dos": "Dose", "th-med-fre": "Frequency", "th-med-pro": "Next Dose", "th-med-acc": "Action",
+        "th-med-nom": "Medication Name", 
+        "th-med-dos": "Dose", 
+        "th-med-fre": "Frequency", 
+        "th-med-pro": "Next Dose", 
+        "th-med-acc": "Action",
         "historial-med": "Medication log 📋",
+
+        "med-pregunta-frecuencia": "How many hours between doses? ⏳",
+        "med-fecha-inicio": "Start date 🗓",
+        "med-pregunta-dias": "For how many days? 📅",
+        "med-agregar-etapa": "➕ Add stage",
+        "med-etapa": "Stage",
+        "med-continuo-mensaje": "♾️ This treatment has no end date. Pequeños Cuidados will help you remember each dose.",
+        "med-max-etapas": "⚠️ The treatment can have a maximum of 10 stages.",
 
         "label-med-tipo": "Treatment type 🔄",
         "tipo-med-simple": "💊 Simple treatment",
         "tipo-med-progresivo": "🔄 Progressive treatment",
         "tipo-med-continuo": "♾️ Continuous treatment",
-        "label-med-proxima": "Next dose",
         "label-med-inicio": "Start time",
+        "label-med-fecha-inicio": "Start date",
+        "label-med-proxima": "Next dose",
+        "label-med-finalizacion": "End date",
+        "label-med-dias-restantes": "Days remaining",
         "label-med-tratamiento": "Treatment",
         "label-med-frecuencia": "Frequency",
+        "label-med-duracion": "Duration",
+        "label-med-frecuencia-actual": "Current frequency",
+        "label-med-etapa-actual": "Current stage",
+        "label-med-etapa": "Stage",
+        "label-med-dia": "day",
+        "label-med-dias": "days",
+        "label-med-de": "of",
+        "label-med-continuo": "Continuous",
         "label-med-eliminar": "🗑️ Delete",
+        "label-med-finalizado": "Treatment completed",
+        "label-med-compartir": "Share treatment",
+
+
 
         "titulo-tur": "Your child's upcoming appointments 📅",
         "label-tur-med": "Doctor or specialist? 👩‍⚕️", "place-tur-med": "E.g., Pediatrician, Dentist",
@@ -397,14 +480,51 @@ const diccionarioTraducciones = {
         "label-per-pes": "Current weight? (in kg) ⚖️", "place-per-pes": "E.g., 12.5",
         "label-per-alt": "Current height? (in cm) 📏", "place-per-alt": "E.g., 85",
         "btn-per-save": "✨ Create Rainbow Profile 🌈",
-        "historial-per": "Registered children 📋", "th-per-nom": "Name", "th-per-dat": "Age / Weight / Height", "th-per-acc": "Action",
+        "btn-per-add": "➕ Add Child",
+        "historial-per": "Registered children 📋",
+        "th-per-nom": "Name", "th-per-dat": "Age / Weight / Height",
+        "th-per-acc": "Action",
+        "label-peque-edad": "Age",
+        "label-peque-peso": "Weight",
+        "label-peque-altura": "Height",
+        "btn-peque-cuidados": "💚 Start care",
+        "btn-peque-editar": "✏️ Edit profile",
+        "btn-peque-eliminar": "🗑️ Delete profile",
+        "confirmar-peque-eliminar": "Delete this child? 🌈",
+        "alert-peque-creado": "✨ {nombre}'s profile was created successfully!",
+        "alert-peque-actualizado": "✨ {nombre}'s profile was updated!",
+        "alert-peque-nombre-existe": "⚠️ That name is already registered.",
 
-       "titulo-privacidad": "🔒 Privacy Policy",
-"privacidad-1": "In Pequeños Cuidados, your family's safety comes first. 🧸",
-"privacidad-2": "We do not collect or send any personal data.",
-"privacidad-3": "All data is stored locally on your device using LocalStorage.",
-"privacidad-4": "By using this app you accept this safe environment. ❤️",
-        
+        "perfil-grupo-sanguineo": "Blood type and Rh factor",
+        "perfil-grupo-no-sabe": "I don't know",
+        "perfil-grupo-no-registrado": "Not registered",
+
+        "perfil-alergias-titulo": "Allergies",
+        "alergia-tipo-alimentos": "Food",
+        "alergia-tipo-medicamentos": "Medications",
+        "alergia-tipo-ambientales": "Environmental",
+        "alergia-tipo-animales": "Animals",
+        "alergia-tipo-otros": "Other",
+        "alergia-placeholder": "E.g.: strawberry, egg, penicillin...",
+        "btn-agregar-alergia": "Add another allergy",
+        "perfil-sin-registrar": "Not registered",
+
+        "perfil-antecedentes-titulo": "Important medical history",
+        "antecedente-placeholder": "E.g.: Asthma, surgery, hospitalization...",
+        "btn-agregar-antecedente": "Add another medical history",
+
+        "editar-cuidador-titulo": "Edit caregiver",
+        "editar-cuidador-sub": "You can change what you'd like us to call you 💜",
+        "editar-cuidador-label": "What would you like us to call you? 🧡",
+        "editar-cuidador-placeholder": "Enter your name",
+        "editar-cuidador-guardar": "💾 Save changes",
+
+        "titulo-privacidad": "🔒 Privacy Policy",
+        "privacidad-1": "In Pequeños Cuidados, your family's safety comes first. 🧸",
+        "privacidad-2": "We do not collect or send any personal data.",
+        "privacidad-3": "All data is stored locally on your device using LocalStorage.",
+        "privacidad-4": "By using this app you accept this safe environment. ❤️",
+                
     },
     pt: {
         "nube-med": "Medicação 💊", "nube-tur": "Consultas 📅", "nube-vac": "Vacinas 💉",
@@ -432,7 +552,7 @@ const diccionarioTraducciones = {
         "btn-volver": "⬅️ Voltar ao Menu",
         "titulo-med": "Medicação do seu bebê 💉",
         "label-med-nom": "Nome do medicamento 💊", "place-med-nom": "Ex: Paracetamol",
-        "label-med-dos": "Dose 💉", "place-med-dos": "Ex: 10 gotas",
+        "label-med-dos": "Dose", "place-med-dos": "Ex: 10 gotas",
         "label-med-fre": "A cada quantas horas? ⏳", "place-med-fre": "Ex: 8",
         "label-med-dia": "Por quantos dias? 📅", "place-med-dia": "Ex: 7",
         "label-med-ini": "Hora de início ⏰",
@@ -444,11 +564,32 @@ const diccionarioTraducciones = {
         "tipo-med-simple": "💊 Tratamento simples",
         "tipo-med-progresivo": "🔄 Tratamento progressivo",
         "tipo-med-continuo": "♾️ Tratamento contínuo",
-        "label-med-proxima": "Próxima dose",
         "label-med-inicio": "Hora de início",
+        "label-med-fecha-inicio": "Data de início",
+        "label-med-proxima": "Próxima dose",
+        "label-med-finalizacion": "Data de término",
+        "label-med-dias-restantes": "Dias restantes",
         "label-med-tratamiento": "Tratamento",
         "label-med-frecuencia": "Frequência",
+        "label-med-duracion": "Duração",
+        "label-med-frecuencia-actual": "Frequência atual",
+        "label-med-etapa-actual": "Etapa atual",
+        "label-med-etapa": "Etapa",
+        "label-med-dia": "dia",
+        "label-med-dias": "dias",
+        "label-med-de": "de",
+        "label-med-continuo": "Contínuo",
         "label-med-eliminar": "🗑️ Excluir",
+        "label-med-finalizado": "Tratamento finalizado",
+        "label-med-compartir": "Compartilhar tratamento",
+
+        "med-pregunta-frecuencia": "A cada quantas horas? ⏳",
+        "med-fecha-inicio": "Data de início 🗓",
+        "med-pregunta-dias": "Por quantos dias? 📅",
+        "med-agregar-etapa": "➕ Adicionar etapa",
+        "med-etapa": "Etapa",
+        "med-continuo-mensaje": "♾️ Este tratamento não tem uma data de término. Pequeños Cuidados ajudará você a lembrar de cada dose.",
+        "med-max-etapas": "⚠️ O tratamento pode ter no máximo 10 etapas.",
 
         "titulo-tur": "Próximas consultas do seu bebê 📅",
         "label-tur-med": "Médico ou especialista? 👩‍⚕️", "place-tur-med": "Ex: Pediatra, Dentista",
@@ -480,13 +621,50 @@ const diccionarioTraducciones = {
         "label-per-pes": "Peso atual? (em kg) ⚖️", "place-per-pes": "Ex: 12.5",
         "label-per-alt": "Altura atual? (em cm) 📏", "place-per-alt": "Ex: 85",
         "btn-per-save": "✨ Criar Perfil Arco-Íris 🌈",
-        "historial-per": "Bebês registrados 📋", "th-per-nom": "Nome", "th-per-dat": "Idade / Peso / Altura", "th-per-acc": "Ação",
+        "btn-per-add": "➕ Adicionar Bebê",
+        "historial-per": "Bebês registrados 📋",
+        "th-per-nom": "Nome", "th-per-dat": "Idade / Peso / Altura",
+        "th-per-acc": "Ação",
+        "label-peque-edad": "Idade",
+        "label-peque-peso": "Peso",
+        "label-peque-altura": "Altura",
+        "btn-peque-cuidados": "💚 Começar cuidados",
+        "btn-peque-editar": "✏️ Editar perfil",
+        "btn-peque-eliminar": "🗑️ Excluir perfil",
+        "confirmar-peque-eliminar": "Excluir este bebê? 🌈",
+        "alert-peque-creado": "✨ O perfil de {nombre} foi criado com sucesso!",
+        "alert-peque-actualizado": "✨ O perfil de {nombre} foi atualizado!",
+        "alert-peque-nombre-existe": "⚠️ Esse nome já está registrado.",
 
-         "titulo-privacidad": "🔒 Política de Privacidade",
-"privacidad-1": "No Pequeños Cuidados, a segurança da sua família é prioridade. 🧸",
-"privacidad-2": "Não coletamos nem enviamos dados pessoais.",
-"privacidad-3": "Todos os dados ficam salvos localmente no seu dispositivo.",
-"privacidad-4": "Ao usar este app você aceita este ambiente seguro. ❤️",
+        "perfil-grupo-sanguineo": "Grupo sanguíneo e fator Rh",
+        "perfil-grupo-no-sabe": "Não sei",
+        "perfil-grupo-no-registrado": "Não registrado",
+
+        "perfil-alergias-titulo": "Alergias",
+        "alergia-tipo-alimentos": "Alimentos",
+        "alergia-tipo-medicamentos": "Medicamentos",
+        "alergia-tipo-ambientales": "Ambientais",
+        "alergia-tipo-animales": "Animais",
+        "alergia-tipo-otros": "Outros",
+        "alergia-placeholder": "Ex.: morango, ovo, penicilina...",
+        "btn-agregar-alergia": "Adicionar outra alergia",
+        "perfil-sin-registrar": "Não registrado",
+
+        "perfil-antecedentes-titulo": "Antecedentes importantes",
+        "antecedente-placeholder": "Ex.: Asma, cirurgia, internação...",
+        "btn-agregar-antecedente": "Adicionar outro antecedente",
+
+        "editar-cuidador-titulo": "Editar cuidador",
+        "editar-cuidador-sub": "Você pode mudar como queremos chamar você 💜",
+        "editar-cuidador-label": "Como você quer que a gente chame você? 🧡",
+        "editar-cuidador-placeholder": "Digite seu nome",
+        "editar-cuidador-guardar": "💾 Salvar alterações",
+
+        "titulo-privacidad": "🔒 Política de Privacidade",
+        "privacidad-1": "No Pequeños Cuidados, a segurança da sua família é prioridade. 🧸",
+        "privacidad-2": "Não coletamos nem enviamos dados pessoais.",
+        "privacidad-3": "Todos os dados ficam salvos localmente no seu dispositivo.",
+        "privacidad-4": "Ao usar este app você aceita este ambiente seguro. ❤️",
 
 
     }
@@ -685,6 +863,24 @@ function traducirTodaLaAplicacion() {
 
         const btn = document.querySelector("#form-perfil .btn-guardar-todo");
         if (btn) btn.innerText = idioma["btn-per-save"];
+         
+        const btnAgregarPeque = document.querySelector("#form-perfil .btn-agregar-arcoiris");
+        if (btnAgregarPeque) btnAgregarPeque.innerText = idioma["btn-per-add"];
+
+    }
+
+    // =========================
+    // 👶 LISTA DE PEQUES
+    // =========================
+    if (document.querySelector(".body-peques")) {
+
+        const tit = document.querySelector(".body-peques .titulo-tarjeta");
+        const sub = document.querySelector(".body-peques .subtitulo-perfil");
+        const btnAgregar = document.querySelector(".body-peques .btn-agregar-arcoiris");
+
+        if (tit) tit.innerText = idioma["titulo-per"];
+        if (sub) sub.innerText = idioma["sub-per"];
+        if (btnAgregar) btnAgregar.innerText = idioma["btn-per-add"];
     }
 
 // =========================
@@ -788,6 +984,7 @@ function agregarBloqueRemedioHtml() {
     let fre = "¿Cada cuántas horas? ⏳";
     let dia = "¿Por cuántos días? 📅";
     let ini = "Hora de inicio ⏰";
+    let fechaIni = "Fecha de inicio 🗓";
 
     let pNom = "Ej: Paracetamol";
     let pDos = "Ej: 10 gotas";
@@ -807,6 +1004,7 @@ function agregarBloqueRemedioHtml() {
         fre = idioma["label-med-fre"];
         dia = idioma["label-med-dia"];
         ini = idioma["label-med-ini"];
+        fechaIni = idioma["label-med-fecha-inicio"];
 
         pNom = idioma["place-med-nom"];
         pDos = idioma["place-med-dos"];
@@ -826,6 +1024,7 @@ function agregarBloqueRemedioHtml() {
         fre = idioma["label-med-fre"];
         dia = idioma["label-med-dia"];
         ini = idioma["label-med-ini"];
+        fechaIni = idioma["label-med-fecha-inicio"];
 
         pNom = idioma["place-med-nom"];
         pDos = idioma["place-med-dos"];
@@ -912,13 +1111,22 @@ function agregarBloqueRemedioHtml() {
             </div>
 
             <div class="grupo-campo">
-                <label>${ini}</label>
+                 <label>${ini}</label>
+
+                 <input 
+                     type="time" 
+                     class="input-arcoiris input-hora" 
+                        required>
+            </div>
+
+        <div class="grupo-campo">
+            <label>${fechaIni}</label>
 
                 <input 
-                    type="time" 
-                    class="input-arcoiris input-hora" 
+                    type="date" 
+                    class="input-arcoiris input-fecha-inicio" 
                     required>
-            </div>
+        </div>
 
         </div>
 
@@ -928,19 +1136,18 @@ function agregarBloqueRemedioHtml() {
 }
 
 function cambiarTipoTratamiento(select, idUnico) {
-
     const contenedor = document.getElementById(`campos-tratamiento-${idUnico}`);
-
     if (!contenedor) return;
 
     const tipoSeleccionado = select.value;
+    const idioma = diccionarioTraducciones[idiomaApp];
 
     // 💊 TRATAMIENTO SIMPLE
     if (tipoSeleccionado === "simple") {
 
         contenedor.innerHTML = `
             <div class="grupo-campo">
-                <label>¿Cada cuántas horas? ⏳</label>
+                <label>${idioma["med-pregunta-frecuencia"]}</label>
 
                 <input 
                     type="number" 
@@ -951,9 +1158,18 @@ function cambiarTipoTratamiento(select, idUnico) {
                     required>
             </div>
 
-            <div class="grupo-campo">
-                <label>¿Por cuántos días? 📅</label>
 
+            <div class="grupo-campo">
+               <label>${idioma["med-fecha-inicio"]}</label>
+
+                <input 
+                    type="date" 
+                    class="input-arcoiris input-fecha-inicio" 
+                    required>
+            </div>
+
+            <div class="grupo-campo">
+                <label>${idioma["med-pregunta-dias"]}</label>
                 <input 
                     type="number" 
                     class="input-arcoiris input-dias" 
@@ -964,7 +1180,7 @@ function cambiarTipoTratamiento(select, idUnico) {
             </div>
 
             <div class="grupo-campo">
-                <label>Hora de inicio ⏰</label>
+                <label>${idioma["label-med-ini"]}</label>
 
                 <input 
                     type="time" 
@@ -981,7 +1197,7 @@ function cambiarTipoTratamiento(select, idUnico) {
         contenedor.innerHTML = `
 
             <div class="grupo-campo">
-                <label>Hora de inicio ⏰</label>
+                <label>${idioma["label-med-ini"]}</label>
 
                 <input 
                     type="time" 
@@ -989,15 +1205,22 @@ function cambiarTipoTratamiento(select, idUnico) {
                     required>
             </div>
 
+         <div class="grupo-campo">
+                <label>${idioma["med-fecha-inicio"]}</label>
+
+                 <input 
+                    type="date" 
+                    class="input-arcoiris input-fecha-inicio" 
+                    required>
+         </div>
+
             <div class="etapas-tratamiento" id="etapas-${idUnico}">
 
                 <div class="etapa-tratamiento">
-
-                    <h4>🔄 Etapa 1</h4>
+                     <h4>🔄 ${idioma["med-etapa"]} 1</h4>
 
                     <div class="grupo-campo">
-                        <label>¿Cada cuántas horas? ⏳</label>
-
+                       <label>${idioma["med-pregunta-frecuencia"]}</label>
                         <input 
                             type="number" 
                             class="input-arcoiris input-frecuencia-etapa" 
@@ -1008,7 +1231,7 @@ function cambiarTipoTratamiento(select, idUnico) {
                     </div>
 
                     <div class="grupo-campo">
-                        <label>¿Por cuántos días? 📅</label>
+                        <label>${idioma["med-pregunta-dias"]}</label>
 
                         <input 
                             type="number" 
@@ -1023,13 +1246,9 @@ function cambiarTipoTratamiento(select, idUnico) {
 
             </div>
 
-            <button 
-                type="button" 
-                class="btn-agregar-arcoiris"
-                onclick="agregarEtapaTratamiento(${idUnico})">
-
-                ➕ Agregar etapa
-
+            <button type="button" class="btn-agregar-arcoiris" 
+             onclick="agregarEtapaTratamiento(${idUnico})">
+                ${idioma["med-agregar-etapa"]}
             </button>
 
         `;
@@ -1042,7 +1261,7 @@ function cambiarTipoTratamiento(select, idUnico) {
         contenedor.innerHTML = `
 
             <div class="grupo-campo">
-                <label>¿Cada cuántas horas? ⏳</label>
+               <label>${idioma["med-pregunta-frecuencia"]}</label>
 
                 <input 
                     type="number" 
@@ -1054,7 +1273,7 @@ function cambiarTipoTratamiento(select, idUnico) {
             </div>
 
             <div class="grupo-campo">
-                <label>Hora de inicio ⏰</label>
+                <label>${idioma["label-med-ini"]}</label>
 
                 <input 
                     type="time" 
@@ -1062,9 +1281,17 @@ function cambiarTipoTratamiento(select, idUnico) {
                     required>
             </div>
 
-            <p class="mensaje-tratamiento-continuo">
-                ♾️ Este tratamiento no tiene una fecha de finalización.
-                Pequeños Cuidados te ayudará a recordar cada toma.
+            <div class="grupo-campo">
+                <label>${idioma["med-fecha-inicio"]}</label>
+
+                <input 
+                    type="date" 
+                    class="input-arcoiris input-fecha-inicio" 
+                    required>
+            </div>
+
+           <p class="mensaje-tratamiento-continuo">
+                ${idioma["med-continuo-mensaje"]}
             </p>
 
         `;
@@ -1075,6 +1302,8 @@ function cambiarTipoTratamiento(select, idUnico) {
 
 function agregarEtapaTratamiento(idUnico) {
 
+    const idioma = diccionarioTraducciones[idiomaApp];
+
     const contenedorEtapas = document.getElementById(`etapas-${idUnico}`);
 
     if (!contenedorEtapas) return;
@@ -1082,8 +1311,9 @@ function agregarEtapaTratamiento(idUnico) {
     const cantidadEtapas = contenedorEtapas.querySelectorAll(".etapa-tratamiento").length;
 
     // 🔒 Máximo 10 etapas
+
     if (cantidadEtapas >= 10) {
-        alert("⚠️ El tratamiento puede tener un máximo de 10 etapas.");
+        alert(idioma["med-max-etapas"]);
         return;
     }
 
@@ -1097,7 +1327,7 @@ function agregarEtapaTratamiento(idUnico) {
 
        <div class="encabezado-etapa">
 
-            <h4>🔄 Etapa ${numeroEtapa}</h4>
+            <h4>🔄 ${diccionarioTraducciones[idiomaApp]["med-etapa"]} ${numeroEtapa}</h4>
 
                <button 
                      type="button"
@@ -1111,7 +1341,7 @@ function agregarEtapaTratamiento(idUnico) {
 
         <div class="grupo-campo">
 
-            <label>¿Cada cuántas horas? ⏳</label>
+            <label>${idioma["med-pregunta-frecuencia"]}</label>
 
             <input 
                 type="number"
@@ -1125,7 +1355,7 @@ function agregarEtapaTratamiento(idUnico) {
 
         <div class="grupo-campo">
 
-            <label>¿Por cuántos días? 📅</label>
+           <label>${idioma["med-pregunta-dias"]}</label>
 
             <input 
                 type="number"
@@ -1163,6 +1393,9 @@ function eliminarEtapaTratamiento(boton) {
 
 function actualizarNumerosEtapas(contenedorEtapas) {
 
+    const idioma =
+        diccionarioTraducciones[idiomaApp];
+
     const etapas = contenedorEtapas.querySelectorAll(".etapa-tratamiento");
 
     etapas.forEach((etapa, indice) => {
@@ -1170,9 +1403,9 @@ function actualizarNumerosEtapas(contenedorEtapas) {
         const titulo = etapa.querySelector("h4");
 
         if (titulo) {
-            titulo.innerText = `🔄 Etapa ${indice + 1}`;
+            titulo.textContent =
+                `🔄 ${idioma["med-etapa"]} ${indice + 1}`;
         }
-
     });
 
 }
@@ -1237,9 +1470,21 @@ function guardarTodasLasMedicaciones() {
         const horaInicio =
             bloque.querySelector(".input-hora")?.value;
 
+        const fechaInicio =
+            bloque.querySelector(".input-fecha-inicio")?.value;    
 
-        // Datos básicos obligatorios
-        if (!remedio || !dosis || !tipoTratamiento || !horaInicio) {
+
+       if (!remedio || !dosis || !tipoTratamiento || !horaInicio || !fechaInicio) {
+
+            alert(
+                "Falta:\n" +
+                "Medicamento: " + (remedio || "❌") + "\n" +
+                "Dosis: " + (dosis || "❌") + "\n" +
+                "Tipo: " + (tipoTratamiento || "❌") + "\n" +
+                "Hora: " + (horaInicio || "❌") + "\n" +
+                "Fecha: " + (fechaInicio || "❌")
+            );
+
             errores = true;
             return;
         }
@@ -1277,7 +1522,9 @@ function guardarTodasLasMedicaciones() {
 
                 diasDuracion: parseInt(dias),
 
-                horaInicio: horaInicio
+                horaInicio: horaInicio,
+
+                fechaInicio: fechaInicio
 
             });
 
@@ -1342,6 +1589,8 @@ function guardarTodasLasMedicaciones() {
 
                 horaInicio: horaInicio,
 
+                fechaInicio: fechaInicio,
+
                 etapas: listaEtapas
 
             });
@@ -1377,7 +1626,9 @@ function guardarTodasLasMedicaciones() {
                 frecuenciaHoras:
                     parseInt(frecuencia),
 
-                horaInicio: horaInicio
+                horaInicio: horaInicio,
+
+                fechaInicio: fechaInicio,
 
             });
 
@@ -1385,28 +1636,58 @@ function guardarTodasLasMedicaciones() {
 
     });
 
-
-    // 🛑 Si alguna medicación está incompleta,
-    // NO modificamos lo que ya estaba guardado
     if (errores) {
-
-        alert(
-            idiomaApp === "en"
-                ? "⚠️ Please complete all required fields."
-                : idiomaApp === "pt"
-                    ? "⚠️ Por favor, preencha todos os campos obrigatórios."
-                    : "⚠️ Por favor, completa todos los campos obligatorios."
-        );
-
-        return;
+         return;
     }
 
+    const estabaEditando = !!medicacionEditando; 
 
-    // 💾 MUY IMPORTANTE:
-    // Conservamos las medicaciones anteriores
-    // y agregamos las nuevas
-    const listaFinal =
-        [...medicacionesAnteriores, ...nuevasMedicaciones];
+    if (medicacionEditando) {
+
+        const indice = medicacionesAnteriores.findIndex(
+            item => item.id === medicacionEditando
+        );
+
+        if (indice !== -1) {
+
+            nuevasMedicaciones[0].id = medicacionEditando;
+
+            medicacionesAnteriores[indice] =
+                nuevasMedicaciones[0];
+
+        }
+
+
+    }
+
+    const idEditando = window.medicacionEditando;
+
+            let listaFinal;
+
+            if (idEditando) {
+
+                const indice = medicacionesAnteriores.findIndex(
+                    item => item.id === idEditando
+                );
+
+                if (indice !== -1 && nuevasMedicaciones.length > 0) {
+
+                    nuevasMedicaciones[0].id = idEditando;
+
+                    medicacionesAnteriores[indice] =
+                        nuevasMedicaciones[0];
+                }
+
+                listaFinal = medicacionesAnteriores;
+
+                window.medicacionEditando = null;
+
+            } else {
+
+                listaFinal =
+                    [...medicacionesAnteriores, ...nuevasMedicaciones];
+
+            }
 
 
     // 👶 Guardamos todo en la bolsa del peque activo
@@ -1497,6 +1778,239 @@ function actualizarListaVisual() {
     // Creamos una tarjeta por cada medicación
     lista.forEach(item => {
 
+       const fechaInicioFormateada =
+            item.fechaInicio
+                ? new Date(item.fechaInicio + "T00:00:00")
+                    .toLocaleDateString(
+                        idiomaApp === "en"
+                            ? "en-US"
+                            : idiomaApp === "pt"
+                                ? "pt-BR"
+                                : "es-AR",
+                        idiomaApp === "en"
+                            ? {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric"
+                            }
+                            : {}
+                    )
+                : "";    
+     let duracionTratamiento ="No disponible";
+     let fechaFinalizacion ="No disponible";
+     let diasRestantes ="No disponible";
+     let etapaActual = "";
+     let frecuenciaEtapaActual = "";
+
+            if (item.fechaInicio) {
+
+                 const fechaInicio = new Date(item.fechaInicio + "T00:00:00");
+                 let diasTratamiento = 0;
+
+                    if (item.tipoTratamiento === "simple") {
+
+                        diasTratamiento = item.diasDuracion || 0;
+                       duracionTratamiento =
+                            `${item.diasDuracion} ${
+                                item.diasDuracion == 1
+                                    ? idioma["label-med-dia"]
+                                    : idioma["label-med-dias"]
+                            }`;
+                        }
+                    else if (item.tipoTratamiento === "progresivo") {
+
+                        if (item.etapas) {
+
+                            diasTratamiento = item.etapas.reduce(
+                                (total, etapa) =>
+                                    total + (parseInt(etapa.diasDuracion) || 0),
+                                0
+                            );
+
+                           duracionTratamiento =
+                                `${diasTratamiento} ${
+                                    diasTratamiento == 1
+                                        ? idioma["label-med-dia"]
+                                        : idioma["label-med-dias"]
+                                }`;
+
+                        }
+
+                    }
+
+       if (item.etapas && item.fechaInicio && item.horaInicio) {
+
+        const ahora = new Date();
+
+        const [hora, minuto] = item.horaInicio.split(":");
+
+        const inicio = new Date(
+            item.fechaInicio + "T00:00:00"
+        );
+
+        inicio.setHours(
+            parseInt(hora),
+            parseInt(minuto),
+            0,
+            0
+        );
+
+        const horasTranscurridas =
+            (ahora - inicio) / (1000 * 60 * 60);
+
+        let horasAcumuladas = 0;
+
+        for (let i = 0; i < item.etapas.length; i++) {
+
+            horasAcumuladas +=
+                (parseInt(item.etapas[i].diasDuracion) || 0) * 24;
+
+            if (horasTranscurridas < horasAcumuladas) {
+
+                etapaActual =
+                
+                  `${i + 1} ${idioma["label-med-de"]} ${item.etapas.length}`;
+
+                frecuenciaEtapaActual =
+                    item.etapas[i].frecuenciaHoras;
+
+                break;
+            }
+        }
+    }         
+
+                    if (diasTratamiento > 0) {
+
+                        const fechaFin = new Date(fechaInicio);
+
+                        fechaFin.setDate(
+                            fechaFin.getDate() + diasTratamiento
+                        );
+
+                        fechaFinalizacion =
+                                fechaFin.toLocaleDateString(
+                                    idiomaApp === "en"
+                                        ? "en-US"
+                                        : idiomaApp === "pt"
+                                            ? "pt-BR"
+                                            : "es-AR",
+                                    idiomaApp === "en"
+                                        ? {
+                                            month: "short",
+                                            day: "numeric",
+                                            year: "numeric"
+                                        }
+                                        : {}
+                                );
+
+                        const hoy = new Date();
+
+                        hoy.setHours(0, 0, 0, 0);
+
+                        const diferencia =
+                            fechaFin - hoy;
+
+                        diasRestantes =
+                            Math.max(
+                                0,
+                                Math.floor(
+                                    diferencia / (1000 * 60 * 60 * 24)
+                                )
+                            );
+                    }
+            }
+
+        let proximaToma = "No disponible";
+
+         if (item.horaInicio) {
+
+            const ahora = new Date();
+            const [hora, minuto] = item.horaInicio.split(":");
+
+            let siguiente = new Date();
+
+            siguiente.setHours(
+                parseInt(hora),
+                parseInt(minuto),
+                0,
+                0
+            );
+
+            let frecuenciaActual = item.frecuenciaHoras;
+
+            // Si es un tratamiento progresivo,
+            // buscamos la etapa que corresponde actualmente
+            // contando desde la fecha Y hora real de inicio.
+
+            if (
+                item.tipoTratamiento === "progresivo" &&
+                item.etapas &&
+                item.fechaInicio &&
+                item.horaInicio
+            ) {
+
+                const [horaInicio, minutoInicio] =
+                    item.horaInicio.split(":");
+
+                const inicio = new Date(
+                    item.fechaInicio + "T00:00:00"
+                );
+
+                inicio.setHours(
+                    parseInt(horaInicio),
+                    parseInt(minutoInicio),
+                    0,
+                    0
+                );
+
+                const ahora = new Date();
+
+                const horasTranscurridas =
+                    (ahora - inicio) / (1000 * 60 * 60);
+
+                let horasAcumuladas = 0;
+
+                for (const etapa of item.etapas) {
+
+                    horasAcumuladas +=
+                        (parseInt(etapa.diasDuracion) || 0) * 24;
+
+                    if (horasTranscurridas < horasAcumuladas) {
+
+                        frecuenciaActual =
+                            parseInt(etapa.frecuenciaHoras);
+
+                        break;
+                    }
+                }
+
+                    if (horasTranscurridas >= horasAcumuladas) {
+                        frecuenciaActual = null;
+                    }
+
+            }
+
+            if (frecuenciaActual) {
+
+                while (siguiente <= ahora) {
+
+                    siguiente.setHours(
+                        siguiente.getHours() + frecuenciaActual
+                    );
+
+                }
+
+                proximaToma =
+                    siguiente.toLocaleTimeString(
+                        "es-AR",
+                        {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: false
+                        }
+                    );
+            }
+          }
         let textoTipo = "";
         let textoFrecuencia = "";
 
@@ -1505,9 +2019,10 @@ function actualizarListaVisual() {
 
             textoTipo = idioma["tipo-med-simple"];
 
-          textoFrecuencia =
-             `${idioma["label-med-frecuencia"]}: ${item.frecuenciaHoras} h`;
-
+            textoFrecuencia =
+                `<span class="frecuencia-simple">
+                    ${idioma["label-med-frecuencia"]}: ${item.frecuenciaHoras} h
+                </span>`;
         }
 
 
@@ -1515,23 +2030,39 @@ function actualizarListaVisual() {
 
          textoTipo = idioma["tipo-med-progresivo"];
 
-         textoFrecuencia =
-         item.etapas
-            .map(
-                (etapa, indice) =>
-                    `Etapa ${indice + 1}: ${etapa.frecuenciaHoras} h / ${etapa.diasDuracion} días`
-            )
-            .join("<br><br>");
+           textoFrecuencia =
 
-        }
+                    item.etapas
+                        .map(
+                            (etapa, indice) => {
+
+                                const numeroEtapa = indice + 1;
+
+                                return `
+                                    <span class="etapa-frecuencia etapa-color-${numeroEtapa}">
+                                        ${idioma["label-med-etapa"]} ${numeroEtapa}: ${etapa.frecuenciaHoras} h / ${etapa.diasDuracion} ${
+                                            etapa.diasDuracion == 1
+                                                ? idioma["label-med-dia"]
+                                                : idioma["label-med-dias"]
+                                        }
+                                    </span>
+                                `;
+                            }
+                        )
+                        .join("<br><br>");
+
+                    }
 
 
         else if (item.tipoTratamiento === "continuo") {
 
             textoTipo = idioma["tipo-med-continuo"];
-
             textoFrecuencia =
-             `${idioma["label-med-frecuencia"]}: ${item.frecuenciaHoras} h`;
+                `<span class="frecuencia-continuo">
+                    ${idioma["label-med-frecuencia"]}: ${item.frecuenciaHoras} h
+                </span>`;
+                duracionTratamiento = 
+                idioma["label-med-continuo"];
 
         }
 
@@ -1557,34 +2088,98 @@ function actualizarListaVisual() {
             <div class="contenido-tarjeta-medicacion">
 
                 <p>
-                   <strong>💉 ${idioma["label-med-dos"]}:</strong>
+                   <br><strong>💉${idioma["label-med-dos"]}:</strong>
                     ${item.dosis}
                 </p>
 
                 <p>
-                    <strong>📋 ${idioma["label-med-tratamiento"]}:</strong>
+                    <br><strong>📋 ${idioma["label-med-tratamiento"]}:</strong><br><br>
                     ${textoTipo}
                 </p>
 
+               ${etapaActual ? `
+                    <div class="chapita-etapa">
+
+                        🔄 ${idioma["label-med-etapa"]} ${etapaActual}
+                    </div>
+
+                    <p>
+                        <strong>⏰ ${idioma["label-med-etapa-actual"]}:</strong>
+                            ${frecuenciaEtapaActual} hs
+                    </p>
+                    ` : ""}
+
                 <p>
-                    <strong>⏰ ${idioma["label-med-frecuencia"]}:</strong><br>
-                     ${item.frecuenciaHoras}
+                     <br><strong>⌚ ${idioma["label-med-frecuencia"]}:</strong><br><br>
+                        ${textoFrecuencia}
                 </p>
 
                 <p>
-                    <strong>🔔 ${idioma["label-med-inicio"]}:</strong>
+                   <br><strong>🔔 ${idioma["label-med-inicio"]}:</strong>
                     ${item.horaInicio}
                 </p>
+
+                <p>
+                    <strong>📅 ${idioma["label-med-fecha-inicio"]}:</strong>
+                    ${fechaInicioFormateada}
+                </p>
+
+                <p>
+                    <strong>🕒 ${idioma["label-med-proxima"]}:</strong>
+                    ${proximaToma}
+                </p>
+
+                <p>
+                    <strong>📆 ${idioma["label-med-duracion"]}:</strong>
+                    ${duracionTratamiento}
+                </p>  
+
+
+                    ${
+                        item.tipoTratamiento !== "continuo"
+                        ? `
+                            <p>
+                                <strong>🏁 ${idioma["label-med-finalizacion"]}:</strong>
+                                ${fechaFinalizacion}
+                            </p>
+
+                            ${
+                                diasRestantes === 0
+                                ? `
+                                    <p class="tratamiento-finalizado">
+                                        ✅ ${idioma["label-med-finalizado"]}
+                                    </p>
+                                `
+                                : `
+                                    <p>
+                                        <strong>⏳ ${idioma["label-med-dias-restantes"]}:</strong>
+                                        ${diasRestantes}
+                                    </p>
+                                `
+                            }
+                        `
+                        : ""
+                    }
+
 
             </div>
 
 
-            <div class="acciones-tarjeta-medicacion">
+          <div class="acciones-tarjeta-medicacion"><br>
+
+                <button
+                    type="button"
+                    class="btn-compartir-tarjeta"
+                    onclick="compartirTratamiento('${item.id}')">
+
+                    📤 ${idioma["label-med-compartir"]}
+
+                </button>
 
                 <button
                     type="button"
                     class="btn-borrar-tarjeta"
-                    onclick="eliminarMedicionGuardada('${item.id}')">
+                    onclick="eliminarMedicacionGuardada('${item.id}')">
 
                     ${idioma["label-med-eliminar"]}
 
@@ -1601,7 +2196,7 @@ function actualizarListaVisual() {
 
 }
 
-function eliminarMedicionGuardada(id) {
+function eliminarMedicacionGuardada(id) {
 
     const claveHistorial =
         pequeActivo + "_medicaciones";
@@ -1646,7 +2241,7 @@ function actualizarListaVacunasVisual() {
         const fechaFormateada = item.fecha.split("-").reverse().join("/");
         const proximaFormateada = item.proxima.split("-").reverse().join("/");
         
-       const tarjeta = document.createElement("div");
+        const tarjeta = document.createElement("div");
 
              tarjeta.className = "tarjeta-medicacion";
 
@@ -1840,23 +2435,101 @@ function eliminarVacunaGuardada(id) {
 // 10. UNIVERSO ALTA DE PERFIL DE PEQUES👶🌈
 // ==========================================
 
+function agregarPequeNuevo() {
+
+    console.log("ANTES:", localStorage.getItem("pequeEditar"));
+
+    localStorage.removeItem("pequeEditar");
+
+    console.log("DESPUÉS:", localStorage.getItem("pequeEditar"));
+
+    irA("perfil.html");
+}
+
 function guardarPerfilPeque() {
 
-    const nombre = document.getElementById("nombre-peque").value.trim();
-    const edad = document.getElementById("edad-peque").value.trim();
-    const peso = document.getElementById("peso-peque").value;
-    const altura = document.getElementById("altura-peque").value;
+    const nombre =
+        document.getElementById("nombre-peque").value.trim();
 
-    let listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
+    const edad =
+        document.getElementById("edad-peque").value.trim();
 
-    const indiceEditar = 
-    localStorage.getItem("pequeEditar");
+    const peso =
+        document.getElementById("peso-peque").value;
 
-    console.log("Editando:", indiceEditar);
+    const altura =
+        document.getElementById("altura-peque").value;
+
+    const grupoSanguineo =
+    document.getElementById("grupo-sanguineo").value;   
+
+
+    // ===========================
+    // ALERGIAS
+    // ===========================
+
+    const alergias = [];
+
+    document
+        .querySelectorAll(".bloque-alergia")
+        .forEach(bloque => {
+
+            const tipo =
+                bloque.querySelector(".tipo-alergia").value;
+
+            const texto =
+                bloque.querySelector(".texto-alergia").value.trim();
+
+            if (texto !== "") {
+
+                alergias.push({
+                    tipo,
+                    texto
+                });
+
+            }
+
+        });
+
+
+    // ===========================
+    // ANTECEDENTES
+    // ===========================
+
+    const antecedentes = [];
+
+        document
+            .querySelectorAll(".bloque-antecedente")
+            .forEach(bloque => {
+
+                const campo =
+                    bloque.querySelector(
+                        ".texto-antecedente, #antecedentes-peque"
+                    );
+
+                if (campo) {
+
+                    const texto =
+                        campo.value.trim();
+
+                    if (texto !== "") {
+                        antecedentes.push(texto);
+                    }
+                }
+            });
+
+
+    let listaPeques =
+    JSON.parse(localStorage.getItem("listaPeques")) || [];
+
+    const indiceEditar =
+        localStorage.getItem("pequeEditar");
+
 
     // ===========================
     // MODO EDITAR
     // ===========================
+
     if (indiceEditar !== null) {
 
         const existe = listaPeques.some((p, i) =>
@@ -1865,71 +2538,155 @@ function guardarPerfilPeque() {
         );
 
         if (existe) {
-            alert("⚠️ Ese nombre ya está registrado.");
+
+            alert(
+                diccionarioTraducciones[idiomaApp]
+                ["alert-peque-nombre-existe"]
+            );
+
             return;
         }
 
+
         listaPeques[indiceEditar] = {
+
             ...listaPeques[indiceEditar],
+
             nombre,
             edad,
             peso,
-            altura
+            altura,
+            grupoSanguineo,
+            alergias,
+            antecedentes
+
         };
 
-        localStorage.setItem("listaPeques", JSON.stringify(listaPeques));
+
+        localStorage.setItem(
+            "listaPeques",
+            JSON.stringify(listaPeques)
+        );
+
         localStorage.removeItem("pequeEditar");
 
-        alert(`✨ ¡Perfil de ${nombre} actualizado!`);
+
+        const mensajeActualizado =
+            idiomaApp === "en"
+            ? diccionarioTraducciones.en[
+                "alert-peque-actualizado"
+            ].replace("{nombre}", nombre)
+
+            : idiomaApp === "pt"
+            ? diccionarioTraducciones.pt[
+                "alert-peque-actualizado"
+            ].replace("{nombre}", nombre)
+
+            : diccionarioTraducciones.es[
+                "alert-peque-actualizado"
+            ].replace("{nombre}", nombre);
+
+
+        alert(mensajeActualizado);
 
         irA("peques.html");
 
         return;
     }
-    
+
 
     // ===========================
     // MODO CREAR
     // ===========================
 
     const existe = listaPeques.some(
-        p => p.nombre.toLowerCase() === nombre.toLowerCase()
+        p =>
+            p.nombre.toLowerCase() ===
+            nombre.toLowerCase()
     );
 
+
     if (existe) {
-        alert("⚠️ Ese nombre ya está registrado.");
+
+        alert(
+            diccionarioTraducciones[idiomaApp]
+            ["alert-peque-nombre-existe"]
+        );
+
         return;
     }
 
+
     const coloresPastel = [
+
         "#fbcfe8",
         "#bae6fd",
         "#bbf7d0",
         "#fef08a",
         "#e9d5ff"
+
     ];
 
+
     const colorElegido =
-        coloresPastel[listaPeques.length % coloresPastel.length];
+        coloresPastel[
+            listaPeques.length %
+            coloresPastel.length
+        ];
+
 
     listaPeques.push({
+
         nombre,
         edad,
         peso,
         altura,
+        grupoSanguineo,
+        alergias,
+        antecedentes,
         colorFondo: colorElegido,
         colorTexto: "#1e293b"
+
     });
 
-    localStorage.setItem("listaPeques", JSON.stringify(listaPeques));
 
-    document.getElementById("form-perfil").reset();
+    localStorage.setItem(
+        "listaPeques",
+        JSON.stringify(listaPeques)
+    );
 
-    alert(`✨ ¡Perfil de ${nombre} creado con éxito!`);
+
+    document
+        .getElementById("form-perfil")
+        .reset();
+
+
+    document
+        .getElementById("nombre-peque")
+        .disabled = false;
+
+
+    const mensajeCreado =
+        idiomaApp === "en"
+        ? diccionarioTraducciones.en[
+            "alert-peque-creado"
+        ].replace("{nombre}", nombre)
+
+        : idiomaApp === "pt"
+        ? diccionarioTraducciones.pt[
+            "alert-peque-creado"
+        ].replace("{nombre}", nombre)
+
+        : diccionarioTraducciones.es[
+            "alert-peque-creado"
+        ].replace("{nombre}", nombre);
+
+
+    alert(mensajeCreado);
 
     irA("home.html");
 
-    }
+}
 
 function cargarPequeParaEditar() {
 
@@ -1937,17 +2694,294 @@ function cargarPequeParaEditar() {
 
     if (indiceEditar === null) return;
 
-
-    const listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
+    const listaPeques =
+        JSON.parse(localStorage.getItem("listaPeques")) || [];
 
     const peque = listaPeques[indiceEditar];
 
     if (!peque) return;
 
-    document.getElementById("nombre-peque").value = peque.nombre;
-    document.getElementById("edad-peque").value = peque.edad;
-    document.getElementById("peso-peque").value = peque.peso;
-    document.getElementById("altura-peque").value = peque.altura;
+
+    // DATOS BÁSICOS
+
+    const campoNombre =
+        document.getElementById("nombre-peque");
+
+    campoNombre.value = peque.nombre;
+    campoNombre.disabled = true;
+
+    document.getElementById("edad-peque").value =
+        peque.edad || "";
+
+    document.getElementById("peso-peque").value =
+        peque.peso || "";
+
+    document.getElementById("altura-peque").value =
+        peque.altura || "";
+
+    document.getElementById("grupo-sanguineo").value =
+    peque.grupoSanguineo || "";    
+
+
+    // =========================
+    // ALERGIAS
+    // =========================
+
+    const listaAlergias =
+        document.getElementById("lista-alergias");
+
+    listaAlergias.innerHTML = "";
+
+
+    if (Array.isArray(peque.alergias)) {
+
+        peque.alergias.forEach(alergia => {
+
+            const bloque =
+                document.createElement("div");
+
+            bloque.className = "bloque-alergia";
+
+            bloque.innerHTML = `
+                <select class="tipo-alergia input-arcoiris">
+
+                    <option value="alimentos" data-i18n="alergia-tipo-alimentos">
+                        Alimentos
+                    </option>
+
+                    <option value="medicamentos" data-i18n="alergia-tipo-medicamentos">
+                        Medicamentos
+                    </option>
+
+                    <option value="ambientales" data-i18n="alergia-tipo-ambientales">
+                        Ambientales
+                    </option>
+
+                    <option value="animales" data-i18n="alergia-tipo-animales">
+                        Animales
+                    </option>
+
+                    <option value="otros" data-i18n="alergia-tipo-otros">
+                        Otros
+                    </option>
+
+                </select>
+
+                 <input
+                        type="text"
+                        class="texto-alergia input-arcoiris"
+                        data-i18n-placeholder="alergia-placeholder"
+                        placeholder="Ej: frutilla, huevo, penicilina..."
+                    >
+
+                <button
+                    type="button"
+                    class="btn-eliminar-alergia"
+                    onclick="this.parentElement.remove()">
+                    🗑️
+                </button>
+            `;
+
+            listaAlergias.appendChild(bloque);
+
+        });
+
+    } else {
+
+        // Para peques antiguos que todavía
+        // tienen la estructura anterior.
+
+        if (peque.alergias) {
+
+            const alergiasAntiguas = [
+                {
+                    tipo: "alimentos",
+                    texto: peque.alergias.alimentos
+                },
+                {
+                    tipo: "medicamentos",
+                    texto: peque.alergias.medicamentos
+                },
+                {
+                    tipo: "ambientales",
+                    texto: peque.alergias.ambientales
+                }
+            ];
+
+            alergiasAntiguas.forEach(alergia => {
+
+                if (!alergia.texto) return;
+
+                const bloque =
+                    document.createElement("div");
+
+                bloque.className = "bloque-alergia";
+
+                bloque.innerHTML = `
+                    <select class="tipo-alergia input-arcoiris">
+
+                        <option value="alimentos"
+                            ${alergia.tipo === "alimentos" ? "selected" : ""}>
+                            Alimentos
+                        </option>
+
+                        <option value="medicamentos"
+                            ${alergia.tipo === "medicamentos" ? "selected" : ""}>
+                            Medicamentos
+                        </option>
+
+                        <option value="ambientales"
+                            ${alergia.tipo === "ambientales" ? "selected" : ""}>
+                            Ambientales
+                        </option>
+
+                        <option value="animales"
+                            ${alergia.tipo === "animales" ? "selected" : ""}>
+                            Animales
+                        </option>
+
+                        <option value="otros"
+                            ${alergia.tipo === "otros" ? "selected" : ""}>
+                            Otros
+                        </option>
+
+                    </select>
+
+                    <input
+                        type="text"
+                        class="texto-alergia input-arcoiris"
+                        value="${alergia.texto}"
+                    >
+
+                       <button
+                            type="button"
+                            class="btn-eliminar-alergia"
+                            onclick="this.parentElement.remove()">
+                            🗑️
+                        </button>
+
+                `;
+
+                listaAlergias.appendChild(bloque);
+
+            });
+
+        }
+
+    }
+
+
+    // Si no había alergias guardadas,
+    // dejamos un bloque vacío para poder agregar.
+
+    if (listaAlergias.children.length === 0) {
+
+        agregarOtraAlergia();
+
+    }
+
+
+            // =========================
+        // ANTECEDENTES
+        // =========================
+
+        const listaAntecedentes =
+            document.getElementById("lista-antecedentes");
+
+        listaAntecedentes.innerHTML = "";
+
+
+        // Cargar antecedentes guardados
+
+        if (Array.isArray(peque.antecedentes)) {
+
+            peque.antecedentes.forEach(antecedente => {
+
+                if (!antecedente) return;
+
+                const bloque =
+                    document.createElement("div");
+
+                bloque.className =
+                    "bloque-antecedente";
+
+                bloque.innerHTML = `
+                   <textarea
+                        class="texto-antecedente input-arcoiris"
+                        rows="2"
+                        data-i18n-placeholder="antecedente-placeholder"
+                    >${antecedente}</textarea>
+
+                    <button
+                        type="button"
+                        class="btn-eliminar-antecedente"
+                        onclick="this.parentElement.remove()">
+                        🗑️
+                    </button>
+                `;
+
+                listaAntecedentes.appendChild(bloque);
+
+            });
+
+        } else {
+
+            // Para peques antiguos que todavía
+            // tienen un solo antecedente guardado.
+
+            if (peque.antecedentes) {
+
+                const bloque =
+                    document.createElement("div");
+
+                bloque.className =
+                    "bloque-antecedente";
+
+                bloque.innerHTML = `
+                        <textarea
+                            class="texto-antecedente input-arcoiris"
+                            rows="2"
+                            data-i18n-placeholder="antecedente-placeholder"
+                        >${peque.antecedentes}</textarea>
+
+                        <button
+                            type="button"
+                            class="btn-eliminar-antecedente"
+                            onclick="this.parentElement.remove()">
+                            🗑️
+                        </button>
+                `;
+
+                listaAntecedentes.appendChild(bloque);
+
+            }
+
+        }
+
+
+        // Si no había antecedentes,
+        // dejamos un campo vacío.
+
+        if (listaAntecedentes.children.length === 0) {
+
+            const bloque =
+                document.createElement("div");
+
+            bloque.className =
+                "bloque-antecedente";
+
+            bloque.innerHTML = `
+                <textarea
+                    id="antecedentes-peque"
+                    class="texto-antecedente input-arcoiris"
+                    rows="2"
+                    placeholder="Ej: Asma, cirugía, internación..."
+                ></textarea>
+            `;
+
+            listaAntecedentes.appendChild(bloque);
+
+        }
 
 }
 
@@ -2019,11 +3053,15 @@ function dibujarSolapasPeques() {
 
 function mostrarListaPeques() {
 
-    const contenedor = document.getElementById("contenedor-lista-peques");
+    const idioma = diccionarioTraducciones[idiomaApp];
+
+    const contenedor =
+        document.getElementById("contenedor-lista-peques");
 
     if (!contenedor) return;
 
-    const listaPeques = JSON.parse(localStorage.getItem("listaPeques")) || [];
+    const listaPeques =
+        JSON.parse(localStorage.getItem("listaPeques")) || [];
 
     contenedor.innerHTML = "";
 
@@ -2043,12 +3081,76 @@ function mostrarListaPeques() {
 
         const tarjeta = document.createElement("div");
 
-       tarjeta.className = `tarjeta-peque-acordeon color-peque-${index % 5}`;
+        tarjeta.className =
+            `tarjeta-peque-acordeon color-peque-${index % 5}`;
+
+
+        // =========================
+        // ALERGIAS
+        // =========================
+
+        let alergiasHTML = "";
+
+        if (Array.isArray(peque.alergias)) {
+
+            peque.alergias.forEach(alergia => {
+
+                let icono = "🚨";
+
+                if (alergia.tipo === "alimentos") {
+                    icono = "🍓";
+                }
+
+                if (alergia.tipo === "medicamentos") {
+                    icono = "💊";
+                }
+
+                if (alergia.tipo === "ambientales") {
+                    icono = "🌿";
+                }
+
+                if (alergia.tipo === "animales") {
+                    icono = "🐾";
+                }
+
+                if (alergia.tipo === "otros") {
+                    icono = "📌";
+                }
+
+                alergiasHTML += `
+                    <p>
+                        ${icono} ${alergia.texto}
+                    </p>
+
+                `;
+
+            });
+
+        }
+
+
+        // =========================
+        // ANTECEDENTES
+        // =========================
+
+        let antecedentesHTML = "";
+
+        if (Array.isArray(peque.antecedentes)) {
+
+            peque.antecedentes.forEach(antecedente => {
+
+                antecedentesHTML += `
+                    <p>🩺 ${antecedente}</p>
+                `;
+
+            });
+
+        }
 
 
         tarjeta.innerHTML = `
 
-            <div 
+            <div
                 class="encabezado-peque"
                 onclick="abrirPeque(${index})">
 
@@ -2063,50 +3165,139 @@ function mostrarListaPeques() {
             </div>
 
 
-            <div 
+            <div
                 class="detalle-peque"
                 id="detalle-${index}"
                 style="display:none;">
 
-                <p>🗓️ Edad: ${peque.edad}</p>
+                <p>
+                    🗓️ ${idioma["label-peque-edad"]}: ${peque.edad}
+                </p>
 
-                <p>⚖️ Peso: ${peque.peso} kg</p>
+                <p>
+                    ⚖️ ${idioma["label-peque-peso"]}: ${peque.peso} kg
+                </p>
 
-                <p>📏 Altura: ${peque.altura} cm</p>
+                <p>
+                    📏 ${idioma["label-peque-altura"]}: ${peque.altura} cm
+                </p>
+
+                <p>
+                    🩸 ${idioma["perfil-grupo-sanguineo"]}: 
+                    ${peque.grupoSanguineo || idioma["perfil-grupo-no-registrado"]}
+                </p>
+
+
+                <!-- ALERGIAS -->
+
+                <div class="bloque-desplegable-peque">
+
+                    <button
+                        type="button"
+                        class="boton-desplegable-peque"
+                        onclick="event.stopPropagation(); alternarBloquePeque('alergias-${index}')">
+
+                        🚨 ${idioma["perfil-alergias-titulo"]}
+
+                        <span id="flecha-alergias-${index}">
+                            ▼
+                        </span>
+
+                    </button>
+
+                    <div
+                        id="alergias-${index}"
+                        class="contenido-desplegable-peque"
+                        style="display:none;">
+
+                        ${
+                            alergiasHTML
+                            ||
+                            `<p>${idioma["perfil-sin-registrar"]}</p>`
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <!-- ANTECEDENTES -->
+
+                <div class="bloque-desplegable-peque">
+
+                    <button
+                        type="button"
+                        class="boton-desplegable-peque"
+                        onclick="event.stopPropagation(); alternarBloquePeque('antecedentes-${index}')">
+
+                        🩺 ${idioma["perfil-antecedentes-titulo"]}
+                        <span id="flecha-antecedentes-${index}">
+                            ▼
+                        </span>
+
+                    </button>
+
+                    <div
+                        id="antecedentes-${index}"
+                        class="contenido-desplegable-peque"
+                        style="display:none;">
+
+                        ${
+                           antecedentesHTML
+                            ||
+                            `<p>${idioma["perfil-sin-registrar"]}</p>`
+                        }
+
+                    </div>
+
+                </div>
 
 
                 <button
                     class="btn-comenzar-cuidados"
                     onclick="comenzarCuidados('${peque.nombre}')">
 
-                    💚 Comenzar cuidados
+                    ${idioma["btn-peque-cuidados"]}
 
                 </button>
+
 
                 <button
                     class="btn-editar-peque"
                     onclick="editarPeque('${index}')">
 
-                    ✏️ Editar perfil
+                    ${idioma["btn-peque-editar"]}
 
                 </button>
 
+
                 <button
                     class="btn-borrar-peque"
-                    onclick="if (confirm('¿Eliminar este peque?🌈')) 
-                    eliminarPeque(${index})">
+                    onclick="confirmarEliminarPeque(${index})">
 
-                    🗑️ Eliminar perfil
+                    ${idioma["btn-peque-eliminar"]}
+
+                </button>
 
             </div>
 
         `;
 
 
+        console.log("PEQUE", peque);
+
         contenedor.appendChild(tarjeta);
 
     });
 
+}
+
+function confirmarEliminarPeque(index) {
+    const idioma = diccionarioTraducciones[idiomaApp];
+
+    if (confirm(idioma["confirmar-peque-eliminar"])) {
+        eliminarPeque(index);
+    }
 }
 
 function abrirPeque(index) {
@@ -2152,6 +3343,160 @@ function seleccionarPeque(nombre) {
 
 }
 
+function agregarOtraAlergia() {
+
+    const lista =
+        document.getElementById("lista-alergias");
+
+    const nuevoBloque =
+        document.createElement("div");
+
+    nuevoBloque.className =
+        "bloque-alergia";
+
+    nuevoBloque.innerHTML = `
+        <select class="tipo-alergia input-arcoiris">
+
+            <option value="alimentos">
+                Alimentos
+            </option>
+
+            <option value="medicamentos">
+                Medicamentos
+            </option>
+
+            <option value="ambientales">
+                Ambientales
+            </option>
+
+            <option value="animales">
+                Animales
+            </option>
+
+            <option value="otros">
+                Otros
+            </option>
+
+        </select>
+
+                <input
+                    type="text"
+                    class="texto-alergia input-arcoiris"
+                    data-i18n-placeholder="alergia-placeholder"
+                    placeholder="Ej: frutilla, huevo, penicilina..."
+                >
+
+        <button
+            type="button"
+            class="btn-eliminar-alergia"
+            onclick="this.parentElement.remove()">
+            🗑️
+        </button>
+    `;
+
+    lista.appendChild(nuevoBloque);
+
+    const idioma = diccionarioTraducciones[idiomaApp];
+
+        nuevoBloque.querySelector('[value="alimentos"]').textContent =
+            idioma["alergia-tipo-alimentos"];
+
+        nuevoBloque.querySelector('[value="medicamentos"]').textContent =
+            idioma["alergia-tipo-medicamentos"];
+
+        nuevoBloque .querySelector('[value="ambientales"]').textContent =
+            idioma["alergia-tipo-ambientales"];
+
+        nuevoBloque.querySelector('[value="animales"]').textContent =
+            idioma["alergia-tipo-animales"];
+
+        nuevoBloque.querySelector('[value="otros"]').textContent =
+            idioma["alergia-tipo-otros"];
+
+        nuevoBloque.querySelector(".texto-alergia").placeholder =
+            idioma["alergia-placeholder"];
+
+
+}
+
+function agregarOtroAntecedente() {
+
+    const lista =
+        document.getElementById("lista-antecedentes");
+
+    const nuevoBloque =
+        document.createElement("div");
+
+    nuevoBloque.className =
+        "bloque-antecedente";
+
+    nuevoBloque.innerHTML = `
+           <textarea
+                class="texto-antecedente input-arcoiris"
+                rows="2"
+                data-i18n-placeholder="antecedente-placeholder"
+                placeholder="Ej: cirugía, nueva enfermedad, internación..."
+            ></textarea>
+
+        <button
+            type="button"
+            class="btn-eliminar-antecedente"
+            onclick="this.parentElement.remove()">
+            🗑️
+        </button>
+    `;
+
+    lista.appendChild(nuevoBloque);
+
+    const idioma = diccionarioTraducciones[idiomaApp];
+
+        nuevoBloque.querySelector(".texto-antecedente").placeholder =
+            idioma["antecedente-placeholder"];
+
+}
+
+function alternarBloquePeque(id) {
+
+    const bloque =
+        document.getElementById(id);
+
+    if (!bloque) return;
+
+    const estaOculto =
+        window.getComputedStyle(bloque).display === "none";
+
+    const numero =
+        id.split("-").pop();
+
+    const tipo =
+        id.startsWith("alergias")
+        ? "alergias"
+        : "antecedentes";
+
+    const flecha =
+        document.getElementById(
+            `flecha-${tipo}-${numero}`
+        );
+
+    if (estaOculto) {
+
+        bloque.style.display = "block";
+
+        if (flecha) {
+            flecha.textContent = "▲";
+        }
+
+    } else {
+
+        bloque.style.display = "none";
+
+        if (flecha) {
+            flecha.textContent = "▼";
+        }
+
+    }
+
+}
 // ==========================================
 // ELIMINAR PEQUE
 // ==========================================
@@ -2228,13 +3573,27 @@ function agregarBloqueTurnoHtml() {
     
     let med = "¿Médico o especialista? 👩‍⚕️", fec = "¿Qué día es? 🗓️", hor = "¿A qué hora? ⏰", lug = "¿Dónde es la consulta? 🏥";
     let pMed = "Ej: Pediatra, Dentista", pLug = "Ej: Clínica Sol";
-    if (idiomaApp === "en") {
-        const idioma = diccionarioTraducciones.en;
-        med = idioma["label-tur-med"]; fec = idioma["label-tur-fec"]; hor = idioma["label-tur-hor"]; lug = idioma["label-tur-lug"]; pMed = idioma["place-tur-med"]; pLug = idioma["place-tur-lug"];
-    } else if (idiomaApp === "pt") {
-        const idioma = diccionarioTraducciones.pt;
-        med = idioma["label-tur-med"]; fec = idioma["label-tur-fec"]; hor = idioma["label-tur-hor"]; lug = idioma["label-tur-lug"]; pMed = idioma["place-tur-med"]; pLug = idioma["place-tur-lug"];
-    }
+
+  if (idiomaApp === "en") {
+
+    med = diccionarioTraducciones.en["label-tur-med"];
+    fec = diccionarioTraducciones.en["label-tur-fec"];
+    hor = diccionarioTraducciones.en["label-tur-hor"];
+    lug = diccionarioTraducciones.en["label-tur-lug"];
+
+    pMed = diccionarioTraducciones.en["place-tur-med"];
+    pLug = diccionarioTraducciones.en["place-tur-lug"];
+
+} else if (idiomaApp === "pt") {
+
+    med = diccionarioTraducciones.pt["label-tur-med"];
+    fec = diccionarioTraducciones.pt["label-tur-fec"];
+    hor = diccionarioTraducciones.pt["label-tur-hor"];
+    lug = diccionarioTraducciones.pt["label-tur-lug"];
+
+    pMed = diccionarioTraducciones.pt["place-tur-med"];
+    pLug = diccionarioTraducciones.pt["place-tur-lug"];
+}
     
     divBloque.innerHTML = `
         ${cantidadBloques > 0 ? `<button type="button" class="btn-eliminar-bloque" onclick="eliminarBloqueTurno(${idUnico})">🗑️</button>` : ''}
@@ -2273,10 +3632,6 @@ function guardarTodosLosTurnos() {
         if (!medico || !fecha || !hora) { errores = true; return; }
         listaTurnos.push({ id: Date.now() + Math.random(), medico: medico, fecha: fecha, hora: hora, lugar: lugar });
     });
-
-    if (errores) { alert("⚠️ Por favor, completa los campos obligatorios."); 
-        return;
-     }
 
       console.log(listaTurnos);
 
@@ -2322,10 +3677,24 @@ if (priv3) priv3.innerText = idioma["privacidad-3"];
 const priv4 = document.getElementById("privacidad-4");
 if (priv4) priv4.innerText = idioma["privacidad-4"];
 
+const idioma = diccionarioTraducciones[idiomaApp];
 
-// 🌈 Traducción automática por data-i18n (MUY IMPORTANTE)
 document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
+    
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+
+    const key =
+        el.getAttribute("data-i18n-placeholder");
+
+    if (idioma[key]) {
+
+        el.placeholder = idioma[key];
+
+    }
+
+});
+
     if (idioma[key]) {
         el.innerText = idioma[key];
     }
@@ -2422,107 +3791,316 @@ function cambiarIdioma() {
     irA("index.html");
 }
 
+function guardarCuidadorEditado() {
 
-function agregarReceta() {
-    const opciones =
-     document.getElementById("opciones-receta");
+    const input = document.getElementById("nombre-cuidador");
 
-    if (opciones.style.display === "none") {
-        opciones.style.display = "block";   
-        }
-        else {
-        opciones.style.display = "none";
+    if (!input) return;
+
+    const nuevoNombre = input.value.trim();
+
+    if (!nuevoNombre) {
+        alert("💜 Por favor, contanos cómo querés que te llamemos.");
+        input.focus();
+        return;
     }
 
+    localStorage.setItem("rolActivo", nuevoNombre);
+
+    alert("💜 ¡Nombre del cuidador actualizado!");
+
+    irA("home.html");
 }
 
-function escanearRecetas() {
-    document.getElementById("foto-receta").click();
-}    
+function cargarCuidadorParaEditar() {
 
-function procesarFotoReceta(input) {
-    if (input.files || input.files.length === 0) return;
-    const archivo = input.files[0];
-    const lector = new FileReader();
-    lector.onload = function(e) {
-        const recetas=
-        JSON.parse(localStorage.getItem("recetas")) || [];
-        
-        recetas.push({
-            fecha: new Date().toLocaleDateString(),
-            imagen: e.target.result,
-            estado: "pendiente de clasificar"
-        });
-        
-        localStorage.setItem(
-            "recetas",
-             JSON.stringify(recetas)
+    const input = document.getElementById("nombre-cuidador");
+
+    if (!input) return;
+
+    const nombreActual = localStorage.getItem("rolActivo") || "";
+
+    input.value = nombreActual;
+}
+
+
+function compartirTratamiento(idMedicacion) {
+
+    const claveHistorial = pequeActivo + "_medicaciones";
+
+    const lista =
+        JSON.parse(localStorage.getItem(claveHistorial)) || [];
+
+    const medicacion =
+        lista.find(item => item.id === idMedicacion);
+
+    if (!medicacion) {
+        alert("No se encontró la medicación.");
+        return;
+    }
+
+    const ahora = new Date();
+
+    const [horaInicio, minutoInicio] =
+        medicacion.horaInicio.split(":");
+
+    let siguiente = new Date();
+
+    siguiente.setHours(
+        parseInt(horaInicio),
+        parseInt(minutoInicio),
+        0,
+        0
+    );
+
+    let frecuenciaActual =
+        parseInt(medicacion.frecuenciaHoras);
+
+    const proximasTomas = [];
+
+    while (proximasTomas.length < 3) {
+
+        if (siguiente > ahora) {
+            proximasTomas.push(new Date(siguiente));
+        }
+
+        siguiente.setHours(
+            siguiente.getHours() + frecuenciaActual
+        );
+    }
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = 800;
+    canvas.height = 1100;
+
+    const ctx = canvas.getContext("2d");
+
+    // Fondo
+    ctx.fillStyle = "#e0f2fe";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Tarjeta
+    ctx.fillStyle = "#ffffff";
+    ctx.roundRect(
+        40,
+        40,
+        720,
+        1020,
+        35,
+        35
+    );
+    ctx.fill();
+
+    // Título
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#7c3aed";
+    ctx.font = "bold 42px Arial";
+
+    ctx.fillText(
+        "🌈 Pequeños Cuidados",
+        400,
+        115
+    );
+
+    // Peque
+    ctx.fillStyle = "#333333";
+    ctx.font = "bold 34px Arial";
+
+    ctx.fillText(
+        `🧸 ${pequeActivo}`,
+        400,
+        190
+    );
+
+    // Medicación
+    ctx.textAlign = "left";
+    ctx.font = "bold 32px Arial";
+
+    ctx.fillText(
+        `💊 ${medicacion.remedio}`,
+        100,
+        275
+    );
+
+    ctx.font = "28px Arial";
+
+    ctx.fillText(
+        `💉 Dosis: ${medicacion.dosis}`,
+        100,
+        330
+    );
+
+    ctx.fillText(
+        `⏰ Cada ${medicacion.frecuenciaHoras} horas`,
+        100,
+        385
+    );
+
+    // Próximas tomas
+    ctx.fillStyle = "#7c3aed";
+    ctx.font = "bold 30px Arial";
+
+    ctx.fillText(
+        "🕒 Próximas tomas",
+        100,
+        475
+    );
+
+    ctx.fillStyle = "#333333";
+    ctx.font = "bold 30px Arial";
+
+    proximasTomas.forEach((fecha, indice) => {
+
+        const hora =
+            fecha.toLocaleTimeString(
+                "es-AR",
+                {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false
+                }
             );
-            MostrarRecetas();
-            alert("receta guardada correctamente");
-    };
-            lector.readAsDataURL(archivo);
-  
-}
 
-function mostrarRecetas() {
+        const hoy = new Date();
 
-    const contenedor =
-        document.getElementById("lista-recetas");
+        const hoySinHora =
+            new Date(
+                hoy.getFullYear(),
+                hoy.getMonth(),
+                hoy.getDate()
+            );
 
-    if (!contenedor) return;
+        const diaToma =
+            new Date(
+                fecha.getFullYear(),
+                fecha.getMonth(),
+                fecha.getDate()
+            );
 
-    const recetas =
-        JSON.parse(localStorage.getItem("recetas")) || [];
+        const diferenciaDias =
+            Math.round(
+                (diaToma - hoySinHora) /
+                (1000 * 60 * 60 * 24)
+            );
 
-    contenedor.innerHTML = "";
+        let textoDia;
 
-    recetas.forEach((receta, index) => {
+        if (diferenciaDias === 0) {
+            textoDia = "hoy";
+        }
+        else if (diferenciaDias === 1) {
+            textoDia = "mañana";
+        }
+        else {
+            textoDia =
+                fecha.toLocaleDateString(
+                    "es-AR",
+                    {
+                        day: "2-digit",
+                        month: "2-digit"
+                    }
+                );
+        }
 
-        contenedor.innerHTML += `
+        const y = 545 + (indice * 65);
 
-            <div class="tarjeta-receta">
-
-                <h3>📄 Receta ${receta.fecha}</h3>
-
-                <img
-                    src="${receta.imagen}"
-                    class="imagen-receta">
-
-                <p>
-                    ⏳ ${receta.estado}
-                </p>
-
-                <button
-                    class="btn-borrar-receta"
-                    onclick="eliminarReceta(${index})">
-
-                    🗑️ Eliminar
-
-                </button>
-
-            </div>
-
-        `;
+        ctx.fillText(
+            `${hora} — ${textoDia}`,
+            150,
+            y
+        );
     });
-}
 
-function eliminarReceta(index) {
+    // Fecha de inicio
+    const fechaInicioFormateada =
+        medicacion.fechaInicio
+            ? medicacion.fechaInicio
+                .split("-")
+                .reverse()
+                .join("/")
+            : "No disponible";
 
-    const recetas =
-        JSON.parse(localStorage.getItem("recetas")) || [];
+    ctx.font = "26px Arial";
 
-        recetas.splice(index, 1);
+    ctx.fillText(
+        `📅 Inicio: ${fechaInicioFormateada}`,
+        100,
+        780
+    );
 
-        localStorage.setItem(
-            "recetas",
-             JSON.stringify(recetas)
+    // Pie
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#7c3aed";
+    ctx.font = "bold 24px Arial";
+
+    ctx.fillText(
+        "Organizar los cuidados también es cuidar 💜",
+        400,
+        970
+    );
+
+    canvas.toBlob(async (blob) => {
+
+        if (!blob) {
+            alert("No se pudo crear la tarjeta.");
+            return;
+        }
+
+        const archivo =
+            new File(
+                [blob],
+                "pequenos-cuidados.png",
+                {
+                    type: "image/png"
+                }
             );
 
-            mostrarRecetas();
-            
+        if (
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({
+                files: [archivo]
+            })
+        ) {
+
+            await navigator.share({
+                title: "Pequeños Cuidados",
+                files: [archivo]
+            });
+
+        }
+        else {
+
+            const enlace =
+                document.createElement("a");
+
+            enlace.href =
+                URL.createObjectURL(blob);
+
+            enlace.download =
+                "pequenos-cuidados.png";
+
+            enlace.click();
+
+            URL.revokeObjectURL(
+                enlace.href
+            );
+
+        }
+
+    }, "image/png");
 }
 
-if (document.getElementById("lista-recetas")) {
-    mostrarRecetas();
+
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+            .then(() => {
+                console.log("Service Worker registrado correctamente.");
+            })
+            .catch(error => {
+                console.error("Error al registrar el Service Worker:", error);
+            });
+    });
 }

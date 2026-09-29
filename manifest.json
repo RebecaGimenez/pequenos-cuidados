@@ -1,0 +1,70 @@
+
+{
+  "name": "Pequeños Cuidados",
+  "short_name": "Pequeños Cuidados",
+  "description": "Organizador de cuidados para acompañar a tu peque.",
+  "start_url": "home.html",
+  "id": "/home.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./",
+  "background_color": "#e0f2fe",
+  "theme_color": "#7dd3fc",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-home.png",
+      "sizes": "810x1536",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Pantalla principal de Pequeños Cuidados"
+    },
+    {
+      "src": "screenshot-perfil.png",
+      "sizes": "822x1536",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Creación del perfil de un peque"
+    },
+    {
+      "src": "screenshot-medicacion.png",
+      "sizes": "815x1536",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Registro de una medicación"
+    },
+    {
+      "src": "screenshot-turnos.png",
+      "sizes": "961x1536",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Registro de turnos y consultas"
+    },
+ 
+    {
+      "src": "screenshot-desktop.png",
+      "sizes": "1253x717",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Pantalla principal de Pequeños Cuidados en escritorio"
+    }
+
+  ]
+}

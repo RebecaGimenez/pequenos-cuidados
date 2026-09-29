@@ -14,7 +14,7 @@
         <h3 class="titulo-tarjeta">¡Ingresa los datos del peque! 👶🌈</h3>
 
         <p class="subtitulo-perfil">
-         Vamos a personalizar su cuidado.
+            Vamos a personalizar su cuidado.
         </p>
 
         <form id="form-perfil">
@@ -83,6 +83,140 @@
                     required>
 
             </div>
+
+            <div class="grupo-campo">
+
+                <label for="grupo-sanguineo">
+                    🩸 <span data-i18n="perfil-grupo-sanguineo">
+                        Grupo y factor sanguíneo
+                    </span>
+                </label>
+
+                <select
+                    id="grupo-sanguineo"
+                    class="input-arcoiris">
+
+                    <option value="" data-i18n="perfil-grupo-no-sabe">
+                        No lo sé
+                    </option>
+
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+
+                </select>
+
+            </div>
+
+
+                <!-- ALERGIAS -->
+                <div class="grupo-campo">
+
+                    <label>
+                        🚨 <span data-i18n="perfil-alergias-titulo">Alergias</span>
+                    </label>
+
+                    <div id="lista-alergias">
+
+                        <div class="bloque-alergia">
+
+
+                            <select class="tipo-alergia input-arcoiris">
+                                <option value="alimentos"
+                                    data-i18n="alergia-tipo-alimentos">
+                                    Alimentos
+                                </option>
+
+                                <option value="animales"
+                                    data-i18n="alergia-tipo-animales">
+                                    Animales
+                                </option>
+
+                                <option value="medicamentos"
+                                    data-i18n="alergia-tipo-medicamentos">
+                                    Medicamentos
+                                </option>
+
+                                <option value="ambientales"
+                                    data-i18n="alergia-tipo-ambientales">
+                                    Ambientales
+                                </option>
+
+                                <option value="otros"
+                                    data-i18n="alergia-tipo-otros">
+                                    Otros
+                                </option>
+
+                            </select>
+
+                            <input
+                                type="text"
+                                class="texto-alergia input-arcoiris"
+                                data-i18n-placeholder="alergia-placeholder"
+                                placeholder="Ej: frutilla, huevo, penicilina..."
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-agregar-alergia"
+                        onclick="agregarOtraAlergia()">
+
+                        ➕ <span data-i18n="btn-agregar-alergia">
+                            Agregar otra alergia
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            <!-- ANTECEDENTES -->
+            <div class="grupo-campo">
+
+                <label>
+                    🩺 <span data-i18n="perfil-antecedentes-titulo">
+                        Antecedentes importantes
+                    </span>
+                </label>
+
+                <div id="lista-antecedentes">
+
+                   <div class="bloque-antecedente">
+
+                        <textarea
+                            id="antecedentes-peque"
+                            class="input-arcoiris"
+                            rows="2"
+                            data-i18n-placeholder="antecedente-placeholder"
+                            placeholder="Ej: Asma, bronquitis recurrente, internaciones, cirugías, prematurez...">
+                        </textarea>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="btn-agregar-antecedente"
+                    onclick="agregarOtroAntecedente()">
+
+                    ➕ <span data-i18n="btn-agregar-antecedente">
+                        Agregar otro antecedente
+                    </span>
+
+                </button>
+
+            </div>
+
 
             <button type="submit" class="btn-guardar-todo">
                 ⭐ Guardar Perfil Arcoíris 🌈

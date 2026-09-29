@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pequeños Cuidados - Editar cuidador</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body class="body-cuidador">
+
+    <div class="contenedor-formulario">
+
+            <h2 class="titulo-editar-cuidador">
+                ✏️ <span data-i18n="editar-cuidador-titulo">
+                    Editar cuidador
+                </span>
+            </h2>
+
+            <p data-i18n="editar-cuidador-sub">
+                Podés cambiar cómo queremos llamarte 💜
+            </p>
+
+        <div class="grupo-campo">
+
+           <label data-i18n="editar-cuidador-label">
+                ¿Cómo querés que te llamemos? 🧡
+            </label>
+
+            <input
+                type="text"
+                id="nombre-cuidador"
+                data-i18n-placeholder="editar-cuidador-placeholder"
+                placeholder="Escribí tu nombre"
+            >
+
+        </div>
+
+           <button
+                type="button"
+                id="btn-cuidador-siguiente"
+                onclick="guardarCuidadorEditado()">
+
+                <span data-i18n="editar-cuidador-guardar">
+                    💾 Guardar cambios
+                </span>
+
+            </button>
+
+    </div>
+
+    <button
+        class="btn-volver"
+        onclick="irA('home.html')">
+
+        ⬅️ Volver al menú
+    </button>
+
+    <script src="js/app.js"></script>
+
+    <script>
+    cargarCuidadorParaEditar();
+  </script>
+
+</body>
+</html>
