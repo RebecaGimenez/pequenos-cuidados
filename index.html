@@ -30,13 +30,17 @@
         </div>
     </div>
 
-<script>
-    const idiomaGuardado = localStorage.getItem("idiomaApp");
+   <script>
+        const idiomaGuardado = localStorage.getItem("idiomaApp");
+        const cuidadorGuardado = localStorage.getItem("rolActivo");
 
-    if (idiomaGuardado) {
-        window.location.href = "bienvenida.html";
-    }
-</script>
+        if (idiomaGuardado && cuidadorGuardado) {
+            window.location.href = "home.html";
+        }
+        else if (idiomaGuardado) {
+            window.location.href = "bienvenida.html";
+        }
+  </script>
 
 <script src="js/app.js"></script>
 </body>
