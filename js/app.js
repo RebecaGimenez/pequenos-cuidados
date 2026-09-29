@@ -4092,6 +4092,30 @@ function compartirTratamiento(idMedicacion) {
     }, "image/png");
 }
 
+async function probarNotificacion() {
+
+    if (!("Notification" in window)) {
+        alert("Este dispositivo no permite notificaciones.");
+        return;
+    }
+
+    const permiso = await Notification.requestPermission();
+
+    if (permiso !== "granted") {
+        alert("⚠️ No se concedió permiso para las notificaciones.");
+        return;
+    }
+
+    const registro = await navigator.serviceWorker.ready;
+
+    await registro.showNotification("🌈 Pequeños Cuidados", {
+        body: `💊 Es hora de la medicación de ${pequeActivo || "tu peque"}`,
+        icon: "./icon-192.png",
+        badge: "./icon-144.png",
+        tag: "prueba-pequenos-cuidados"
+    });
+}
+
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
