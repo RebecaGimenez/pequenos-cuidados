@@ -1539,7 +1539,7 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
 #cuidador-abuela {
     background: #ebe7ba;
     border: 3px solid #e6c65c;
-    color: #b88a0e;
+    color: #b18203;
 }
 
 /* Abuelo */
@@ -2036,4 +2036,29 @@ transition: transform 0.2s ease,
 .btn-compartir-tarjeta:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.16);
+}
+
+/* ================================= */
+/* ORDEN DE BOTONES EN CELULAR */
+/* ================================= */
+
+@media (max-width: 600px) {
+
+    .btn-comenzar-cuidados,
+    .btn-editar-peque {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+
+    .btn-compartir-tarjeta,
+    .btn-borrar-peque {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        margin: 6px 4px;
+    }
+
 }
