@@ -281,6 +281,7 @@ const diccionarioTraducciones = {
     "med-continuo-mensaje": "♾️ Este tratamiento no tiene una fecha de finalización. Pequeños Cuidados te ayudará a recordar cada toma.",
     "med-max-etapas": "⚠️ El tratamiento puede tener un máximo de 10 etapas.",
 
+    "btn-probar-notificacion": "🔔 Probar notificación",
 
     "titulo-tur": "Los próximos turnos de tu peque 📅",
     "label-tur-med": "¿Médico o especialista? 👩‍⚕️",
@@ -424,6 +425,8 @@ const diccionarioTraducciones = {
         "med-etapa": "Stage",
         "med-continuo-mensaje": "♾️ This treatment has no end date. Pequeños Cuidados will help you remember each dose.",
         "med-max-etapas": "⚠️ The treatment can have a maximum of 10 stages.",
+
+        "btn-probar-notificacion": "🔔 Test notification",
 
         "label-med-tipo": "Treatment type 🔄",
         "tipo-med-simple": "💊 Simple treatment",
@@ -590,6 +593,8 @@ const diccionarioTraducciones = {
         "med-etapa": "Etapa",
         "med-continuo-mensaje": "♾️ Este tratamento não tem uma data de término. Pequeños Cuidados ajudará você a lembrar de cada dose.",
         "med-max-etapas": "⚠️ O tratamento pode ter no máximo 10 etapas.",
+
+        "btn-probar-notificacion": "🔔 Testar notificação",
 
         "titulo-tur": "Próximas consultas do seu bebê 📅",
         "label-tur-med": "Médico ou especialista? 👩‍⚕️", "place-tur-med": "Ex: Pediatra, Dentista",
@@ -2174,6 +2179,12 @@ function actualizarListaVisual() {
 
                     📤 ${idioma["label-med-compartir"]}
 
+                </button>
+
+                <button
+                    type="button"
+                    onclick="probarNotificacionMedicacion('${item.id}')">
+                    🔔 Probar notificación
                 </button>
 
                 <button
@@ -4113,6 +4124,42 @@ async function probarNotificacion() {
         icon: "./icon-192.png",
         badge: "./icon-144.png",
         tag: "prueba-pequenos-cuidados"
+    });
+}
+
+async function probarNotificacionMedicacion(idMedicacion) {
+
+    if (!("Notification" in window)) {
+        alert("Este dispositivo no permite notificaciones.");
+        return;
+    }
+
+    const permiso = await Notification.requestPermission();
+
+    if (permiso !== "granted") {
+        alert("⚠️ No se concedió permiso para las notificaciones.");
+        return;
+    }
+
+    const claveHistorial = pequeActivo + "_medicaciones";
+    const lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
+
+    const medicacion = lista.find(
+        item => String(item.id) === String(idMedicacion)
+    );
+
+    if (!medicacion) {
+        alert("No se encontró la medicación.");
+        return;
+    }
+
+    const registro = await navigator.serviceWorker.ready;
+
+    await registro.showNotification("🌈 Pequeños Cuidados", {
+        body: `💊 Es hora de la medicación de ${pequeActivo}\n${medicacion.remedio} — ${medicacion.dosis}`,
+        icon: "./icon-192.png",
+        badge: "./icon-144.png",
+        tag: `medicacion-${medicacion.id}`
     });
 }
 
