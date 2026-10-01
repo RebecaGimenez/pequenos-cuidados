@@ -283,6 +283,14 @@ const diccionarioTraducciones = {
 
     "btn-probar-notificacion": "🔔 Probar notificación",
 
+    "notificacion-proxima-toma": "💊 Próxima toma de",
+    "notificacion-no-encontrada": "No se encontró la medicación.",
+    "notificacion-sin-proxima": "No hay una próxima toma programada.",
+    "notificacion-permiso": "⚠️ Primero tenés que permitir las notificaciones.",
+    "notificacion-no-compatible": "Este dispositivo no permite notificaciones.",
+    "notificacion-denegada": "⚠️ No se concedió permiso para las notificaciones.",
+    "notificacion-hora-medicacion": "💊 Es hora de la medicación de",
+
     "titulo-tur": "Los próximos turnos de tu peque 📅",
     "label-tur-med": "¿Médico o especialista? 👩‍⚕️",
     "place-tur-med": "P. ej., Pediatra, Dentista",
@@ -427,6 +435,13 @@ const diccionarioTraducciones = {
         "med-max-etapas": "⚠️ The treatment can have a maximum of 10 stages.",
 
         "btn-probar-notificacion": "🔔 Test notification",
+        "notificacion-proxima-toma": "💊 Next dose for",
+        "notificacion-no-encontrada": "Medication not found.",
+        "notificacion-sin-proxima": "There is no next dose scheduled.",
+        "notificacion-permiso": "⚠️ You must allow notifications first.",
+        "notificacion-no-compatible": "This device does not allow notifications.",
+        "notificacion-denegada": "⚠️ Notification permission was not granted.",
+        "notificacion-hora-medicacion": "💊 It's time for",
 
         "label-med-tipo": "Treatment type 🔄",
         "tipo-med-simple": "💊 Simple treatment",
@@ -595,6 +610,13 @@ const diccionarioTraducciones = {
         "med-max-etapas": "⚠️ O tratamento pode ter no máximo 10 etapas.",
 
         "btn-probar-notificacion": "🔔 Testar notificação",
+        "notificacion-proxima-toma": "💊 Próxima dose de",
+        "notificacion-no-encontrada": "Medicamento não encontrado.",
+        "notificacion-sin-proxima": "Não há próxima dose programada.",
+        "notificacion-permiso": "⚠️ Primeiro você precisa permitir as notificações.",
+        "notificacion-no-compatible": "Este dispositivo não permite notificações.",
+        "notificacion-denegada": "⚠️ A permissão para notificações não foi concedida.",
+        "notificacion-hora-medicacion": "💊 É hora da medicação de",
 
         "titulo-tur": "Próximas consultas do seu bebê 📅",
         "label-tur-med": "Médico ou especialista? 👩‍⚕️", "place-tur-med": "Ex: Pediatra, Dentista",
@@ -4103,64 +4125,300 @@ function compartirTratamiento(idMedicacion) {
     }, "image/png");
 }
 
-async function probarNotificacion() {
-
-    if (!("Notification" in window)) {
-        alert("Este dispositivo no permite notificaciones.");
-        return;
-    }
-
-    const permiso = await Notification.requestPermission();
-
-    if (permiso !== "granted") {
-        alert("⚠️ No se concedió permiso para las notificaciones.");
-        return;
-    }
-
-    const registro = await navigator.serviceWorker.ready;
-
-    await registro.showNotification("🌈 Pequeños Cuidados", {
-        body: `💊 Es hora de la medicación de ${pequeActivo || "tu peque"}`,
-        icon: "./icon-192.png",
-        badge: "./icon-144.png",
-        tag: "prueba-pequenos-cuidados"
-    });
-}
 
 async function probarNotificacionMedicacion(idMedicacion) {
 
+    const idioma =
+        diccionarioTraducciones[idiomaApp];
+
     if (!("Notification" in window)) {
-        alert("Este dispositivo no permite notificaciones.");
+        alert(
+            idioma["notificacion-no-compatible"]
+        );
         return;
     }
 
-    const permiso = await Notification.requestPermission();
+    const permiso =
+        await Notification.requestPermission();
 
     if (permiso !== "granted") {
-        alert("⚠️ No se concedió permiso para las notificaciones.");
+        alert(
+            idioma["notificacion-denegada"]
+        );
         return;
     }
 
-    const claveHistorial = pequeActivo + "_medicaciones";
-    const lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
+    const claveHistorial =
+        pequeActivo + "_medicaciones";
 
-    const medicacion = lista.find(
-        item => String(item.id) === String(idMedicacion)
-    );
+    const lista =
+        JSON.parse(
+            localStorage.getItem(claveHistorial)
+        ) || [];
+
+    const medicacion =
+        lista.find(
+            item =>
+                String(item.id) ===
+                String(idMedicacion)
+        );
 
     if (!medicacion) {
-        alert("No se encontró la medicación.");
+        alert(
+            idioma["notificacion-no-encontrada"]
+        );
         return;
     }
 
-    const registro = await navigator.serviceWorker.ready;
+    const registro =
+        await navigator.serviceWorker.ready;
 
-    await registro.showNotification("🌈 Pequeños Cuidados", {
-        body: `💊 Es hora de la medicación de ${pequeActivo}\n${medicacion.remedio} — ${medicacion.dosis}`,
-        icon: "./icon-192.png",
-        badge: "./icon-144.png",
-        tag: `medicacion-${medicacion.id}`
-    });
+    await registro.showNotification(
+        "🌈 Pequeños Cuidados",
+        {
+            body:
+                `${idioma["notificacion-hora-medicacion"]} ${pequeActivo}\n` +
+                `${medicacion.remedio} — ${medicacion.dosis}`,
+            icon: "./icon-192.png",
+            badge: "./icon-144.png",
+            tag:
+                `medicacion-${medicacion.id}`
+        }
+    );
+}
+
+function calcularProximaTomaProgresiva(medicacion) {
+
+    if (!medicacion || medicacion.tipoTratamiento !== "progresivo") {
+        return null;
+    }
+
+    if (!medicacion.fechaInicio || !medicacion.horaInicio || !medicacion.etapas) {
+        return null;
+    }
+
+    const inicio = new Date(
+        `${medicacion.fechaInicio}T${medicacion.horaInicio}:00`
+    );
+
+    const ahora = new Date();
+
+    if (isNaN(inicio.getTime())) {
+        return null;
+    }
+
+    let tiempoAcumulado = 0;
+
+    for (const etapa of medicacion.etapas) {
+
+        const frecuencia = parseInt(etapa.frecuenciaHoras);
+        const duracionDias = parseInt(etapa.diasDuracion);
+
+        if (!frecuencia || frecuencia <= 0) {
+            continue;
+        }
+
+        const duracionEtapa =
+            duracionDias > 0
+                ? duracionDias * 24
+                : Infinity;
+
+        const comienzoEtapa =
+            new Date(inicio.getTime() + tiempoAcumulado * 60 * 60 * 1000);
+
+        const finEtapa =
+            duracionEtapa === Infinity
+                ? null
+                : new Date(
+                    comienzoEtapa.getTime() +
+                    duracionEtapa * 60 * 60 * 1000
+                );
+
+        if (ahora < comienzoEtapa) {
+            return comienzoEtapa;
+        }
+
+        if (finEtapa && ahora >= finEtapa) {
+            tiempoAcumulado += duracionEtapa;
+            continue;
+        }
+
+        let siguiente = new Date(comienzoEtapa);
+
+        while (siguiente <= ahora) {
+            siguiente.setHours(
+                siguiente.getHours() + frecuencia
+            );
+        }
+
+        if (!finEtapa || siguiente <= finEtapa) {
+            return siguiente;
+        }
+
+        tiempoAcumulado += duracionEtapa;
+    }
+
+    return null;
+}
+
+function calcularProximaToma(medicacion) {
+
+    if (!medicacion) {
+        return null;
+    }
+
+    // 🔄 TRATAMIENTO PROGRESIVO
+    if (medicacion.tipoTratamiento === "progresivo") {
+
+        return calcularProximaTomaProgresiva(medicacion);
+
+    }
+
+    // 💊 TRATAMIENTO SIMPLE O CONTINUO
+    if (
+        !medicacion.fechaInicio ||
+        !medicacion.horaInicio ||
+        !medicacion.frecuenciaHoras
+    ) {
+        return null;
+    }
+
+    const inicio = new Date(
+        `${medicacion.fechaInicio}T${medicacion.horaInicio}:00`
+    );
+
+    const frecuencia =
+        parseInt(medicacion.frecuenciaHoras);
+
+    if (isNaN(inicio.getTime()) || !frecuencia) {
+        return null;
+    }
+
+    const ahora = new Date();
+
+    let siguiente = new Date(inicio);
+
+    while (siguiente <= ahora) {
+
+        siguiente.setHours(
+            siguiente.getHours() + frecuencia
+        );
+
+    }
+
+    console.log("📅 Próxima toma calculada:", siguiente);
+
+    return siguiente;
+}
+
+function calcularMilisegundosHastaToma(medicacion) {
+
+    const proximaToma =
+        calcularProximaToma(medicacion);
+
+    if (!proximaToma) {
+        return null;
+    }
+
+    const ahora = new Date();
+
+    return proximaToma.getTime() - ahora.getTime();
+}
+
+function probarNotificacionConProximaToma(idMedicacion) {
+
+    const idioma =
+        diccionarioTraducciones[idiomaApp];
+
+    if (!("Notification" in window)) {
+        alert(
+            idioma["notificacion-no-compatible"]
+        );
+        return;
+    }
+
+    if (Notification.permission !== "granted") {
+        alert(
+            idioma["notificacion-permiso"]
+        );
+        return;
+    }
+
+    const claveHistorial =
+        pequeActivo + "_medicaciones";
+
+    const lista =
+        JSON.parse(
+            localStorage.getItem(claveHistorial)
+        ) || [];
+
+    const medicacion =
+        lista.find(
+            item =>
+                String(item.id) ===
+                String(idMedicacion)
+        );
+
+    if (!medicacion) {
+        alert(
+            idioma["notificacion-no-encontrada"]
+        );
+        return;
+    }
+
+    const proximaToma =
+        calcularProximaToma(medicacion);
+
+    if (!proximaToma) {
+        alert(
+            idioma["notificacion-sin-proxima"]
+        );
+        return;
+    }
+
+    const horaProxima =
+        proximaToma.toLocaleTimeString(
+            "es-AR",
+            {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false
+            }
+        );
+
+    console.log(
+        "🔔 Próxima toma para la prueba:",
+        proximaToma
+    );
+
+    console.log(
+        "⏳ Esperando 10 segundos..."
+    );
+
+    setTimeout(async () => {
+
+        console.log(
+            "🔔 Enviando notificación ahora."
+        );
+
+        const registro =
+            await navigator.serviceWorker.ready;
+
+        await registro.showNotification(
+            "🌈 Pequeños Cuidados",
+            {
+                body:
+                    `${idioma["notificacion-proxima-toma"]} ${pequeActivo}\n` +
+                    `${medicacion.remedio} — ${medicacion.dosis}\n` +
+                    `⏰ ${horaProxima}`,
+                icon: "./icon-192.png",
+                badge: "./icon-144.png",
+                tag:
+                    `prueba-proxima-${medicacion.id}-${Date.now()}`
+            }
+        );
+
+    }, 10000);
 }
 
 
