@@ -4089,20 +4089,33 @@ function compartirTratamiento(idMedicacion) {
                 }
             );
 
-        if (
-            navigator.share &&
-            navigator.canShare &&
-            navigator.canShare({
-                files: [archivo]
-            })
-        ) {
+         if (
+                navigator.share &&
+                navigator.canShare &&
+                navigator.canShare({
+                    files: [archivo]
+                })
+            ) {
 
-            await navigator.share({
-                title: "Pequeños Cuidados",
-                files: [archivo]
-            });
+                try {
 
-        }
+                    await navigator.share({
+                        title: "Pequeños Cuidados",
+                        files: [archivo]
+                    });
+
+                }
+                catch (error) {
+
+                    console.log(
+                        "Compartir cancelado o no disponible:",
+                        error
+                    );
+
+                }
+
+            }
+
         else {
 
             const enlace =
