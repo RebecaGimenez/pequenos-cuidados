@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "pequenos-cuidados-v4";
+const CACHE_NAME = "pequenos-cuidados-v5";
 
 const ARCHIVOS = [
     "./",
@@ -19,21 +19,31 @@ const ARCHIVOS = [
     "./js/app.js"
 ];
 
-self.addEventListener("install", event => {
+self.addEventListener("install", event => { 
+ 
+     self.skipWaiting(); 
+ 
+     event.waitUntil( 
+        caches.open(CACHE_NAME).then(cache => { 
+            return cache.addAll(ARCHIVOS); 
+        }) 
+    ); 
+}); 
 
-     self.skipWaiting();
 
-     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => {
-            return cache.addAll(ARCHIVOS);
-        })
+self.addEventListener("activate", event => {
+
+    event.waitUntil(
+        clients.claim()
     );
+
 });
 
-self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request).then(respuesta => {
-            return respuesta || fetch(event.request);
-        })
-    );
+
+self.addEventListener("fetch", event => { 
+    event.respondWith( 
+        caches.match(event.request).then(respuesta => { 
+            return respuesta || fetch(event.request); 
+        }) 
+    ); 
 });
