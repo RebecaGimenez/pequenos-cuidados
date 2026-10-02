@@ -2204,6 +2204,12 @@ function actualizarListaVisual() {
                 </button>
 
                 <button
+    type="button"
+    onclick="probarCompartirTexto()">
+    🧪 Probar compartir texto
+</button>
+
+                <button
                     type="button"
                     onclick="probarNotificacionMedicacion('${item.id}')">
                     🔔 Probar notificación
@@ -4444,5 +4450,26 @@ if ("serviceWorker" in navigator) {
             .catch(error => {
                 console.error("Error al registrar el Service Worker:", error);
             });
+    });
+}
+
+
+
+function probarCompartirTexto() {
+
+    if (!navigator.share) {
+        alert("Compartir no está disponible.");
+        return;
+    }
+
+    navigator.share({
+        title: "Pequeños Cuidados",
+        text: "Probando compartir desde Pequeños Cuidados."
+    })
+    .then(() => {
+        console.log("✅ Compartir texto funcionando.");
+    })
+    .catch(error => {
+        console.log("❌ Error al compartir texto:", error);
     });
 }
