@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "pequenos-cuidados-v3";
+const CACHE_NAME = "pequenos-cuidados-v4";
 
 const ARCHIVOS = [
     "./",
