@@ -4447,3 +4447,51 @@ if ("serviceWorker" in navigator) {
     });
 }
 
+function convertirClavePublica(clave) {
+
+    const padding =
+        "=".repeat((4 - clave.length % 4) % 4);
+
+    const base64 =
+        (clave + padding)
+            .replace(/-/g, "+")
+            .replace(/_/g, "/");
+
+    const rawData =
+        atob(base64);
+
+    return Uint8Array.from(
+        [...rawData],
+        caracter => caracter.charCodeAt(0)
+    );
+}
+
+
+async function crearSuscripcionPush() {
+
+    const registro =
+        await navigator.serviceWorker.ready;
+
+    let suscripcion =
+        await registro.pushManager.getSubscription();
+
+    if (!suscripcion) {
+
+        const clavePublica =
+            "BIOCilZxxCwTtGRxnsm22O2RJeUyZZ4LenuHPwMqkZ5DoeNskDto53xdPuww5dZe1Wt6cQ97__-s-tiqfNOOgRI";
+
+        suscripcion =
+            await registro.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey:
+                    convertirClavePublica(clavePublica)
+            });
+    }
+
+    console.log(
+        "🔔 Suscripción Push creada:",
+        suscripcion
+    );
+
+    return suscripcion;
+}
