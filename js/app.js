@@ -4493,5 +4493,20 @@ async function crearSuscripcionPush() {
         suscripcion
     );
 
+    await fetch(
+        "https://pequenos-cuidados-notificaciones.pequenos-cuidados.workers.dev",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(suscripcion)
+        }
+    );
+
+    console.log(
+        "📡 Suscripción enviada al servidor."
+    );
+
     return suscripcion;
 }
