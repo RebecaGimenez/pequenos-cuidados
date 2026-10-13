@@ -4494,7 +4494,7 @@ async function crearSuscripcionPush() {
     );
 
     await fetch(
-        "https://pequenos-cuidados-notificaciones.pequenos-cuidados.workers.dev",
+        "https://pequenos-cuidados-notificaciones.pequenos-cuidados.workers.dev/subscribe",
         {
             method: "POST",
             headers: {
