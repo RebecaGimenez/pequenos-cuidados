@@ -295,6 +295,8 @@ const diccionarioTraducciones = {
     "notificacion-error-activar": "No se pudieron activar las notificaciones. Revisaremos el error.",
     "notificacion-sin-service-worker": "Tu navegador no admite el servicio necesario para las notificaciones.",
 
+    "notificacion-recordatorio-privado": "Es hora de revisar tu agenda. Tenés un recordatorio pendiente 💜",
+
     "titulo-tur": "Los próximos turnos de tu peque 📅",
     "label-tur-med": "¿Médico o especialista? 👩‍⚕️",
     "place-tur-med": "P. ej., Pediatra, Dentista",
@@ -446,6 +448,8 @@ const diccionarioTraducciones = {
         "notificacion-no-compatible": "This device does not allow notifications.",
         "notificacion-denegada": "⚠️ Notification permission was not granted.",
         "notificacion-hora-medicacion": "💊 It's time for",
+
+        "notificacion-recordatorio-privado": "It's time to check your schedule. You have a reminder pending 💜",
 
         "label-med-tipo": "Treatment type 🔄",
         "tipo-med-simple": "💊 Simple treatment",
@@ -626,6 +630,8 @@ const diccionarioTraducciones = {
         "notificacion-no-compatible": "Este dispositivo não permite notificações.",
         "notificacion-denegada": "⚠️ A permissão para notificações não foi concedida.",
         "notificacion-hora-medicacion": "💊 É hora da medicação de",
+
+        "notificacion-recordatorio-privado": "Está na hora de consultar sua agenda. Você tem um lembrete pendente 💜",
 
         "btn-activar-notificaciones": "🔔 Ativar notificações",
         "notificacion-activada": "Notificações ativadas com sucesso! 🌈",
@@ -4211,9 +4217,7 @@ async function probarNotificacionMedicacion(idMedicacion) {
     await registro.showNotification(
         "🌈 Pequeños Cuidados",
         {
-            body:
-                `${idioma["notificacion-hora-medicacion"]} ${pequeActivo}\n` +
-                `${medicacion.remedio} — ${medicacion.dosis}`,
+           body: idioma["notificacion-recordatorio-privado"],
             icon: "./icon-192.png",
             badge: "./icon-144.png",
             tag:
