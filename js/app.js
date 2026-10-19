@@ -281,7 +281,6 @@ const diccionarioTraducciones = {
     "med-continuo-mensaje": "♾️ Este tratamiento no tiene una fecha de finalización. Pequeños Cuidados te ayudará a recordar cada toma.",
     "med-max-etapas": "⚠️ El tratamiento puede tener un máximo de 10 etapas.",
 
-    "btn-probar-notificacion": "🔔 Probar notificación",
 
     "notificacion-proxima-toma": "💊 Próxima toma de",
     "notificacion-no-encontrada": "No se encontró la medicación.",
@@ -290,6 +289,11 @@ const diccionarioTraducciones = {
     "notificacion-no-compatible": "Este dispositivo no permite notificaciones.",
     "notificacion-denegada": "⚠️ No se concedió permiso para las notificaciones.",
     "notificacion-hora-medicacion": "💊 Es hora de la medicación de",
+
+    "btn-activar-notificaciones": "🔔 Activar notificaciones",
+    "notificacion-activada": "¡Notificaciones activadas correctamente! 🌈",
+    "notificacion-error-activar": "No se pudieron activar las notificaciones. Revisaremos el error.",
+    "notificacion-sin-service-worker": "Tu navegador no admite el servicio necesario para las notificaciones.",
 
     "titulo-tur": "Los próximos turnos de tu peque 📅",
     "label-tur-med": "¿Médico o especialista? 👩‍⚕️",
@@ -512,6 +516,11 @@ const diccionarioTraducciones = {
         "alert-peque-creado": "✨ {nombre}'s profile was created successfully!",
         "alert-peque-actualizado": "✨ {nombre}'s profile was updated!",
         "alert-peque-nombre-existe": "⚠️ That name is already registered.",
+ 
+        "btn-activar-notificaciones": "🔔 Enable notifications",
+        "notificacion-activada": "Notifications enabled successfully! 🌈",
+        "notificacion-error-activar": "Notifications could not be enabled. We will check the error.",
+        "notificacion-sin-service-worker": "Your browser does not support the service required for notifications.", 
 
         "perfil-grupo-sanguineo": "Blood type and Rh factor",
         "perfil-grupo-no-sabe": "I don't know",
@@ -617,6 +626,11 @@ const diccionarioTraducciones = {
         "notificacion-no-compatible": "Este dispositivo não permite notificações.",
         "notificacion-denegada": "⚠️ A permissão para notificações não foi concedida.",
         "notificacion-hora-medicacion": "💊 É hora da medicação de",
+
+        "btn-activar-notificaciones": "🔔 Ativar notificações",
+        "notificacion-activada": "Notificações ativadas com sucesso! 🌈",
+        "notificacion-error-activar": "Não foi possível ativar as notificações. Vamos verificar o erro.",
+        "notificacion-sin-service-worker": "Seu navegador não oferece suporte ao serviço necessário para notificações.",
 
         "titulo-tur": "Próximas consultas do seu bebê 📅",
         "label-tur-med": "Médico ou especialista? 👩‍⚕️", "place-tur-med": "Ex: Pediatra, Dentista",
@@ -2203,11 +2217,19 @@ function actualizarListaVisual() {
 
                 </button>
 
+              
+                <button
+                    type="button"
+                    onclick="activarNotificacionesPush()">
+                    ${diccionarioTraducciones[idiomaApp]["btn-activar-notificaciones"]}
+                </button>
+
                 <button
                     type="button"
                     onclick="probarNotificacionMedicacion('${item.id}')">
-                    🔔 Probar notificación
+                    ${diccionarioTraducciones[idiomaApp]["btn-probar-notificacion"]}
                 </button>
+
 
                 <button
                     type="button"
@@ -4493,7 +4515,7 @@ async function crearSuscripcionPush() {
         suscripcion
     );
 
-    await fetch(
+        const respuestaServidor = await fetch(
         "https://pequenos-cuidados-notificaciones.pequenos-cuidados.workers.dev/subscribe",
         {
             method: "POST",
@@ -4504,9 +4526,47 @@ async function crearSuscripcionPush() {
         }
     );
 
+    if (!respuestaServidor.ok) {
+        throw new Error(
+            "No se pudo registrar la suscripción push."
+        );
+    }
+
     console.log(
         "📡 Suscripción enviada al servidor."
     );
 
     return suscripcion;
+}
+
+
+
+async function activarNotificacionesPush() {
+    const idioma = diccionarioTraducciones[idiomaApp];
+
+    try {
+        if (!("Notification" in window)) {
+            alert(idioma["notificacion-no-compatible"]);
+            return;
+        }
+
+        if (!("serviceWorker" in navigator)) {
+            alert(idioma["notificacion-sin-service-worker"]);
+            return;
+        }
+
+        const permiso = await Notification.requestPermission();
+
+        if (permiso !== "granted") {
+            alert(idioma["notificacion-denegada"]);
+            return;
+        }
+
+        await crearSuscripcionPush();
+
+        alert(idioma["notificacion-activada"]);
+    } catch (error) {
+        console.error("Error al activar notificaciones:", error);
+        alert(idioma["notificacion-error-activar"]);
+    }
 }
