@@ -440,7 +440,6 @@ const diccionarioTraducciones = {
         "med-continuo-mensaje": "♾️ This treatment has no end date. Pequeños Cuidados will help you remember each dose.",
         "med-max-etapas": "⚠️ The treatment can have a maximum of 10 stages.",
 
-        "btn-probar-notificacion": "🔔 Test notification",
         "notificacion-proxima-toma": "💊 Next dose for",
         "notificacion-no-encontrada": "Medication not found.",
         "notificacion-sin-proxima": "There is no next dose scheduled.",
@@ -622,7 +621,7 @@ const diccionarioTraducciones = {
         "med-continuo-mensaje": "♾️ Este tratamento não tem uma data de término. Pequeños Cuidados ajudará você a lembrar de cada dose.",
         "med-max-etapas": "⚠️ O tratamento pode ter no máximo 10 etapas.",
 
-        "btn-probar-notificacion": "🔔 Testar notificação",
+    
         "notificacion-proxima-toma": "💊 Próxima dose de",
         "notificacion-no-encontrada": "Medicamento não encontrado.",
         "notificacion-sin-proxima": "Não há próxima dose programada.",
@@ -2407,6 +2406,7 @@ function eliminarTurnoGuardado(id) {
     localStorage.setItem(claveHistorial,
          JSON.stringify(lista));
     actualizarListaTurnosVisual();
+    sincronizarPushSiActivado();
 }
 
 // ==========================================
@@ -2480,6 +2480,7 @@ function guardarTodasLasVacunas() {
         agregarBloqueVacunaHtml(); 
     }
     actualizarListaVacunasVisual();
+    sincronizarPushSiActivado();
 }
 
 
@@ -2490,6 +2491,7 @@ function eliminarVacunaGuardada(id) {
     lista = lista.filter(item => item.id !== id);
     localStorage.setItem(claveHistorial, JSON.stringify(lista));
     actualizarListaVacunasVisual();
+    sincronizarPushSiActivado();
 }
 
 // ==========================================
@@ -3714,6 +3716,8 @@ function guardarTodosLosTurnos() {
         agregarBloqueTurnoHtml(); 
     }
     actualizarListaTurnosVisual();
+
+    sincronizarPushSiActivado();
 }
 
 
@@ -4493,6 +4497,108 @@ function convertirClavePublica(clave) {
 }
 
 
+// ==========================================
+// 🔔 PREPARAR RECORDATORIOS DE TURNOS Y VACUNAS
+// ==========================================
+function prepararRecordatoriosPush() {
+    const recordatorios = [];
+    const ahora = Date.now();
+    const unDia = 24 * 60 * 60 * 1000;
+
+    // Recorremos los datos guardados de todos los peques.
+    for (let i = 0; i < localStorage.length; i++) {
+        const clave = localStorage.key(i);
+        if (!clave) continue;
+
+        // 📅 TURNOS
+        if (clave.endsWith("_turnos")) {
+            let turnos = [];
+
+            try {
+                turnos = JSON.parse(localStorage.getItem(clave)) || [];
+            } catch (error) {
+                console.warn("No se pudieron leer los turnos:", clave);
+                continue;
+            }
+
+            turnos.forEach(turno => {
+                if (!turno.fecha || !turno.hora || turno.id == null) return;
+
+                const fechaTurno = new Date(
+                    `${turno.fecha}T${turno.hora}:00`
+                ).getTime();
+
+                // Aviso exactamente 24 horas antes.
+                const fechaAviso = fechaTurno - unDia;
+
+                if (
+                    Number.isFinite(fechaAviso) &&
+                    fechaAviso > ahora
+                ) {
+                    recordatorios.push({
+                        id: `turno_${String(turno.id).replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+                        tipo: "turno",
+                        fecha: fechaAviso
+                    });
+                }
+            });
+        }
+
+        // 💉 VACUNAS
+        if (clave.endsWith("_vacunas")) {
+            let vacunas = [];
+
+            try {
+                vacunas = JSON.parse(localStorage.getItem(clave)) || [];
+            } catch (error) {
+                console.warn("No se pudieron leer las vacunas:", clave);
+                continue;
+            }
+
+            vacunas.forEach(vacuna => {
+                if (!vacuna.proxima || vacuna.id == null) return;
+
+                // Aviso el día anterior a las 9:00 de la mañana.
+                const fechaAviso = new Date(
+                    `${vacuna.proxima}T09:00:00`
+                ).getTime() - unDia;
+
+                if (
+                    Number.isFinite(fechaAviso) &&
+                    fechaAviso > ahora
+                ) {
+                    recordatorios.push({
+                        id: `vacuna_${String(vacuna.id).replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+                        tipo: "vacuna",
+                        fecha: fechaAviso
+                    });
+                }
+            });
+        }
+    }
+
+    return recordatorios;
+}
+
+
+function sincronizarPushSiActivado() {
+    if (
+        !("Notification" in window) ||
+        Notification.permission !== "granted" ||
+        !("serviceWorker" in navigator)
+    ) {
+        return;
+    }
+
+    crearSuscripcionPush().catch(error => {
+        console.error(
+            "No se pudieron actualizar los recordatorios:",
+            error
+        );
+    });
+}
+
+
 async function crearSuscripcionPush() {
 
     const registro =
@@ -4536,11 +4642,47 @@ async function crearSuscripcionPush() {
         );
     }
 
+    
     console.log(
         "📡 Suscripción enviada al servidor."
     );
 
+    // 📅 Preparar los recordatorios de turnos y vacunas.
+    const recordatoriosPush = prepararRecordatoriosPush();
+
+    // 🌐 Enviar la lista actualizada a Cloudflare.
+    const respuestaRecordatorios = await fetch(
+        "https://pequenos-cuidados-notificaciones.pequenos-cuidados.workers.dev/recordatorios",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                endpoint: suscripcion.endpoint,
+                recordatorios: recordatoriosPush,
+                idioma: idiomaApp,
+                reemplazarTipos: ["turno", "vacuna"]
+            })
+        }
+    );
+
+    if (!respuestaRecordatorios.ok) {
+        const mensajeError = await respuestaRecordatorios.text();
+
+        throw new Error(
+            "No se pudieron sincronizar los recordatorios: " +
+            mensajeError
+        );
+    }
+
+    console.log(
+        "📅 Recordatorios sincronizados:",
+        recordatoriosPush.length
+    );
+
     return suscripcion;
+
 }
 
 
