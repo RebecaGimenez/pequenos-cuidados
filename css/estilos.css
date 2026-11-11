@@ -1561,45 +1561,37 @@ body.body-perfil #form-perfil .btn-guardar-todo:hover {
    border: 3px solid #51df3f;
 }
 
-#btn-cuidador-siguiente{
-
-background: #fdd3d3;
-border: 3px solid #f04646;
-color: #940404;
-
-padding: 13px 28px;
-border-radius: 20px;
-
-font-size: 17px;
-font-weight: bold;
-
-cursor: pointer;
-
-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.10);
-
-transition: transform 0.2s ease,
-            box-shadow 0.2s ease;
+#btn-cuidador-siguiente {
+    background: linear-gradient(135deg, #ffedd5, #fef3c7);
+    border: 3px solid #fdba74;
+    color: #9a3412;
+    padding: 13px 28px;
+    border-radius: 20px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(251, 146, 60, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #btn-cuidador-siguiente:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 6px 14px rgba(251, 146, 60, 0.35);
+    background: #fed7aa;
 }
 
 #btn-cuidador-siguiente:active {
     transform: scale(0.97);
 }
 
+
 /* Texto */
 #cuidador-nombre-label {
     display: block;
     margin-bottom: 10px;
-
-    color: #1fb2bd;
-
+    color: #9d174d;
     font-size: 16px;
     font-weight: bold;
-
     text-align: center;
 }
 
@@ -1607,30 +1599,27 @@ transition: transform 0.2s ease,
 #nombre-cuidador {
     width: 100%;
     box-sizing: border-box;
-
     padding: 14px;
-
-    border: 3px solid #71ebe5;
+    border: 3px solid #f8bddf;
     border-radius: 18px;
-
-    background: #d1eaec;
-
-    color: #282829;
-
+    background: #fff1f5;
+    color: #374151;
     font-size: 16px;
     font-weight: bold;
-
     text-align: center;
+    transition: all 0.2s ease;
 }
 
-/* Cuando escriben */
+/* Cuando escriben o pasan el mouse */
+#nombre-cuidador:hover,
 #nombre-cuidador:focus {
     outline: none;
-
-    border-color: #5ee7e0;
-
-    box-shadow: 0 0 10px rgba(67, 146, 160, 0.25);
+    border-color: #f472b6;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(244, 114, 182, 0.25);
+    transform: scale(1.02);
 }
+
 
 .tarjeta-cuidador:hover {
     transform: scale(1.03);

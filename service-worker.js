@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "pequenos-cuidados-v11";
+const CACHE_NAME = "pequenos-cuidados-v13";
 
 const ARCHIVOS = [
     "./",
@@ -74,6 +74,7 @@ self.addEventListener("push", event => {
                 icon: "./icon-192.png",
                 badge: "./icon-192.png",
                 tag: "pequenos-cuidados",
+                renotify: true,
                 vibrate: [200, 100, 200, 100, 300],
                 requireInteraction: true
             }

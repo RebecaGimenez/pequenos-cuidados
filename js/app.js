@@ -4676,17 +4676,19 @@ function prepararRecordatoriosPush() {
                     const horaTomaMs = toma.getTime();
                     const horaAvisoMs = horaTomaMs - cincoMinutos;
 
-                    if (horaAvisoMs > ahora) {
+                    if (horaTomaMs > ahora) {
+                        const fechaAvisoMs = horaAvisoMs > ahora ? horaAvisoMs : (ahora + 10000);
                         const horaTexto = toma.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
                         recordatorios.push({
                             id: `med_${med.id}_${horaTomaMs}`,
                             tipo: "medicacion",
                             peque: nombrePeque,
-                            titulo: `💊 Medicación de ${nombrePeque} en 5 min`,
+                            titulo: `💊 Medicación de ${nombrePeque}`,
                             mensaje: `${med.remedio}${med.dosis ? " (" + med.dosis + ")" : ""} a las ${horaTexto}`,
-                            fecha: horaAvisoMs
+                            fecha: fechaAvisoMs
                         });
                     }
+
 
                     toma = new Date(toma.getTime() + (frecuencia * 60 * 60 * 1000));
                     contador++;
@@ -4779,16 +4781,14 @@ async function crearSuscripcionPush() {
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify({
                 endpoint: suscripcion.endpoint,
                 recordatorios: recordatoriosPush,
                 idioma: idiomaApp,
-                reemplazarTipos: [
-                    "turno",
-                    "vacuna",
-                    "medicacion"
-                ]
+                reemplazar: true
             })
+
         }
     );
 
