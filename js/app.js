@@ -2366,13 +2366,14 @@ function editarMedicacionGuardada(id) {
 
     // 5. Cambiamos el texto del botón Guardar para avisar que está editando
     const btnGuardar = document.querySelector(".btn-guardar-todo");
-    if (btnGuardar) {
-        btnGuardar.textContent = idiomaApp === "en"
-            ? "💾 Update Medication"
-            : idiomaApp === "pt"
-                ? "💾 Atualizar Medicação"
-                : "💾 Actualizar Medicación";
-    }
+        if (btnGuardar) {
+            btnGuardar.textContent = idiomaApp === "en"
+                ? "💾 Update"
+                : idiomaApp === "pt"
+                    ? "💾 Atualizar"
+                    : "💾 Actualizar";
+        }
+
 
     // 6. Subimos la pantalla suavemente hacia el formulario
     const contForm = document.querySelector(".contenedor-formulario");

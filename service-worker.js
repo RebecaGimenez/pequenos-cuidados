@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "pequenos-cuidados-v10";
+const CACHE_NAME = "pequenos-cuidados-v11";
 
 const ARCHIVOS = [
     "./",
@@ -66,17 +66,20 @@ self.addEventListener("push", event => {
         }
     }
 
-       event.waitUntil(
+        event.waitUntil(
         self.registration.showNotification(
             datos.titulo || "🌈 Pequeños Cuidados",
             {
                 body: datos.mensaje || "Tenés un nuevo aviso.",
                 icon: "./icon-192.png",
                 badge: "./icon-192.png",
-                tag: "pequenos-cuidados"
+                tag: "pequenos-cuidados",
+                vibrate: [200, 100, 200, 100, 300],
+                requireInteraction: true
             }
         )
     );
+
 
 });
 
