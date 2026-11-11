@@ -11,6 +11,40 @@ let idiomaApp = obtenerIdioma();
 let medicacionEditando= null;
 
 // ==========================================
+// CARTEL PERSONALIZADO (Reemplaza los alertas del navegador)
+// ==========================================
+window.alert = function(mensaje) {
+    const modalExistente = document.getElementById("modal-alerta-app");
+    if (modalExistente) modalExistente.remove();
+
+    const overlay = document.createElement("div");
+    overlay.id = "modal-alerta-app";
+    overlay.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:999999;padding:20px;box-sizing:border-box;backdrop-filter:blur(2px);";
+
+    const caja = document.createElement("div");
+    caja.style.cssText = "background:#ffffff;border-radius:24px;max-width:380px;width:100%;padding:26px 22px;text-align:center;box-shadow:0 12px 35px rgba(0,0,0,0.2);border:3px solid #bae6fd;font-family:inherit;";
+
+    const titulo = document.createElement("h3");
+    titulo.innerText = "🌈 Pequeños Cuidados";
+    titulo.style.cssText = "margin:0 0 14px 0;color:#0284c7;font-size:22px;font-weight:bold;";
+
+    const texto = document.createElement("p");
+    texto.innerHTML = (mensaje || "").toString().replace(/\n/g, "<br>");
+    texto.style.cssText = "margin:0 0 20px 0;color:#334155;font-size:16px;line-height:1.5;word-break:break-word;";
+
+    const boton = document.createElement("button");
+    boton.innerText = "✨ Entendido";
+    boton.style.cssText = "background:linear-gradient(135deg, #38bdf8, #818cf8);color:#ffffff;border:none;padding:12px 30px;font-size:16px;font-weight:bold;border-radius:20px;cursor:pointer;box-shadow:0 4px 12px rgba(56,189,248,0.3);";
+    boton.onclick = () => overlay.remove();
+
+    caja.appendChild(titulo);
+    caja.appendChild(texto);
+    caja.appendChild(boton);
+    overlay.appendChild(caja);
+    document.body.appendChild(overlay);
+};
+
+// ==========================================
 // 1. INICIALIZADOR GENERAL DE PANTALLAS (CON MEMORIA SEPARADA POR HIJO)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
@@ -1783,9 +1817,11 @@ function guardarTodasLasMedicaciones() {
     }
 
 
-    // 🔄 Actualizamos la visualización
+        // 🔄 Actualizamos la visualización
     actualizarListaVisual();
+    sincronizarPushSiActivado();
 }
+
 
 function actualizarListaVisual() {
 
@@ -2230,13 +2266,6 @@ function actualizarListaVisual() {
 
                 <button
                     type="button"
-                    onclick="probarNotificacionMedicacion('${item.id}')">
-                    ${diccionarioTraducciones[idiomaApp]["btn-probar-notificacion"]}
-                </button>
-
-
-                <button
-                    type="button"
                     class="btn-borrar-tarjeta"
                     onclick="eliminarMedicacionGuardada('${item.id}')">
 
@@ -2278,7 +2307,7 @@ function eliminarMedicacionGuardada(id) {
 
 
     actualizarListaVisual();
-
+    sincronizarPushSiActivado();
 }
 
 function actualizarListaVacunasVisual() {
@@ -4528,9 +4557,14 @@ function prepararRecordatoriosPush() {
                 // Definir horizonte máximo: según días de tratamiento o 10 días para continuos
                 const diasDuracion = med.diasDuracion ? parseInt(med.diasDuracion) : 10;
                 const finHorizonte = new Date(inicio.getTime() + (diasDuracion * 24 * 60 * 60 * 1000));
-                const frecuencia = parseInt(med.frecuenciaHoras);
+                let frecuencia = parseInt(med.frecuenciaHoras);
+                    if (!frecuencia && med.etapas && med.etapas.length > 0) {
+                        frecuencia = parseInt(med.etapas[0].frecuenciaHoras);
+                    }
+                    if (!frecuencia || frecuencia <= 0) {
+                        frecuencia = 8;
+                    }
 
-                if (!frecuencia || frecuencia <= 0) return;
 
                 let toma = new Date(inicio);
                 let contador = 0;
