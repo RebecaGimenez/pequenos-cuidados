@@ -1,5 +1,5 @@
 
-const CACHE_NAME = "pequenos-cuidados-v7";
+const CACHE_NAME = "pequenos-cuidados-v8";
 
 const ARCHIVOS = [
     "./",
@@ -20,10 +20,8 @@ const ARCHIVOS = [
 ];
 
 self.addEventListener("install", event => { 
- 
-     self.skipWaiting(); 
- 
-     event.waitUntil( 
+    self.skipWaiting(); 
+    event.waitUntil( 
         caches.open(CACHE_NAME).then(cache => { 
             return cache.addAll(ARCHIVOS); 
         }) 
@@ -32,11 +30,13 @@ self.addEventListener("install", event => {
 
 
 self.addEventListener("activate", event => {
-
     event.waitUntil(
-        clients.claim()
+        caches.keys().then(claves => {
+            return Promise.all(
+                claves.filter(clave => clave !== CACHE_NAME).map(clave => caches.delete(clave))
+            );
+        }).then(() => clients.claim())
     );
-
 });
 
 

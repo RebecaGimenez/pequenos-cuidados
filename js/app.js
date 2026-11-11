@@ -3898,6 +3898,53 @@ function compartirTratamiento(idMedicacion) {
         return;
     }
 
+    // Traducciones para la tarjeta según el idioma activo
+    const textosTarjeta = {
+        es: {
+            medicacion: "Medicación",
+            dosis: "Dosis",
+            segunIndicacion: "Según indicación",
+            frecuencia: "Frecuencia: Cada",
+            horas: "horas",
+            proximasTomas: "🕒 Próximas tomas:",
+            hoy: "HOY",
+            manana: "MAÑANA",
+            inicioTratamiento: "Inicio de tratamiento:",
+            hoyTexto: "Hoy",
+            frasePie: "🌈 Organizar los cuidados también es cuidar ✨"
+        },
+        en: {
+            medicacion: "Medication",
+            dosis: "Dose",
+            segunIndicacion: "As directed",
+            frecuencia: "Frequency: Every",
+            horas: "hours",
+            proximasTomas: "🕒 Next doses:",
+            hoy: "TODAY",
+            manana: "TOMORROW",
+            inicioTratamiento: "Treatment start:",
+            hoyTexto: "Today",
+            frasePie: "🌈 Organizing care is also caring ✨"
+        },
+        pt: {
+            medicacion: "Medicação",
+            dosis: "Dose",
+            segunIndicacion: "Conforme indicação",
+            frecuencia: "Frequência: A cada",
+            horas: "horas",
+            proximasTomas: "🕒 Próximas doses:",
+            hoy: "HOJE",
+            manana: "AMANHÃ",
+            inicioTratamiento: "Início do tratamento:",
+            hoyTexto: "Hoje",
+            frasePie: "🌈 Organizar os cuidados também é cuidar ✨"
+        }
+    };
+
+    const idiomaActual = (typeof idiomaApp !== "undefined" ? idiomaApp : (localStorage.getItem("idiomaApp") || "es"));
+    const t = textosTarjeta[idiomaActual] || textosTarjeta.es;
+    const localeFecha = idiomaActual === "en" ? "en-US" : idiomaActual === "pt" ? "pt-BR" : "es-AR";
+
     const ahora = new Date();
 
     // 1. Frecuencia segura
@@ -3934,7 +3981,6 @@ function compartirTratamiento(idMedicacion) {
     canvas.height = 1100;
     const ctx = canvas.getContext("2d");
 
-    // Función auxiliar para dibujar rectángulos redondeados sin fallas
     function dibujarCaja(x, y, w, h, r, colorRelleno, colorBorde) {
         ctx.beginPath();
         if (ctx.roundRect) {
@@ -3953,14 +3999,14 @@ function compartirTratamiento(idMedicacion) {
         }
     }
 
-    // Fondo celeste cielo suave
+    // Fondo celeste suave
     ctx.fillStyle = "#f0f9ff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Tarjeta blanca central
-    dibujarCaja(40, 40, 720, 1020, 28, "#ffffff", "#bae6fd");
+    // Tarjeta central
+    dibujarCaja(40, 40, 720, 1020, 28, "#fcf2f2", "#ff9490");
 
-    // Franja superior Arcoíris decorativa
+    // Franja superior Arcoíris
     const coloresArcoiris = ["#fbcfe8", "#fef08a", "#bbf7d0", "#bae6fd", "#e9d5ff"];
     const anchoFranja = 720 / coloresArcoiris.length;
     coloresArcoiris.forEach((color, i) => {
@@ -3974,39 +4020,39 @@ function compartirTratamiento(idMedicacion) {
     ctx.font = "bold 38px Arial, sans-serif";
     ctx.fillText("🌈 Pequeños Cuidados", 400, 115);
 
-    // Etiqueta del Peque (Pastilla amarilla)
+    // Etiqueta del Peque (Pastilla lila)
     const nombrePeque = pequeActivo || "Mi Peque";
-    dibujarCaja(220, 145, 360, 50, 25, "#fef08a", "#facc15");
+    dibujarCaja(220, 145, 360, 50, 25, "#efd7fa", "#8b38da");
     ctx.fillStyle = "#1e293b";
     ctx.font = "bold 26px Arial, sans-serif";
     ctx.fillText(`🧸 ${nombrePeque}`, 400, 180);
 
-    // Recuadro del Medicamento
-    dibujarCaja(80, 220, 640, 200, 18, "#f8fafc", "#e2e8f0");
+    // Recuadro del Medicamento (Durazno cálido)
+    dibujarCaja(80, 220, 640, 200, 18, "#f8e0d0", "#ee843d");
     ctx.textAlign = "left";
     ctx.fillStyle = "#0f172a";
     ctx.font = "bold 30px Arial, sans-serif";
-    ctx.fillText(`💊 ${medicacion.remedio || "Medicación"}`, 110, 270);
+    ctx.fillText(`💊 ${medicacion.remedio || t.medicacion}`, 110, 270);
 
     ctx.font = "24px Arial, sans-serif";
-    ctx.fillStyle = "#475569";
-    ctx.fillText(`💉 Dosis: ${medicacion.dosis || "Según indicación"}`, 110, 325);
-    ctx.fillText(`⏰ Frecuencia: Cada ${frecuenciaActual} horas`, 110, 375);
+    ctx.fillStyle = "#3b4757";
+    ctx.fillText(`💉 ${t.dosis}: ${medicacion.dosis || t.segunIndicacion}`, 110, 325);
+    ctx.fillText(`⏰ ${t.frecuencia} ${frecuenciaActual} ${t.horas}`, 110, 375);
 
     // Título Próximas Tomas
     ctx.fillStyle = "#0284c7";
     ctx.font = "bold 28px Arial, sans-serif";
-    ctx.fillText("🕒 Próximas tomas:", 90, 465);
+    ctx.fillText(t.proximasTomas, 90, 465);
 
-    // Pastillas de las tomas con colores arcoíris suaves
+    // Pastillas de tomas (Rosa, Menta, Amarillo)
     const estilosTomas = [
-        { fondo: "#fce7f3", borde: "#f472b6", texto: "#9d174d" }, // Rosa
-        { fondo: "#dcfce7", borde: "#4ade80", texto: "#166534" }, // Menta
-        { fondo: "#fef9c3", borde: "#facc15", texto: "#854d0e" }  // Amarillo
+        { fondo: "#fce7f3", borde: "#f472b6", texto: "#9d174d" },
+        { fondo: "#dcfce7", borde: "#4ade80", texto: "#166534" },
+        { fondo: "#fef9c3", borde: "#facc15", texto: "#854d0e" }
     ];
 
     proximasTomas.forEach((fecha, indice) => {
-        const hora = fecha.toLocaleTimeString("es-AR", {
+        const hora = fecha.toLocaleTimeString(localeFecha, {
             hour: "2-digit",
             minute: "2-digit",
             hour12: false
@@ -4016,7 +4062,7 @@ function compartirTratamiento(idMedicacion) {
         const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
         const diaToma = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
         const difDias = Math.round((diaToma - hoySinHora) / (1000 * 60 * 60 * 24));
-        const textoDia = difDias === 0 ? "HOY" : difDias === 1 ? "MAÑANA" : fecha.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" });
+        const textoDia = difDias === 0 ? t.hoy : difDias === 1 ? t.manana : fecha.toLocaleDateString(localeFecha, { day: "2-digit", month: "2-digit" });
 
         const estilo = estilosTomas[indice % estilosTomas.length];
         const yPill = 495 + (indice * 85);
@@ -4031,32 +4077,32 @@ function compartirTratamiento(idMedicacion) {
     // Fecha de inicio
     const fechaInicioFmt = medicacion.fechaInicio
         ? medicacion.fechaInicio.split("-").reverse().join("/")
-        : "Hoy";
+        : t.hoyTexto;
 
-    ctx.fillStyle = "#64748b";
+    ctx.fillStyle = "#a80d60";
     ctx.font = "22px Arial, sans-serif";
-    ctx.fillText(`🗓️ Inicio de tratamiento: ${fechaInicioFmt}`, 90, 790);
+    ctx.fillText(`🗓️ ${t.inicioTratamiento} ${fechaInicioFmt}`, 90, 790);
 
     // Mensaje de pie
     ctx.textAlign = "center";
-    ctx.fillStyle = "#64748b";
+    ctx.fillStyle = "#023172";
     ctx.font = "bold 22px Arial, sans-serif";
-    ctx.fillText("🌈 Organizar los cuidados también es cuidar ✨", 400, 960);
+    ctx.fillText(t.frasePie, 400, 960);
 
-    // 4. Compartir como imagen en WhatsApp (o descargar)
+    // 4. Compartir como imagen (Nombre único por milisegundo)
     canvas.toBlob(async (blob) => {
         if (!blob) {
             alert("No se pudo generar la tarjeta.");
             return;
         }
 
-        const archivo = new File([blob], "tratamiento-pequenos-cuidados.png", { type: "image/png" });
+        const nombreLimpio = (medicacion.remedio || "tratamiento").toLowerCase().replace(/[^a-z0-9]/g, "-");
+        const nombreArchivo = `tarjeta-${nombreLimpio}-${Date.now()}.png`;
+        const archivo = new File([blob], nombreArchivo, { type: "image/png" });
 
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [archivo] })) {
             try {
                 await navigator.share({
-                    title: "Pequeños Cuidados",
-                    text: `Tratamiento de ${nombrePeque} — ${medicacion.remedio}`,
                     files: [archivo]
                 });
             } catch (error) {
@@ -4065,7 +4111,7 @@ function compartirTratamiento(idMedicacion) {
         } else {
             const enlace = document.createElement("a");
             enlace.href = URL.createObjectURL(blob);
-            enlace.download = "tratamiento-pequenos-cuidados.png";
+            enlace.download = nombreArchivo;
             enlace.click();
             URL.revokeObjectURL(enlace.href);
         }
