@@ -66,15 +66,18 @@ self.addEventListener("push", event => {
         }
     }
 
-    event.waitUntil(
+       event.waitUntil(
         self.registration.showNotification(
             datos.titulo || "🌈 Pequeños Cuidados",
             {
                 body: datos.mensaje || "Tenés un nuevo aviso.",
+                icon: "./icon-192.png",
+                badge: "./icon-192.png",
                 tag: "pequenos-cuidados"
             }
         )
     );
+
 });
 
 self.addEventListener("notificationclick", event => {

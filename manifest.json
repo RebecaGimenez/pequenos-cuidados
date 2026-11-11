@@ -3,13 +3,14 @@
   "name": "Pequeños Cuidados",
   "short_name": "Pequeños Cuidados",
   "description": "Organizador de cuidados para acompañar a tu peque.",
-  "start_url": "home.html",
-  "id": "/home.html",
+  "start_url": "./home.html",
+  "id": "pequenos-cuidados",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "./",
   "background_color": "#e0f2fe",
   "theme_color": "#7dd3fc",
+
   "lang": "es",
   "icons": [
     {

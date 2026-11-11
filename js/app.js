@@ -290,7 +290,6 @@ const diccionarioTraducciones = {
     "notificacion-denegada": "⚠️ No se concedió permiso para las notificaciones.",
     "notificacion-hora-medicacion": "💊 Es hora de la medicación de",
 
-    "btn-activar-notificaciones": "🔔 Activar notificaciones",
     "notificacion-activada": "¡Notificaciones activadas correctamente! 🌈",
     "notificacion-error-activar": "No se pudieron activar las notificaciones. Revisaremos el error.",
     "notificacion-sin-service-worker": "Tu navegador no admite el servicio necesario para las notificaciones.",
@@ -3890,14 +3889,9 @@ function cargarCuidadorParaEditar() {
 
 
 function compartirTratamiento(idMedicacion) {
-
     const claveHistorial = pequeActivo + "_medicaciones";
-
-    const lista =
-        JSON.parse(localStorage.getItem(claveHistorial)) || [];
-
-    const medicacion =
-        lista.find(item => item.id === idMedicacion);
+    const lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
+    const medicacion = lista.find(item => String(item.id) === String(idMedicacion));
 
     if (!medicacion) {
         alert("No se encontró la medicación.");
@@ -3906,269 +3900,178 @@ function compartirTratamiento(idMedicacion) {
 
     const ahora = new Date();
 
-    const [horaInicio, minutoInicio] =
-        medicacion.horaInicio.split(":");
-
-    let siguiente = new Date();
-
-    siguiente.setHours(
-        parseInt(horaInicio),
-        parseInt(minutoInicio),
-        0,
-        0
-    );
-
-    let frecuenciaActual =
-        parseInt(medicacion.frecuenciaHoras);
-
-    const proximasTomas = [];
-
-    while (proximasTomas.length < 3) {
-
-        if (siguiente > ahora) {
-            proximasTomas.push(new Date(siguiente));
-        }
-
-        siguiente.setHours(
-            siguiente.getHours() + frecuenciaActual
-        );
+    // 1. Frecuencia segura
+    let frecuenciaActual = parseInt(medicacion.frecuenciaHoras);
+    if (!frecuenciaActual && medicacion.etapas && medicacion.etapas.length > 0) {
+        frecuenciaActual = parseInt(medicacion.etapas[0].frecuenciaHoras);
+    }
+    if (!frecuenciaActual || isNaN(frecuenciaActual) || frecuenciaActual <= 0) {
+        frecuenciaActual = 8;
     }
 
-    const canvas = document.createElement("canvas");
+    // 2. Cálculo de las 3 próximas tomas
+    const [horaInicio, minutoInicio] = (medicacion.horaInicio || "08:00").split(":");
+    let siguiente = new Date();
+    siguiente.setHours(parseInt(horaInicio) || 8, parseInt(minutoInicio) || 0, 0, 0);
 
+    let limiteSeguridad = 0;
+    while (siguiente <= ahora && limiteSeguridad < 200) {
+        siguiente = new Date(siguiente.getTime() + (frecuenciaActual * 60 * 60 * 1000));
+        limiteSeguridad++;
+    }
+
+    const proximasTomas = [];
+    limiteSeguridad = 0;
+    while (proximasTomas.length < 3 && limiteSeguridad < 50) {
+        proximasTomas.push(new Date(siguiente));
+        siguiente = new Date(siguiente.getTime() + (frecuenciaActual * 60 * 60 * 1000));
+        limiteSeguridad++;
+    }
+
+    // 3. Crear el lienzo de la tarjeta (800 x 1100 px)
+    const canvas = document.createElement("canvas");
     canvas.width = 800;
     canvas.height = 1100;
-
     const ctx = canvas.getContext("2d");
 
-    // Fondo
-    ctx.fillStyle = "#e0f2fe";
+    // Función auxiliar para dibujar rectángulos redondeados sin fallas
+    function dibujarCaja(x, y, w, h, r, colorRelleno, colorBorde) {
+        ctx.beginPath();
+        if (ctx.roundRect) {
+            ctx.roundRect(x, y, w, h, r);
+        } else {
+            ctx.rect(x, y, w, h);
+        }
+        if (colorRelleno) {
+            ctx.fillStyle = colorRelleno;
+            ctx.fill();
+        }
+        if (colorBorde) {
+            ctx.strokeStyle = colorBorde;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+    }
+
+    // Fondo celeste cielo suave
+    ctx.fillStyle = "#f0f9ff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Tarjeta
-    ctx.fillStyle = "#ffffff";
-    ctx.roundRect(
-        40,
-        40,
-        720,
-        1020,
-        35,
-        35
-    );
-    ctx.fill();
+    // Tarjeta blanca central
+    dibujarCaja(40, 40, 720, 1020, 28, "#ffffff", "#bae6fd");
 
-    // Título
+    // Franja superior Arcoíris decorativa
+    const coloresArcoiris = ["#fbcfe8", "#fef08a", "#bbf7d0", "#bae6fd", "#e9d5ff"];
+    const anchoFranja = 720 / coloresArcoiris.length;
+    coloresArcoiris.forEach((color, i) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(40 + (i * anchoFranja), 40, anchoFranja, 16);
+    });
+
+    // Título de la app
     ctx.textAlign = "center";
-    ctx.fillStyle = "#7c3aed";
-    ctx.font = "bold 42px Arial";
+    ctx.fillStyle = "#0284c7";
+    ctx.font = "bold 38px Arial, sans-serif";
+    ctx.fillText("🌈 Pequeños Cuidados", 400, 115);
 
-    ctx.fillText(
-        "🌈 Pequeños Cuidados",
-        400,
-        115
-    );
+    // Etiqueta del Peque (Pastilla amarilla)
+    const nombrePeque = pequeActivo || "Mi Peque";
+    dibujarCaja(220, 145, 360, 50, 25, "#fef08a", "#facc15");
+    ctx.fillStyle = "#1e293b";
+    ctx.font = "bold 26px Arial, sans-serif";
+    ctx.fillText(`🧸 ${nombrePeque}`, 400, 180);
 
-    // Peque
-    ctx.fillStyle = "#333333";
-    ctx.font = "bold 34px Arial";
-
-    ctx.fillText(
-        `🧸 ${pequeActivo}`,
-        400,
-        190
-    );
-
-    // Medicación
+    // Recuadro del Medicamento
+    dibujarCaja(80, 220, 640, 200, 18, "#f8fafc", "#e2e8f0");
     ctx.textAlign = "left";
-    ctx.font = "bold 32px Arial";
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "bold 30px Arial, sans-serif";
+    ctx.fillText(`💊 ${medicacion.remedio || "Medicación"}`, 110, 270);
 
-    ctx.fillText(
-        `💊 ${medicacion.remedio}`,
-        100,
-        275
-    );
+    ctx.font = "24px Arial, sans-serif";
+    ctx.fillStyle = "#475569";
+    ctx.fillText(`💉 Dosis: ${medicacion.dosis || "Según indicación"}`, 110, 325);
+    ctx.fillText(`⏰ Frecuencia: Cada ${frecuenciaActual} horas`, 110, 375);
 
-    ctx.font = "28px Arial";
+    // Título Próximas Tomas
+    ctx.fillStyle = "#0284c7";
+    ctx.font = "bold 28px Arial, sans-serif";
+    ctx.fillText("🕒 Próximas tomas:", 90, 465);
 
-    ctx.fillText(
-        `💉 Dosis: ${medicacion.dosis}`,
-        100,
-        330
-    );
-
-    ctx.fillText(
-        `⏰ Cada ${medicacion.frecuenciaHoras} horas`,
-        100,
-        385
-    );
-
-    // Próximas tomas
-    ctx.fillStyle = "#7c3aed";
-    ctx.font = "bold 30px Arial";
-
-    ctx.fillText(
-        "🕒 Próximas tomas",
-        100,
-        475
-    );
-
-    ctx.fillStyle = "#333333";
-    ctx.font = "bold 30px Arial";
+    // Pastillas de las tomas con colores arcoíris suaves
+    const estilosTomas = [
+        { fondo: "#fce7f3", borde: "#f472b6", texto: "#9d174d" }, // Rosa
+        { fondo: "#dcfce7", borde: "#4ade80", texto: "#166534" }, // Menta
+        { fondo: "#fef9c3", borde: "#facc15", texto: "#854d0e" }  // Amarillo
+    ];
 
     proximasTomas.forEach((fecha, indice) => {
-
-        const hora =
-            fecha.toLocaleTimeString(
-                "es-AR",
-                {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false
-                }
-            );
+        const hora = fecha.toLocaleTimeString("es-AR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        });
 
         const hoy = new Date();
+        const hoySinHora = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+        const diaToma = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate());
+        const difDias = Math.round((diaToma - hoySinHora) / (1000 * 60 * 60 * 24));
+        const textoDia = difDias === 0 ? "HOY" : difDias === 1 ? "MAÑANA" : fecha.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" });
 
-        const hoySinHora =
-            new Date(
-                hoy.getFullYear(),
-                hoy.getMonth(),
-                hoy.getDate()
-            );
+        const estilo = estilosTomas[indice % estilosTomas.length];
+        const yPill = 495 + (indice * 85);
 
-        const diaToma =
-            new Date(
-                fecha.getFullYear(),
-                fecha.getMonth(),
-                fecha.getDate()
-            );
+        dibujarCaja(80, yPill, 640, 65, 16, estilo.fondo, estilo.borde);
 
-        const diferenciaDias =
-            Math.round(
-                (diaToma - hoySinHora) /
-                (1000 * 60 * 60 * 24)
-            );
-
-        let textoDia;
-
-        if (diferenciaDias === 0) {
-            textoDia = "hoy";
-        }
-        else if (diferenciaDias === 1) {
-            textoDia = "mañana";
-        }
-        else {
-            textoDia =
-                fecha.toLocaleDateString(
-                    "es-AR",
-                    {
-                        day: "2-digit",
-                        month: "2-digit"
-                    }
-                );
-        }
-
-        const y = 545 + (indice * 65);
-
-        ctx.fillText(
-            `${hora} — ${textoDia}`,
-            150,
-            y
-        );
+        ctx.fillStyle = estilo.texto;
+        ctx.font = "bold 26px Arial, sans-serif";
+        ctx.fillText(`⏰ ${hora} hs — ${textoDia}`, 120, yPill + 42);
     });
 
     // Fecha de inicio
-    const fechaInicioFormateada =
-        medicacion.fechaInicio
-            ? medicacion.fechaInicio
-                .split("-")
-                .reverse()
-                .join("/")
-            : "No disponible";
+    const fechaInicioFmt = medicacion.fechaInicio
+        ? medicacion.fechaInicio.split("-").reverse().join("/")
+        : "Hoy";
 
-    ctx.font = "26px Arial";
+    ctx.fillStyle = "#64748b";
+    ctx.font = "22px Arial, sans-serif";
+    ctx.fillText(`🗓️ Inicio de tratamiento: ${fechaInicioFmt}`, 90, 790);
 
-    ctx.fillText(
-        `📅 Inicio: ${fechaInicioFormateada}`,
-        100,
-        780
-    );
-
-    // Pie
+    // Mensaje de pie
     ctx.textAlign = "center";
-    ctx.fillStyle = "#7c3aed";
-    ctx.font = "bold 24px Arial";
+    ctx.fillStyle = "#64748b";
+    ctx.font = "bold 22px Arial, sans-serif";
+    ctx.fillText("🌈 Organizar los cuidados también es cuidar ✨", 400, 960);
 
-    ctx.fillText(
-        "Organizar los cuidados también es cuidar 💜",
-        400,
-        970
-    );
-
+    // 4. Compartir como imagen en WhatsApp (o descargar)
     canvas.toBlob(async (blob) => {
-
         if (!blob) {
-            alert("No se pudo crear la tarjeta.");
+            alert("No se pudo generar la tarjeta.");
             return;
         }
 
-        const archivo =
-            new File(
-                [blob],
-                "pequenos-cuidados.png",
-                {
-                    type: "image/png"
-                }
-            );
+        const archivo = new File([blob], "tratamiento-pequenos-cuidados.png", { type: "image/png" });
 
-         if (
-                navigator.share &&
-                navigator.canShare &&
-                navigator.canShare({
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [archivo] })) {
+            try {
+                await navigator.share({
+                    title: "Pequeños Cuidados",
+                    text: `Tratamiento de ${nombrePeque} — ${medicacion.remedio}`,
                     files: [archivo]
-                })
-            ) {
-
-                try {
-
-                    await navigator.share({
-                        title: "Pequeños Cuidados",
-                        files: [archivo]
-                    });
-
-                }
-                catch (error) {
-
-                    console.log(
-                        "Compartir cancelado o no disponible:",
-                        error
-                    );
-
-                }
-
+                });
+            } catch (error) {
+                console.log("Compartir cancelado:", error);
             }
-
-        else {
-
-            const enlace =
-                document.createElement("a");
-
-            enlace.href =
-                URL.createObjectURL(blob);
-
-            enlace.download =
-                "pequenos-cuidados.png";
-
+        } else {
+            const enlace = document.createElement("a");
+            enlace.href = URL.createObjectURL(blob);
+            enlace.download = "tratamiento-pequenos-cuidados.png";
             enlace.click();
-
-            URL.revokeObjectURL(
-                enlace.href
-            );
-
+            URL.revokeObjectURL(enlace.href);
         }
-
     }, "image/png");
 }
+
 
 
 async function probarNotificacionMedicacion(idMedicacion) {
@@ -4496,82 +4399,115 @@ function convertirClavePublica(clave) {
     );
 }
 
+// ==========================================
+// 🔔 PREPARAR RECORDATORIOS (TURNOS, VACUNAS Y MEDICACIONES)
+// ==========================================
 
-// ==========================================
-// 🔔 PREPARAR RECORDATORIOS DE TURNOS Y VACUNAS
-// ==========================================
 function prepararRecordatoriosPush() {
     const recordatorios = [];
     const ahora = Date.now();
     const unDia = 24 * 60 * 60 * 1000;
+    const cincoMinutos = 5 * 60 * 1000;
 
-    // Recorremos los datos guardados de todos los peques.
+    // Recorremos los datos guardados de todos los peques
     for (let i = 0; i < localStorage.length; i++) {
         const clave = localStorage.key(i);
         if (!clave) continue;
 
-        // 📅 TURNOS
+        // Extraer el nombre del peque desde la clave (ej: "Benja_medicaciones" -> "Benja")
+        const nombrePeque = clave.includes("_") ? clave.split("_")[0] : (pequeActivo || "tu peque");
+
+        // 📅 1. TURNOS (aviso 24 hs antes)
         if (clave.endsWith("_turnos")) {
             let turnos = [];
-
             try {
                 turnos = JSON.parse(localStorage.getItem(clave)) || [];
-            } catch (error) {
-                console.warn("No se pudieron leer los turnos:", clave);
-                continue;
-            }
+            } catch (e) { continue; }
 
             turnos.forEach(turno => {
                 if (!turno.fecha || !turno.hora || turno.id == null) return;
-
-                const fechaTurno = new Date(
-                    `${turno.fecha}T${turno.hora}:00`
-                ).getTime();
-
-                // Aviso exactamente 24 horas antes.
+                const fechaTurno = new Date(`${turno.fecha}T${turno.hora}:00`).getTime();
                 const fechaAviso = fechaTurno - unDia;
 
-                if (
-                    Number.isFinite(fechaAviso) &&
-                    fechaAviso > ahora
-                ) {
+                if (Number.isFinite(fechaAviso) && fechaAviso > ahora) {
                     recordatorios.push({
                         id: `turno_${String(turno.id).replace(/[^a-zA-Z0-9_-]/g, "_")}`,
                         tipo: "turno",
+                        peque: nombrePeque,
+                        titulo: `📅 Turno médico de ${nombrePeque}`,
+                        mensaje: `${turno.especialidad || "Consulta médica"} - ${turno.hora} hs`,
                         fecha: fechaAviso
                     });
                 }
             });
         }
 
-        // 💉 VACUNAS
+        // 💉 2. VACUNAS (aviso el día anterior a las 9:00 AM)
         if (clave.endsWith("_vacunas")) {
             let vacunas = [];
-
             try {
                 vacunas = JSON.parse(localStorage.getItem(clave)) || [];
-            } catch (error) {
-                console.warn("No se pudieron leer las vacunas:", clave);
-                continue;
-            }
+            } catch (e) { continue; }
 
             vacunas.forEach(vacuna => {
                 if (!vacuna.proxima || vacuna.id == null) return;
+                const fechaAviso = new Date(`${vacuna.proxima}T09:00:00`).getTime() - unDia;
 
-                // Aviso el día anterior a las 9:00 de la mañana.
-                const fechaAviso = new Date(
-                    `${vacuna.proxima}T09:00:00`
-                ).getTime() - unDia;
-
-                if (
-                    Number.isFinite(fechaAviso) &&
-                    fechaAviso > ahora
-                ) {
+                if (Number.isFinite(fechaAviso) && fechaAviso > ahora) {
                     recordatorios.push({
                         id: `vacuna_${String(vacuna.id).replace(/[^a-zA-Z0-9_-]/g, "_")}`,
                         tipo: "vacuna",
+                        peque: nombrePeque,
+                        titulo: `💉 Vacuna de ${nombrePeque}`,
+                        mensaje: `Recordá la vacuna: ${vacuna.nombre || "Vacunación programada"}`,
                         fecha: fechaAviso
                     });
+                }
+            });
+        }
+
+        // 💊 3. MEDICACIONES (aviso 5 minutos antes de cada toma)
+        if (clave.endsWith("_medicaciones")) {
+            let medicaciones = [];
+            try {
+                medicaciones = JSON.parse(localStorage.getItem(clave)) || [];
+            } catch (e) { continue; }
+
+            medicaciones.forEach(med => {
+                if (!med.fechaInicio || !med.horaInicio || !med.remedio) return;
+
+                const inicio = new Date(`${med.fechaInicio}T${med.horaInicio}:00`);
+                if (isNaN(inicio.getTime())) return;
+
+                // Definir horizonte máximo: según días de tratamiento o 10 días para continuos
+                const diasDuracion = med.diasDuracion ? parseInt(med.diasDuracion) : 10;
+                const finHorizonte = new Date(inicio.getTime() + (diasDuracion * 24 * 60 * 60 * 1000));
+                const frecuencia = parseInt(med.frecuenciaHoras);
+
+                if (!frecuencia || frecuencia <= 0) return;
+
+                let toma = new Date(inicio);
+                let contador = 0;
+
+                // Generar tomas hasta fin de tratamiento o máximo 10 días
+                while (toma <= finHorizonte && contador < 100) {
+                    const horaTomaMs = toma.getTime();
+                    const horaAvisoMs = horaTomaMs - cincoMinutos;
+
+                    if (horaAvisoMs > ahora) {
+                        const horaTexto = toma.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
+                        recordatorios.push({
+                            id: `med_${med.id}_${horaTomaMs}`,
+                            tipo: "medicacion",
+                            peque: nombrePeque,
+                            titulo: `💊 Medicación de ${nombrePeque} en 5 min`,
+                            mensaje: `${med.remedio}${med.dosis ? " (" + med.dosis + ")" : ""} a las ${horaTexto}`,
+                            fecha: horaAvisoMs
+                        });
+                    }
+
+                    toma = new Date(toma.getTime() + (frecuencia * 60 * 60 * 1000));
+                    contador++;
                 }
             });
         }
@@ -4579,6 +4515,8 @@ function prepararRecordatoriosPush() {
 
     return recordatorios;
 }
+
+
 
 
 function sincronizarPushSiActivado() {
@@ -4646,11 +4584,12 @@ async function crearSuscripcionPush() {
     console.log(
         "📡 Suscripción enviada al servidor."
     );
-
-    // 📅 Preparar los recordatorios de turnos y vacunas.
+    // 🌈 Preparar todos los recordatorios (turnos, vacunas y medicación con aviso 5 min antes)
     const recordatoriosPush = prepararRecordatoriosPush();
 
-    // 🌐 Enviar la lista actualizada a Cloudflare.
+
+    
+    // 🌐 Enviar los recordatorios actualizados a Cloudflare.
     const respuestaRecordatorios = await fetch(
         "https://pequenos-cuidados-notificaciones.pequenos-cuidados.workers.dev/recordatorios",
         {
@@ -4662,13 +4601,18 @@ async function crearSuscripcionPush() {
                 endpoint: suscripcion.endpoint,
                 recordatorios: recordatoriosPush,
                 idioma: idiomaApp,
-                reemplazarTipos: ["turno", "vacuna"]
+                reemplazarTipos: [
+                    "turno",
+                    "vacuna",
+                    "medicacion"
+                ]
             })
         }
     );
 
     if (!respuestaRecordatorios.ok) {
-        const mensajeError = await respuestaRecordatorios.text();
+        const mensajeError =
+            await respuestaRecordatorios.text();
 
         throw new Error(
             "No se pudieron sincronizar los recordatorios: " +
@@ -4683,36 +4627,5 @@ async function crearSuscripcionPush() {
 
     return suscripcion;
 
-}
 
-
-
-async function activarNotificacionesPush() {
-    const idioma = diccionarioTraducciones[idiomaApp];
-
-    try {
-        if (!("Notification" in window)) {
-            alert(idioma["notificacion-no-compatible"]);
-            return;
-        }
-
-        if (!("serviceWorker" in navigator)) {
-            alert(idioma["notificacion-sin-service-worker"]);
-            return;
-        }
-
-        const permiso = await Notification.requestPermission();
-
-        if (permiso !== "granted") {
-            alert(idioma["notificacion-denegada"]);
-            return;
-        }
-
-        await crearSuscripcionPush();
-
-        alert(idioma["notificacion-activada"]);
-    } catch (error) {
-        console.error("Error al activar notificaciones:", error);
-        alert(idioma["notificacion-error-activar"]);
-    }
 }
