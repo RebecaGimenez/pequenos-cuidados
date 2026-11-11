@@ -2053,6 +2053,7 @@ transition: transform 0.2s ease,
     }
 
     .btn-compartir-tarjeta,
+    .btn-borrar-peque
     .btn-borrar-peque {
         display: inline-flex;
         align-items: center;
@@ -2062,3 +2063,22 @@ transition: transform 0.2s ease,
     }
 
 }
+
+.btn-editar-tarjeta {
+    background: linear-gradient(135deg, #a7f3d0, #bbf7d0);
+    border: 3px solid #6ee7b7;
+    border-radius: 30px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #064e3b;
+    transition: transform 0.2s ease, background 0.2s ease;
+    margin: 4px;
+}
+
+.btn-editar-tarjeta:hover {
+    transform: scale(1.05);
+    background: #6ee7b7;
+}
+

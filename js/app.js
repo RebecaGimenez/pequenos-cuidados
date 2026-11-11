@@ -1820,6 +1820,14 @@ function guardarTodasLasMedicaciones() {
         // 🔄 Actualizamos la visualización
     actualizarListaVisual();
     sincronizarPushSiActivado();
+
+    medicacionEditando = null;
+    window.medicacionEditando = null;
+    const btnGuardar = document.querySelector(".btn-guardar-todo");
+    if (btnGuardar) {
+        btnGuardar.textContent = idiomaApp === "en" ? "🌟 Save Medication" : idiomaApp === "pt" ? "🌟 Salvar Medicação" : "🌟 Guardar Medicación";
+    }
+
 }
 
 
@@ -2257,12 +2265,14 @@ function actualizarListaVisual() {
 
                 </button>
 
-              
                 <button
                     type="button"
-                    onclick="activarNotificacionesPush()">
-                    ${diccionarioTraducciones[idiomaApp]["btn-activar-notificaciones"]}
+                    class="btn-editar-tarjeta"
+                    onclick="editarMedicacionGuardada('${item.id}')">
+                    ✏️ ${idiomaApp === 'en' ? 'Edit' : idiomaApp === 'pt' ? 'Editar' : 'Editar'}
                 </button>
+
+
 
                 <button
                     type="button"
@@ -2283,6 +2293,97 @@ function actualizarListaVisual() {
     });
 
 }
+
+function editarMedicacionGuardada(id) {
+    if (!pequeActivo) return;
+
+    const claveHistorial = pequeActivo + "_medicaciones";
+    const lista = JSON.parse(localStorage.getItem(claveHistorial)) || [];
+    const med = lista.find(item => String(item.id) === String(id));
+
+    if (!med) {
+        alert("⚠️ No se encontró la medicación para editar.");
+        return;
+    }
+
+    // 1. Aseguramos que haya un formulario limpio
+    const listaBloques = document.getElementById("lista-bloques-remedios");
+    if (!listaBloques) return;
+    listaBloques.innerHTML = "";
+    agregarBloqueRemedioHtml();
+
+    const bloque = listaBloques.querySelector(".bloque-remedio-dinamico");
+    if (!bloque) return;
+
+    // 2. Cargamos los datos básicos
+    const inputRemedio = bloque.querySelector(".input-remedio");
+    const inputDosis = bloque.querySelector(".input-dosis");
+    const inputTipo = bloque.querySelector(".input-tipo-tratamiento");
+    const inputHora = bloque.querySelector(".input-hora");
+    const inputFecha = bloque.querySelector(".input-fecha-inicio");
+
+    if (inputRemedio) inputRemedio.value = med.remedio || "";
+    if (inputDosis) inputDosis.value = med.dosis || "";
+    if (inputHora) inputHora.value = med.horaInicio || "";
+    if (inputFecha) inputFecha.value = med.fechaInicio || "";
+
+    // 3. Seleccionamos el tipo de tratamiento y llenamos sus campos
+    if (inputTipo) {
+        inputTipo.value = med.tipoTratamiento || "simple";
+        const idUnico = bloque.id.replace("bloque-", "");
+        cambiarTipoTratamiento(inputTipo, idUnico);
+
+        if (med.tipoTratamiento === "simple") {
+            const inputFre = bloque.querySelector(".input-frecuencia");
+            const inputDias = bloque.querySelector(".input-dias");
+            if (inputFre) inputFre.value = med.frecuenciaHoras || "";
+            if (inputDias) inputDias.value = med.diasDuracion || "";
+        } else if (med.tipoTratamiento === "continuo") {
+            const inputFre = bloque.querySelector(".input-frecuencia");
+            if (inputFre) inputFre.value = med.frecuenciaHoras || "";
+        } else if (med.tipoTratamiento === "progresivo" && Array.isArray(med.etapas)) {
+            const contenedorEtapas = bloque.querySelector(`#contenedor-etapas-${idUnico}`);
+            if (contenedorEtapas) {
+                contenedorEtapas.innerHTML = "";
+                med.etapas.forEach(() => agregarEtapaTratamiento(idUnico));
+                const etapasDinamicas = contenedorEtapas.querySelectorAll(".etapa-tratamiento");
+                med.etapas.forEach((etapaData, idx) => {
+                    const etapaEl = etapasDinamicas[idx];
+                    if (etapaEl) {
+                        const fre = etapaEl.querySelector(".input-frecuencia-etapa");
+                        const dia = etapaEl.querySelector(".input-dias-etapa");
+                        if (fre) fre.value = etapaData.frecuenciaHoras || "";
+                        if (dia) dia.value = etapaData.diasDuracion || "";
+                    }
+                });
+            }
+        }
+    }
+
+    // 4. Marcamos la medicación en modo edición
+    medicacionEditando = med.id;
+    window.medicacionEditando = med.id;
+
+    // 5. Cambiamos el texto del botón Guardar para avisar que está editando
+    const btnGuardar = document.querySelector(".btn-guardar-todo");
+    if (btnGuardar) {
+        btnGuardar.textContent = idiomaApp === "en"
+            ? "💾 Update Medication"
+            : idiomaApp === "pt"
+                ? "💾 Atualizar Medicação"
+                : "💾 Actualizar Medicación";
+    }
+
+    // 6. Subimos la pantalla suavemente hacia el formulario
+    const contForm = document.querySelector(".contenedor-formulario");
+    if (contForm) {
+        contForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // Foco directo en el nombre para empezar a retocar
+    if (inputRemedio) inputRemedio.focus();
+}
+
 
 function eliminarMedicacionGuardada(id) {
 
