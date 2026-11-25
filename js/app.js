@@ -1,4 +1,3 @@
-
 function obtenerIdioma() {
 
 return localStorage.getItem("idiomaApp") || "es";
@@ -7,6 +6,15 @@ return localStorage.getItem("idiomaApp") || "es";
 
 let rolActivo = localStorage.getItem("rolActivo") || "Mamá";
 let pequeActivo = localStorage.getItem("pequeActivo") || "";
+
+// 🔔 Si se entra tocando una notificación, abrir el peque correcto
+(function abrirPequeDesdeNotificacion() {
+    const pequeAviso = new URLSearchParams(window.location.search).get("peque");
+    if (pequeAviso) {
+        pequeActivo = pequeAviso;
+        localStorage.setItem("pequeActivo", pequeAviso);
+    }
+})();
 let idiomaApp = obtenerIdioma();
 let medicacionEditando= null;
 
@@ -48,6 +56,9 @@ window.alert = function(mensaje) {
 // 1. INICIALIZADOR GENERAL DE PANTALLAS (CON MEMORIA SEPARADA POR HIJO)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
+    // 🔄 Renovar avisos cada vez que se abre la app
+    setTimeout(sincronizarPushSiActivado, 2000);
+
     const btnRol = document.getElementById("boton-rol-activo");
     if (btnRol) {
         let rolTraducido = rolActivo;
@@ -4611,6 +4622,7 @@ function prepararRecordatoriosPush() {
                         id: `turno_${String(turno.id).replace(/[^a-zA-Z0-9_-]/g, "_")}`,
                         tipo: "turno",
                         peque: nombrePeque,
+                        url: `./misturnos.html?peque=${encodeURIComponent(nombrePeque)}`,
                         titulo: `📅 Turno médico de ${nombrePeque}`,
                         mensaje: `${turno.especialidad || "Consulta médica"} - ${turno.hora} hs`,
                         fecha: fechaAviso
@@ -4635,6 +4647,7 @@ function prepararRecordatoriosPush() {
                         id: `vacuna_${String(vacuna.id).replace(/[^a-zA-Z0-9_-]/g, "_")}`,
                         tipo: "vacuna",
                         peque: nombrePeque,
+                        url: `./vacunas.html?peque=${encodeURIComponent(nombrePeque)}`,
                         titulo: `💉 Vacuna de ${nombrePeque}`,
                         mensaje: `Recordá la vacuna: ${vacuna.nombre || "Vacunación programada"}`,
                         fecha: fechaAviso
@@ -4650,49 +4663,59 @@ function prepararRecordatoriosPush() {
                 medicaciones = JSON.parse(localStorage.getItem(clave)) || [];
             } catch (e) { continue; }
 
+            const unaHora = 60 * 60 * 1000;
+            const horizonteContinuo = ahora + 7 * unDia; // continuos: próximos 7 días (se renueva al abrir la app)
+
             medicaciones.forEach(med => {
                 if (!med.fechaInicio || !med.horaInicio || !med.remedio) return;
 
-                const inicio = new Date(`${med.fechaInicio}T${med.horaInicio}:00`);
-                if (isNaN(inicio.getTime())) return;
+                const inicio = new Date(`${med.fechaInicio}T${med.horaInicio}:00`).getTime();
+                if (isNaN(inicio)) return;
 
-                // Definir horizonte máximo: según días de tratamiento o 10 días para continuos
-                const diasDuracion = med.diasDuracion ? parseInt(med.diasDuracion) : 10;
-                const finHorizonte = new Date(inicio.getTime() + (diasDuracion * 24 * 60 * 60 * 1000));
-                let frecuencia = parseInt(med.frecuenciaHoras);
-                    if (!frecuencia && med.etapas && med.etapas.length > 0) {
-                        frecuencia = parseInt(med.etapas[0].frecuenciaHoras);
-                    }
-                    if (!frecuencia || frecuencia <= 0) {
-                        frecuencia = 8;
-                    }
-
-
-                let toma = new Date(inicio);
-                let contador = 0;
-
-                // Generar tomas hasta fin de tratamiento o máximo 10 días
-                while (toma <= finHorizonte && contador < 100) {
-                    const horaTomaMs = toma.getTime();
-                    const horaAvisoMs = horaTomaMs - cincoMinutos;
-
-                    if (horaTomaMs > ahora) {
-                        const fechaAvisoMs = horaAvisoMs > ahora ? horaAvisoMs : (ahora + 10000);
-                        const horaTexto = toma.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
-                        recordatorios.push({
-                            id: `med_${med.id}_${horaTomaMs}`,
-                            tipo: "medicacion",
-                            peque: nombrePeque,
-                            titulo: `💊 Medicación de ${nombrePeque}`,
-                            mensaje: `${med.remedio}${med.dosis ? " (" + med.dosis + ")" : ""} a las ${horaTexto}`,
-                            fecha: fechaAvisoMs
-                        });
-                    }
-
-
-                    toma = new Date(toma.getTime() + (frecuencia * 60 * 60 * 1000));
-                    contador++;
+                // Armar los tramos del tratamiento: [desde, hasta, frecuencia]
+                const tramos = [];
+                if (med.tipoTratamiento === "progresivo" && Array.isArray(med.etapas) && med.etapas.length) {
+                    let desde = inicio;
+                    med.etapas.forEach(etapa => {
+                        const frec = parseInt(etapa.frecuenciaHoras) || 8;
+                        const dias = parseInt(etapa.diasDuracion) || 0;
+                        const hasta = desde + dias * unDia;
+                        tramos.push([desde, hasta, frec]);
+                        desde = hasta;
+                    });
+                } else if (med.tipoTratamiento === "continuo" || !med.diasDuracion) {
+                    tramos.push([inicio, horizonteContinuo, parseInt(med.frecuenciaHoras) || 8]);
+                } else {
+                    tramos.push([inicio, inicio + parseInt(med.diasDuracion) * unDia, parseInt(med.frecuenciaHoras) || 8]);
                 }
+
+                let avisosDeEsta = 0;
+                tramos.forEach(([desde, hasta, frec]) => {
+                    const paso = frec * unaHora;
+                    // Saltar directo a la primera toma futura (sin contar las pasadas)
+                    let toma = desde;
+                    if (toma <= ahora) toma += Math.ceil((ahora - toma + 1) / paso) * paso;
+
+                    // "<" y no "<=": la toma que cae justo al terminar ya no corresponde
+                    while (toma < hasta && toma <= horizonteContinuo && avisosDeEsta < 60) {
+                        const fechaAviso = toma - cincoMinutos;
+                        // Si ya pasó el momento del aviso, no se manda uno a destiempo
+                        if (fechaAviso > ahora) {
+                            const horaTexto = new Date(toma).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
+                            recordatorios.push({
+                                id: `med_${String(med.id).replace(/[^a-zA-Z0-9_-]/g, "_")}_${toma}`,
+                                tipo: "medicacion",
+                                peque: nombrePeque,
+                                url: `./medicaciones.html?peque=${encodeURIComponent(nombrePeque)}`,
+                                titulo: `💊 Medicación de ${nombrePeque}`,
+                                mensaje: `${med.remedio}${med.dosis ? " (" + med.dosis + ")" : ""} a las ${horaTexto}`,
+                                fecha: fechaAviso
+                            });
+                            avisosDeEsta++;
+                        }
+                        toma += paso;
+                    }
+                });
             });
         }
     }
